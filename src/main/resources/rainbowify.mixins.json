@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.lennox.rainbowify.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "MixinGameRenderer",
+    "MixinInGameHud",
+    "MixinMinecraftClient",
+    "MixinMinecraftShader",
+    "MixinScreen"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

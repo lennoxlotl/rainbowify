@@ -1,0 +1,15 @@
+{
+  "rainbowify.setting.title": "Rainbowify Settings",
+
+  "rainbowify.setting.blur": "Blur",
+  "rainbowify.setting.blur.tooltip": "§c§lWARNING!\n§7This setting should only be used on a relatively good GPU.",
+  "rainbowify.setting.blur.true": "Enabled",
+  "rainbowify.setting.blur.false": "Disabled",
+
+  "rainbowify.setting.blur_amount": "Blur Amount",
+  "rainbowify.setting.blur_amount.low": "§aLow",
+  "rainbowify.setting.blur_amount.medium": "§eMedium",
+  "rainbowify.setting.blur_amount.high": "§6High",
+  "rainbowify.setting.blur_amount.very_high": "§cVery High",
+  "rainbowify.setting.blur_amount.extreme": "§4Extreme"
+}

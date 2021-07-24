@@ -1,29 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
-  "version": "${version}",
+  "id": "rainbowify",
+  "version": "1.0",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Rainbowify",
+  "description": "Puts a rainbow on minecraft gui backgrounds.",
   "authors": [
-    "Me!"
+    "Lennox"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://snens.team/",
+    "sources": "https://github.com/officialLennox/rainbowify"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "GPL-3.0",
+  "icon": "assets/rainbowify/icon.png",
 
   "environment": "*",
   "entrypoints": {
+    "modmenu": [
+      "de.lennox.rainbowify.config.ModMenuRainbowify"
+    ],
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "de.lennox.rainbowify.RainbowifyMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "rainbowify.mixins.json"
   ],
 
   "depends": {
