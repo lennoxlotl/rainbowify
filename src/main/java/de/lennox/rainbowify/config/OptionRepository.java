@@ -36,6 +36,7 @@ public class OptionRepository {
             Config.BLUR,
             Config.BLUR_AMOUNT
         ));
+        load();
     }
 
     public void load() {
