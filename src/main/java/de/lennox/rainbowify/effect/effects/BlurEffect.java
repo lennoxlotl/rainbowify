@@ -53,10 +53,6 @@ public class BlurEffect extends Effect {
         }
 
         framebuffer = new RefreshingWindowBuffer(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight());
-
-        blurShader.addSampler("DiffuseSampler", MC.getFramebuffer());
-        blurShader.addSampler("DiffuseSampler2", framebuffer);
-
         MinecraftShader minecraftShaderInterface = (MinecraftShader) blurShader;
         radius = minecraftShaderInterface.customUniform("radius");
         direction = minecraftShaderInterface.customUniform("direction");
@@ -69,13 +65,14 @@ public class BlurEffect extends Effect {
         MC.getFramebuffer().endWrite();
         framebuffer.beginWrite(false);
 
+        blurShader.addSampler("DiffuseSampler", MC.getFramebuffer());
         updateUniforms(0);
         drawCanvas(stack, () -> blurShader);
 
         framebuffer.endWrite();
-
         MC.getFramebuffer().beginWrite(false);
 
+        blurShader.addSampler("DiffuseSampler", framebuffer);
         updateUniforms(1);
         drawCanvas(stack, () -> blurShader);
     }

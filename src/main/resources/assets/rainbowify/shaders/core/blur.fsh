@@ -19,7 +19,6 @@
 #version 150
 
 uniform sampler2D DiffuseSampler;
-uniform sampler2D DiffuseSampler2;
 
 uniform vec2 direction;
 uniform float radius;
@@ -37,11 +36,7 @@ float getKernel(float _offset, float sigma) {
 void main() {
     vec4 color = vec4(0.0);
     for (float r = -radius; r <= radius; r++) {
-        if(direction.x == 1) {
-            color += texture2D(DiffuseSampler2, texCoord + r * texelSize * direction) * getKernel(r, radius / 2);
-        } else {
-            color += texture2D(DiffuseSampler, texCoord + r * texelSize * direction) * getKernel(r, radius / 2);
-        }
+        color += texture2D(DiffuseSampler, texCoord + r * texelSize * direction) * getKernel(r, radius / 2);
     }
     fragColor = vec4(color.rgb, 1.0);
 }
