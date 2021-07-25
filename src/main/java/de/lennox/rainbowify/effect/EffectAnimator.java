@@ -24,6 +24,7 @@ import de.lennox.rainbowify.animation.Easing;
 import de.lennox.rainbowify.bus.Subscriber;
 import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
+import de.lennox.rainbowify.config.Config;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
@@ -42,14 +43,15 @@ public class EffectAnimator {
     }
 
     private final Subscriber<InGameHudDrawEvent> inGameHudDrawSubscriber = event -> {
+        Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
         if (currentScreen != null) {
             pausedScreen = currentScreen.isPauseScreen();
         }
-        fadeAnimation.animate(0, 0.5f, currentScreen != null);
+        fadeAnimation.animate(0, rainbowOpacity.opacity(), currentScreen != null);
         for (Effect effect : effects) {
-            effect.setFade(pausedScreen ? .5f : fadeAnimation.animation());
+            effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
         }
     };
 

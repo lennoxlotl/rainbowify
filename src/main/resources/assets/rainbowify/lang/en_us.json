@@ -11,5 +11,18 @@
   "rainbowify.setting.blur_amount.medium": "§eMedium",
   "rainbowify.setting.blur_amount.high": "§6High",
   "rainbowify.setting.blur_amount.very_high": "§cVery High",
-  "rainbowify.setting.blur_amount.extreme": "§4Extreme"
+  "rainbowify.setting.blur_amount.extreme": "§4Extreme",
+
+  "rainbowify.setting.rainbow_opacity": "Rainbow Opacity",
+  "rainbowify.setting.rainbow_opacity.low": "§aLow",
+  "rainbowify.setting.rainbow_opacity.medium": "§eMedium",
+  "rainbowify.setting.rainbow_opacity.high": "§6High",
+  "rainbowify.setting.rainbow_opacity.very_high": "§cVery High",
+  "rainbowify.setting.rainbow_opacity.full": "§4Full",
+
+  "rainbowify.setting.rainbow_speed": "Rainbow Speed",
+  "rainbowify.setting.rainbow_speed.slow": "§aSlow",
+  "rainbowify.setting.rainbow_speed.medium": "§eMedium",
+  "rainbowify.setting.rainbow_speed.fast": "§6Fast",
+  "rainbowify.setting.rainbow_speed.very_fast": "§cVery Fast"
 }

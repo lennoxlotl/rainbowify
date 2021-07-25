@@ -18,7 +18,9 @@
  */
 package de.lennox.rainbowify.effect.effects;
 
+import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
+import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
 import net.minecraft.client.gl.GlUniform;
@@ -61,8 +63,9 @@ public class RainbowEffect extends Effect {
     }
 
     private void updateUniforms() {
+        Config.RainbowSpeed rainbowSpeed = RainbowifyMod.instance().optionRepository().enumOption("rainbow_speed");
         alphaU.set(fade);
-        timeU.set((float) (System.currentTimeMillis() - startTime) / 3000f);
+        timeU.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
         resolutionU.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
     }
 

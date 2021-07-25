@@ -82,7 +82,8 @@ public class BlurEffect extends Effect {
         var height = MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor();
 
         Config.BlurAmount blurAmount = RainbowifyMod.instance().optionRepository().enumOption("blur_amount");
-        radius.set(Math.max(blurAmount.radius() * (fade * 2), 1));
+        Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
+        radius.set(Math.max(blurAmount.radius() * (fade * (1 / rainbowOpacity.opacity())), 1));
         direction.set(pass, 1f - pass);
         inSize.set((float) width, (float) height);
     }

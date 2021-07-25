@@ -34,7 +34,9 @@ public class OptionRepository {
     public void init() {
         configOptions.addAll(List.of(
             Config.BLUR,
-            Config.BLUR_AMOUNT
+            Config.BLUR_AMOUNT,
+            Config.RAINBOW_OPACITY,
+            Config.RAINBOW_SPEED
         ));
         load();
     }
@@ -63,7 +65,13 @@ public class OptionRepository {
     }
 
     public void save() {
-        if(!configLocation.exists()) configLocation.mkdirs();
+        if(!configLocation.exists()) {
+            try {
+                configLocation.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         var settingsArray = new JsonArray();
         configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
