@@ -3,8 +3,8 @@
 
   "rainbowify.setting.blur": "Blur",
   "rainbowify.setting.blur.tooltip": "§c§lWARNING!\n§7This setting should only be used on a relatively good GPU.",
-  "rainbowify.setting.blur.true": "Enabled",
-  "rainbowify.setting.blur.false": "Disabled",
+  "rainbowify.setting.blur.true": "§aEnabled",
+  "rainbowify.setting.blur.false": "§cDisabled",
 
   "rainbowify.setting.blur_amount": "Blur Amount",
   "rainbowify.setting.blur_amount.low": "§aLow",
