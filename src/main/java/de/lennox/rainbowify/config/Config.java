@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class Config {
 
-    public static final BooleanOption BLUR = new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), true);
+    public static final BooleanOption BLUR = new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
     public static final EnumOption<BlurAmount> BLUR_AMOUNT = new EnumOption<>("blur_amount", BlurAmount.MEDIUM);
 
     public static Option[] parseOptions() {

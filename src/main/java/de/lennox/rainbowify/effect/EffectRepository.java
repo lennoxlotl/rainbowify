@@ -23,6 +23,8 @@ import de.lennox.rainbowify.bus.Subscriber;
 import de.lennox.rainbowify.bus.events.ScreenDrawEvent;
 import de.lennox.rainbowify.effect.effects.BlurEffect;
 import de.lennox.rainbowify.effect.effects.RainbowEffect;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ProgressScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,9 @@ public class EffectRepository {
         RainbowifyMod.instance().eventBus().subscribe(this);
     }
 
-    private final Subscriber<ScreenDrawEvent> screenDrawSubscriber = event -> effects.forEach(effect -> effect.draw(event.matrixStack()));
+    private final Subscriber<ScreenDrawEvent> screenDrawSubscriber = event -> {
+        if(MinecraftClient.getInstance().currentScreen instanceof ProgressScreen) return;
+        effects.forEach(effect -> effect.draw(event.matrixStack()));
+    };
 
 }

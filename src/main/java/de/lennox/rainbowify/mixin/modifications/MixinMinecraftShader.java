@@ -16,17 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.mixin;
+package de.lennox.rainbowify.mixin.modifications;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import de.lennox.rainbowify.interfaces.MinecraftShader;
+import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
 import net.minecraft.client.gl.GlUniform;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.Map;

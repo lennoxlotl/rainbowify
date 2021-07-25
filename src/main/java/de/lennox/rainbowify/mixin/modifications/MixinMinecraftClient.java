@@ -16,23 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.mixin;
+package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
+import de.lennox.rainbowify.bus.events.ScreenResolutionChangeEvent;
+import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(InGameHud.class)
-public class MixinInGameHud {
+@Mixin(MinecraftClient.class)
+public class MixinMinecraftClient {
 
-    @Inject(method = "render", at = {@At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")})
-    public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        RainbowifyMod.instance().eventBus().dispatch(new InGameHudDrawEvent());
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void init(CallbackInfo ci) {
+        RainbowifyMod.instance().init();
+    }
+
+    @Inject(method = "onResolutionChanged", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V", ordinal = 0))
+    public void onResolutionChanged(CallbackInfo i) {
+        RainbowifyMod.instance().eventBus().dispatch(new ScreenResolutionChangeEvent());
     }
 
 }

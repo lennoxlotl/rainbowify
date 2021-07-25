@@ -23,7 +23,7 @@ import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
-import de.lennox.rainbowify.interfaces.MinecraftShader;
+import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;

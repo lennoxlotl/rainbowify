@@ -20,7 +20,7 @@ package de.lennox.rainbowify.effect.effects;
 
 import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.effect.Effect;
-import de.lennox.rainbowify.interfaces.MinecraftShader;
+import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
