@@ -10,6 +10,8 @@ stable version is ready!**
 rainbowify is a Fabric mod for Minecraft 1.17 that adds a customizable rainbow
 background to many Minecraft HUDs.
 
+Discord: https://discord.gg/Ka2yV5MkFw
+
 ![screenshot of Minecraft settings](https://host.snens.team/i/UwMo309jxAFr)
 ![screenshot of Minecraft inventory](https://host.snens.team/i/T1eoQM3NwfpO)
 
@@ -22,6 +24,18 @@ Simply drag the mod into your `mods` folder. We recommend also using
 [Modmenu](https://modrinth.com/mod/modmenu) (for editing rainbowify's settings
 ingame). rainbowify is compatible with [Sodium](https://modrinth.com/mod/sodium),
 so you may want to use that as well for improved performance.
+
+## Customization
+
+In the mod menu rainbowify settings, you can customize multiple values:
+
+![screenshot of settings](https://host.snens.team/i/cLO8FP0oDPS1)
+
+* **Rainbowify:** Enables/disables the mod.
+* **Blur**: Enables/disables the blur in GUI backgrounds. This requires a good graphics card; if you notice any stutters in the GUI, turn this off or reduce the blur amount.
+* **Blur amount**: How large the blur radius will be. The higher this setting, the less recognizable the background will be.
+* **Rainbow opacity**: How opaque the rainbow colors will be.
+* **Rainbow speed**: How fast the rainbow colors will move.
 
 ## Development Setup
 
