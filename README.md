@@ -17,10 +17,12 @@ Discord: https://discord.gg/Ka2yV5MkFw
 We take a working Fabric installation for granted. Have a look at the
 [Fabric website](https://fabricmc.net/) if you haven't installed it yet.
 
-Simply drag the mod into your `mods` folder. We recommend also using
-[Modmenu](https://modrinth.com/mod/modmenu) (for editing rainbowify's settings
-ingame). rainbowify is compatible with [Sodium](https://modrinth.com/mod/sodium),
-so you may want to use that as well for improved performance.
+Simply drag the mod into your `mods` folder. You must have the
+[Fabric API](https://modrinth.com/mod/fabric-api) installed the same way. We
+recommend also using [Modmenu](https://modrinth.com/mod/modmenu) (for editing
+rainbowify's settings ingame). rainbowify is compatible with
+[Sodium](https://modrinth.com/mod/sodium), so you may want to use that as well
+for improved performance.
 
 ## Customization
 
