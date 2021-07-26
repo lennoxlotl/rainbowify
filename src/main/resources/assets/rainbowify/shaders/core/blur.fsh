@@ -28,9 +28,8 @@ in vec2 texelSize;
 
 out vec4 fragColor;
 
-float getKernel(float _offset, float sigma) {
-    float offset = float(_offset);
-    return ((1.0 / sqrt(2.0 * 3.1415926 * sigma*sigma)) *(pow((2.7182818284), -(offset*offset)/(2.0*sigma*sigma))));
+float getKernel(float offset, float sigma) {
+    return ((1.0 / sqrt(2.0 * 3.1415926 * sigma * sigma)) * (pow((2.7182818284), -(offset * offset) / (2.0 * sigma * sigma))));
 }
 
 void main() {
