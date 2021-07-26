@@ -23,7 +23,7 @@ import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
-import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
+import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
@@ -56,11 +56,11 @@ public class BlurEffect extends Effect {
 
         // Create an auto refreshing frame buffer (auto-resize)
         framebuffer = new RefreshingWindowBuffer(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight());
-        MinecraftShader minecraftShaderInterface = (MinecraftShader) blur;
+        RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) blur;
         // Create uniforms
-        radius = minecraftShaderInterface.customUniform("radius");
-        direction = minecraftShaderInterface.customUniform("direction");
-        inSize = minecraftShaderInterface.customUniform("InSize");
+        radius = rainbowifyShaderInterface.customUniform("radius");
+        direction = rainbowifyShaderInterface.customUniform("direction");
+        inSize = rainbowifyShaderInterface.customUniform("InSize");
     }
 
     @Override

@@ -23,7 +23,7 @@ import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.gl.GLUtil;
-import de.lennox.rainbowify.mixin.interfaces.MinecraftScreen;
+import de.lennox.rainbowify.mixin.interfaces.RainbowifyScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
@@ -43,7 +43,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(Screen.class)
-public abstract class MixinScreen implements MinecraftScreen {
+public abstract class MixinScreen implements RainbowifyScreen {
 
     @Shadow
     public int width;

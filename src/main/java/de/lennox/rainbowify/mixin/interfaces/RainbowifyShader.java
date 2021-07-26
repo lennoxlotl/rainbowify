@@ -20,7 +20,7 @@ package de.lennox.rainbowify.mixin.interfaces;
 
 import net.minecraft.client.gl.GlUniform;
 
-public interface MinecraftShader {
+public interface RainbowifyShader {
 
     GlUniform customUniform(String name);
 

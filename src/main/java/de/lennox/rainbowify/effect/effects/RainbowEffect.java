@@ -22,7 +22,7 @@ import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
-import de.lennox.rainbowify.mixin.interfaces.MinecraftShader;
+import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
@@ -51,11 +51,11 @@ public class RainbowEffect extends Effect {
             System.err.println("Failed to create rainbow shader. Report this in the discord with the log!");
             e.printStackTrace();
         }
-        MinecraftShader minecraftShaderInterface = (MinecraftShader) rainbow;
+        RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) rainbow;
         // Create uniforms
-        alpha = minecraftShaderInterface.customUniform("alpha");
-        time = minecraftShaderInterface.customUniform("time");
-        res = minecraftShaderInterface.customUniform("res");
+        alpha = rainbowifyShaderInterface.customUniform("alpha");
+        time = rainbowifyShaderInterface.customUniform("time");
+        res = rainbowifyShaderInterface.customUniform("res");
         // Update start time
         startTime = System.currentTimeMillis();
     }
