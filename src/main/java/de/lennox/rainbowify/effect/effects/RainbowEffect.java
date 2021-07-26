@@ -48,6 +48,7 @@ public class RainbowEffect extends Effect {
         try {
             rainbow = new Shader(new RainbowifyResourceFactory(), "rainbowify:rainbow", VertexFormats.POSITION_TEXTURE);
         } catch (IOException e) {
+            System.err.println("Failed to create rainbow shader. Report this in the discord with the log!");
             e.printStackTrace();
         }
         MinecraftShader minecraftShaderInterface = (MinecraftShader) rainbow;

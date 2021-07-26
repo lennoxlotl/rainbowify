@@ -50,6 +50,7 @@ public class BlurEffect extends Effect {
         try {
             blur = new Shader(new RainbowifyResourceFactory(), "rainbowify:blur", VertexFormats.POSITION_TEXTURE);
         } catch (IOException e) {
+            System.err.println("Failed to create blur shader. Report this in the discord with the log!");
             e.printStackTrace();
         }
 
