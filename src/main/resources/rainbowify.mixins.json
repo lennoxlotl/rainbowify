@@ -4,6 +4,7 @@
   "package": "de.lennox.rainbowify.mixin.modifications",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "MixinDeathScreen",
     "MixinGameRenderer",
     "MixinInGameHud",
     "MixinMinecraftClient",

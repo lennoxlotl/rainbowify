@@ -23,10 +23,16 @@ import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.gl.GLUtil;
+import de.lennox.rainbowify.mixin.interfaces.MinecraftScreen;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,8 +40,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(Screen.class)
-public abstract class MixinScreen {
+public abstract class MixinScreen implements MinecraftScreen {
 
     @Shadow
     public int width;
@@ -47,6 +55,15 @@ public abstract class MixinScreen {
 
     @Shadow
     public abstract void renderBackgroundTexture(int vOffset);
+
+    @Shadow @Final protected Text title;
+
+    @Shadow protected TextRenderer textRenderer;
+
+    @Shadow protected abstract void renderTextHoverEffect(MatrixStack matrices, @Nullable Style style, int x, int y);
+
+    @Shadow @Final
+    private List<Drawable> drawables;
 
     @Inject(method = "init()V", at = @At("HEAD"))
     public void init(CallbackInfo info) {
@@ -72,4 +89,8 @@ public abstract class MixinScreen {
         }
     }
 
+    @Override
+    public List<Drawable> screenDrawables() {
+        return drawables;
+    }
 }
