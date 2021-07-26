@@ -20,7 +20,7 @@ package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.Subscriber;
-import de.lennox.rainbowify.bus.events.ScreenDrawEvent;
+import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.effect.effects.BlurEffect;
 import de.lennox.rainbowify.effect.effects.RainbowEffect;
 import net.minecraft.client.MinecraftClient;
@@ -33,6 +33,11 @@ public class EffectRepository {
 
     private final List<Effect> effects = new ArrayList<>();
     private final EffectAnimator animator = new EffectAnimator();
+    private final Subscriber<ScreenBackgroundDrawEvent> screenDrawSubscriber = event -> {
+        // If the screen is the minecraft progress screen we should not render the screen due to graphic bugs
+        if (MinecraftClient.getInstance().currentScreen instanceof ProgressScreen) return;
+        effects.forEach(effect -> effect.draw(event.matrixStack()));
+    };
 
     public void init() {
         effects.addAll(List.of(
@@ -43,11 +48,5 @@ public class EffectRepository {
         animator.init(effects);
         RainbowifyMod.instance().eventBus().subscribe(this);
     }
-
-    private final Subscriber<ScreenDrawEvent> screenDrawSubscriber = event -> {
-        // If the screen is the minecraft progress screen we should not render the screen due to graphic bugs
-        if(MinecraftClient.getInstance().currentScreen instanceof ProgressScreen) return;
-        effects.forEach(effect -> effect.draw(event.matrixStack()));
-    };
 
 }

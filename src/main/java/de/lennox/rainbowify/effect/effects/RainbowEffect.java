@@ -30,7 +30,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import java.io.IOException;
 
-import static de.lennox.rainbowify.gl.GLUtil.*;
+import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 
 public class RainbowEffect extends Effect {
 
@@ -68,7 +68,7 @@ public class RainbowEffect extends Effect {
     }
 
     private void updateUniforms() {
-        Config.RainbowSpeed rainbowSpeed = RainbowifyMod.instance().optionRepository().enumOption("rainbow_speed");
+        Config.RainbowSpeed rainbowSpeed = (Config.RainbowSpeed) RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
         // Set the uniforms
         alpha.set(fade);
         time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());

@@ -27,9 +27,8 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 import java.util.Arrays;
-import java.util.Optional;
 
-import static net.minecraft.client.option.CyclingOption.*;
+import static net.minecraft.client.option.CyclingOption.create;
 
 public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     private final Class<E> optionEnum;
@@ -53,7 +52,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
 
     @Override
     public void fromJson(JsonObject object) {
-        if(object.has("value")) {
+        if (object.has("value")) {
             var enumName = object.get("value").getAsString();
             var possibleConstant = Arrays.stream(optionEnum.getEnumConstants()).filter(constant -> constant.name().equals(enumName)).findFirst();
             possibleConstant.ifPresent(constant -> value = constant);
@@ -67,8 +66,8 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
             translationKey,
             optionEnum.getEnumConstants(),
             value -> valueText(this, value),
-            ignored -> optionRepository.enumOption(name),
-            (ignored, option, value) -> optionRepository.setEnumOption(name, value)
+            ignored -> (E) optionRepository.optionBy(name).value,
+            (ignored, option, value) -> optionRepository.optionBy(name).value = value
         );
     }
 }

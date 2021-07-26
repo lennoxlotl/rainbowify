@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "modmenu": [
-      "de.lennox.rainbowify.config.ModMenuRainbowify"
+      "de.lennox.rainbowify.config.modmenu.ModMenuImplementation"
     ],
     "main": [
       "de.lennox.rainbowify.RainbowifyMod"

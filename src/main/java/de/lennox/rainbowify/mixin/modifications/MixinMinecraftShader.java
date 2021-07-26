@@ -33,23 +33,23 @@ import java.util.Map;
 @Mixin(net.minecraft.client.render.Shader.class)
 public class MixinMinecraftShader implements MinecraftShader {
 
+    private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
     @Shadow
     @Final
     private String name;
-    private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
-
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"), index = 0)
-    public String renameInit(String toReplace) {
-        if (toReplace.contains("rainbowify:")) {
-            return "rainbowify:" + toReplace.replace("rainbowify:","");
-        }
-        return toReplace;
-    }
 
     @ModifyArg(method = "loadProgram", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"), index = 0)
     private static String renameLoadProgram(String toReplace) {
         if (toReplace.contains("rainbowify:")) {
-            return "rainbowify:" + toReplace.replace("rainbowify:","");
+            return "rainbowify:" + toReplace.replace("rainbowify:", "");
+        }
+        return toReplace;
+    }
+
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"), index = 0)
+    public String renameInit(String toReplace) {
+        if (toReplace.contains("rainbowify:")) {
+            return "rainbowify:" + toReplace.replace("rainbowify:", "");
         }
         return toReplace;
     }

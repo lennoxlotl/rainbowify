@@ -36,7 +36,7 @@ public class EventBus<T> {
                     var eventType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
                     var subscriber = (Subscriber<T>) field.get(obj);
                     field.setAccessible(accessible);
-                    if(containerMap.containsKey(eventType)) {
+                    if (containerMap.containsKey(eventType)) {
                         List<SubscriberContainer<T>> repositories = containerMap.get(eventType);
                         repositories.add(new SubscriberContainer<>(obj, subscriber));
                     } else {
@@ -46,28 +46,26 @@ public class EventBus<T> {
                     e.printStackTrace();
                 }
             });
-        updateSubscribingFields();
+        refreshSubscriptions();
     }
 
     public void unsubscribe(Object obj) {
         containerMap.values().forEach(subscriberContainers -> subscriberContainers.removeIf(tSubscriberContainer -> tSubscriberContainer.obj == obj));
-        updateSubscribingFields();
+        refreshSubscriptions();
     }
 
-    private void updateSubscribingFields() {
-        Map<Type, List<SubscriberContainer<T>>> containerMap = this.containerMap;
-        Map<Type, List<Subscriber<T>>> subscriberMap = this.subscriberMap;
+    private void refreshSubscriptions() {
         containerMap.keySet().forEach(type -> {
             List<Subscriber<T>> subscribers = new ArrayList<>();
             List<SubscriberContainer<T>> containers = containerMap.get(type);
-            containers.forEach(tSubscriberContainer -> subscribers.add(tSubscriberContainer.subscriber));
+            containers.forEach(container -> subscribers.add(container.subscriber));
             subscriberMap.put(type, subscribers);
         });
     }
 
     public void dispatch(T event) {
         List<Subscriber<T>> subscribers = subscriberMap.get(event.getClass());
-        if(subscribers != null) {
+        if (subscribers != null) {
             subscribers.forEach(tSubscriber -> tSubscriber.call(event));
         }
     }

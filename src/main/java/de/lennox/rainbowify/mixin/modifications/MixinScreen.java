@@ -19,10 +19,10 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.RainbowifyResourceFactory;
-import de.lennox.rainbowify.bus.events.ScreenDrawEvent;
+import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
-import de.lennox.rainbowify.effect.effects.RainbowEffect;
+import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.gl.GLUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -37,9 +37,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Screen.class)
 public abstract class MixinScreen {
 
-    @Shadow public abstract void renderBackgroundTexture(int vOffset);
+    @Shadow
+    public int width;
+    @Shadow
+    public int height;
+    @Shadow
+    @Nullable
+    protected MinecraftClient client;
 
-    @Shadow @Nullable protected MinecraftClient client;
+    @Shadow
+    public abstract void renderBackgroundTexture(int vOffset);
 
     @Inject(method = "init()V", at = @At("HEAD"))
     public void init(CallbackInfo info) {
@@ -49,17 +56,20 @@ public abstract class MixinScreen {
     /**
      * @author Lennox
      * @reason Draw our custom effects instead of the minecraft gradient
-     *
+     * <p>
      * TODO: Add an option to toggle off the rainbow and blur effects
      */
     @Overwrite
     public void renderBackground(MatrixStack matrices, int vOffset) {
         if (this.client.world != null) {
-            RainbowifyMod.instance().eventBus().dispatch(new ScreenDrawEvent(matrices));
+            if (Config.ENABLED.value) {
+                RainbowifyMod.instance().eventBus().dispatch(new ScreenBackgroundDrawEvent(matrices));
+            } else {
+                GLUtil.fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680);
+            }
         } else {
             this.renderBackgroundTexture(vOffset);
         }
     }
-
 
 }

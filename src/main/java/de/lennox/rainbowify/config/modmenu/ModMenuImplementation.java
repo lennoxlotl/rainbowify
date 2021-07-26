@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus.events;
+package de.lennox.rainbowify.config.modmenu;
 
-import de.lennox.rainbowify.bus.Event;
-import net.minecraft.client.util.math.MatrixStack;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import de.lennox.rainbowify.config.ConfigScreen;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-public class ScreenDrawEvent extends Event {
+@Environment(EnvType.CLIENT)
+public class ModMenuImplementation implements ModMenuApi {
 
-    private final MatrixStack matrixStack;
-
-    public ScreenDrawEvent(MatrixStack matrixStack) {
-        this.matrixStack = matrixStack;
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return ConfigScreen::new;
     }
 
-    public MatrixStack matrixStack() {
-        return matrixStack;
-    }
 }

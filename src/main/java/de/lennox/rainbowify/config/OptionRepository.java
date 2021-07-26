@@ -34,6 +34,7 @@ public class OptionRepository {
     public void init() {
         // Add all options to the option list (really bad method, might change this later)
         configOptions.addAll(List.of(
+            Config.ENABLED,
             Config.BLUR,
             Config.BLUR_AMOUNT,
             Config.RAINBOW_OPACITY,
@@ -44,18 +45,18 @@ public class OptionRepository {
 
     public void load() {
         // Check if the config file exists
-        if(configLocation.exists()) {
+        if (configLocation.exists()) {
             try {
                 // Parse the file content
                 var parsed = new JsonParser().parse(new FileReader(configLocation));
-                if(parsed.isJsonArray()) {
+                if (parsed.isJsonArray()) {
                     var settingsArray = parsed.getAsJsonArray();
                     // Loop through all settings elements
                     for (JsonElement jsonElement : settingsArray) {
-                        if(jsonElement.isJsonObject()) {
+                        if (jsonElement.isJsonObject()) {
                             // Fetch a setting by the name parameter and apply the value parameter on it
                             JsonObject settingsObject = jsonElement.getAsJsonObject();
-                            if(settingsObject.has("name")) {
+                            if (settingsObject.has("name")) {
                                 var settingsName = settingsObject.get("name").getAsString();
                                 optionBy(settingsName).fromJson(settingsObject);
                             }
@@ -71,7 +72,7 @@ public class OptionRepository {
 
     public void save() {
         // If the config location does not exist create it
-        if(!configLocation.exists()) {
+        if (!configLocation.exists()) {
             try {
                 configLocation.createNewFile();
             } catch (IOException e) {
@@ -84,7 +85,7 @@ public class OptionRepository {
         configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
 
         // Write the parsed options into the file
-        try(var fileWriter = new FileWriter(configLocation)) {
+        try (var fileWriter = new FileWriter(configLocation)) {
             fileWriter.write(gson.toJson(settingsArray));
         } catch (IOException e) {
             System.err.println("Error while saving rainbowify settings.");
@@ -92,25 +93,9 @@ public class OptionRepository {
         }
     }
 
-    private CustomOption optionBy(String name) {
+    public CustomOption optionBy(String name) {
         var option = configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();
         return option.orElse(null);
-    }
-
-    public void setBooleanOption(String key, boolean value) {
-        optionBy(key).value = value;
-    }
-
-    public boolean booleanOption(String key) {
-        return (boolean) optionBy(key).value;
-    }
-
-    public <E extends Enum<E>> E enumOption(String key) {
-        return (E) optionBy(key).value;
-    }
-
-    public <E extends Enum<E>> void setEnumOption(String key, E value) {
-        optionBy(key).value = value;
     }
 
     public List<CustomOption> options() {

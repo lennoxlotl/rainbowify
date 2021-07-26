@@ -26,24 +26,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 
 public class RainbowifyResourceFactory implements ResourceFactory {
-
-    private InputStream open(Identifier id) throws IOException {
-        return getClass().getResourceAsStream("/assets" + "/" + id.getNamespace() + "/" + id.getPath());
-    }
 
     public Resource getResource(final Identifier id) {
         return new Resource() {
             @Nullable
-            InputStream stream;
+            private InputStream stream;
 
             public void close() throws IOException {
-                if (this.stream != null) {
-                    this.stream.close();
+                if (stream != null) {
+                    stream.close();
                 }
-
             }
 
             public Identifier getId() {
@@ -51,12 +45,8 @@ public class RainbowifyResourceFactory implements ResourceFactory {
             }
 
             public InputStream getInputStream() {
-                try {
-                    this.stream = open(id);
-                } catch (IOException var2) {
-                    throw new UncheckedIOException("Could not get client resource from vanilla pack", var2);
-                }
-                return this.stream;
+                stream = getClass().getResourceAsStream("/assets" + "/" + id.getNamespace() + "/" + id.getPath());
+                return stream;
             }
 
             public boolean hasMetadata() {

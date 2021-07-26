@@ -20,7 +20,6 @@ package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.animation.Animation;
-import de.lennox.rainbowify.animation.Easing;
 import de.lennox.rainbowify.bus.Subscriber;
 import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
@@ -33,16 +32,10 @@ import java.util.List;
 public class EffectAnimator {
 
     private static final MinecraftClient MC = MinecraftClient.getInstance();
-    private final Animation fadeAnimation = new Animation(250, Easing.LINEAR);
+    private final Animation fadeAnimation = new Animation(250);
     private final List<Effect> effects = new ArrayList<>();
-
-    public void init(List<Effect> effects) {
-        this.effects.addAll(effects);
-        RainbowifyMod.instance().eventBus().subscribe(this);
-    }
-
     private final Subscriber<InGameHudDrawEvent> inGameHudDrawSubscriber = event -> {
-        Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
+        Config.RainbowOpacity rainbowOpacity = (Config.RainbowOpacity) RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
         // If the current screen is pausing the game we need to skip the animation
@@ -54,7 +47,11 @@ public class EffectAnimator {
             effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
         }
     };
-
     private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> fadeAnimation.reset(0);
+
+    public void init(List<Effect> effects) {
+        this.effects.addAll(effects);
+        RainbowifyMod.instance().eventBus().subscribe(this);
+    }
 
 }

@@ -80,8 +80,8 @@ public class BlurEffect extends Effect {
     }
 
     private void updateUniforms(float pass) {
-        Config.BlurAmount blurAmount = RainbowifyMod.instance().optionRepository().enumOption("blur_amount");
-        Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
+        Config.BlurAmount blurAmount = (Config.BlurAmount) RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
+        Config.RainbowOpacity rainbowOpacity = (Config.RainbowOpacity) RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
         // Set the uniforms
         radius.set(Math.max(blurAmount.radius() * (fade * (1 / rainbowOpacity.opacity())), 1));
         direction.set(pass, 1f - pass);

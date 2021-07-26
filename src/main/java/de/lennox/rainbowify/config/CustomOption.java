@@ -33,6 +33,8 @@ public abstract class CustomOption<T> {
     }
 
     public abstract JsonObject parseJson();
+
     public abstract void fromJson(JsonObject object);
+
     public abstract Option parseAsOption();
 }

@@ -61,7 +61,7 @@ public class BooleanOption extends CustomOption<Boolean> {
 
     @Override
     public void fromJson(JsonObject object) {
-        if(object.has("value")) value = object.get("value").getAsBoolean();
+        if (object.has("value")) value = object.get("value").getAsBoolean();
     }
 
     @Override
@@ -72,11 +72,11 @@ public class BooleanOption extends CustomOption<Boolean> {
             translationKey,
             enabledText,
             disabledText,
-            ignored -> optionRepository.booleanOption(name),
-            (ignored, option, value) -> optionRepository.setBooleanOption(name, value)
+            ignored -> (Boolean) optionRepository.optionBy(name).value,
+            (ignored, option, value) -> optionRepository.optionBy(name).value = value
         );
 
-        if(tooltip != null) {
+        if (tooltip != null) {
             booleanCyclingOption = booleanCyclingOption.tooltip((client) -> {
                 List<OrderedText> list = client.textRenderer.wrapLines(tooltip, 200);
                 return (value) -> list;

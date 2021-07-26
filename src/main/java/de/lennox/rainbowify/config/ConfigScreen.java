@@ -33,7 +33,7 @@ import java.util.List;
 
 public class ConfigScreen extends GameOptionsScreen {
 
-    private Screen previous;
+    private final Screen previous;
     private ButtonListWidget list;
 
     public ConfigScreen(Screen previous) {

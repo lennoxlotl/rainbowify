@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 public class Config {
 
+    public static final BooleanOption ENABLED = new BooleanOption("enabled", new TranslatableText("rainbowify.setting.enabled"), true);
     public static final BooleanOption BLUR = new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
     public static final EnumOption<BlurAmount> BLUR_AMOUNT = new EnumOption<>("blur_amount", BlurAmount.MEDIUM);
     public static final EnumOption<RainbowOpacity> RAINBOW_OPACITY = new EnumOption<>("rainbow_opacity", RainbowOpacity.HIGH);

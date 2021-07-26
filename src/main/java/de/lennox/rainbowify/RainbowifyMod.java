@@ -23,8 +23,6 @@ import de.lennox.rainbowify.bus.EventBus;
 import de.lennox.rainbowify.config.OptionRepository;
 import de.lennox.rainbowify.effect.EffectRepository;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 
 public class RainbowifyMod implements ModInitializer {
 
@@ -32,6 +30,10 @@ public class RainbowifyMod implements ModInitializer {
     private final EventBus<Event> eventBus = new EventBus<>();
     private final EffectRepository effectRepository = new EffectRepository();
     private final OptionRepository optionRepository = new OptionRepository();
+
+    public static RainbowifyMod instance() {
+        return rainbowifyMod;
+    }
 
     @Override
     public void onInitialize() {
@@ -48,10 +50,6 @@ public class RainbowifyMod implements ModInitializer {
 
     public void preShaderLoad() {
         effectRepository.init();
-    }
-
-    public static RainbowifyMod instance() {
-        return rainbowifyMod;
     }
 
     public OptionRepository optionRepository() {

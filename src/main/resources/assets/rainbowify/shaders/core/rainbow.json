@@ -10,11 +10,7 @@
     "Position",
     "UV0"
   ],
-  "samplers": [
-    {
-      "name": "Sampler0"
-    }
-  ],
+  "samplers": [],
   "uniforms": [
     {
       "name": "ModelViewMat",

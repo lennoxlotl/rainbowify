@@ -18,24 +18,16 @@
  */
 #version 150
 
-#moj_import <fog.glsl>
-
-uniform sampler2D Sampler0;
-
 uniform float time;
 uniform vec2 res;
 uniform float alpha;
 
-in float vertexDistance;
 in vec2 texCoord0;
-in vec3 pos;
 
 out vec4 fragColor;
 
 void main() {
-    vec4 color = texture(Sampler0, texCoord0);
-    vec2 texCoord = texCoord0.st;
-    vec2 uv = texCoord.xy / res.xy;
-    vec3 col = 1 - (0.5 + 1 * sin(time + texCoord.xyx + vec3(0, 2, 4)) * cos(time + texCoord.xyx + vec3(0, 2, 4)));
+    vec2 uv = texCoord0.xy / res.xy;
+    vec3 col = 1 - (0.5 + 1 * sin(time + texCoord0.xyx + vec3(0, 2, 4)) * cos(time + texCoord0.xyx + vec3(0, 2, 4)));
     fragColor = vec4(col, alpha);
 }

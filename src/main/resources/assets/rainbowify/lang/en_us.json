@@ -1,6 +1,10 @@
 {
   "rainbowify.setting.title": "Rainbowify Settings",
 
+  "rainbowify.setting.enabled": "Rainbowify",
+  "rainbowify.setting.enabled.true": "§aEnabled",
+  "rainbowify.setting.enabled.false": "§cDisabled",
+
   "rainbowify.setting.blur": "Blur",
   "rainbowify.setting.blur.tooltip": "§c§lWARNING!\n§7This setting should only be used on a relatively good GPU.",
   "rainbowify.setting.blur.true": "§aEnabled",
