@@ -19,6 +19,16 @@
 package de.lennox.rainbowify.bus.events;
 
 import de.lennox.rainbowify.bus.Event;
+import net.minecraft.client.gui.screen.Screen;
 
 public class ScreenInitEvent extends Event {
+    private final Screen previous;
+
+    public ScreenInitEvent(Screen previous) {
+        this.previous = previous;
+    }
+
+    public Screen previous() {
+        return previous;
+    }
 }

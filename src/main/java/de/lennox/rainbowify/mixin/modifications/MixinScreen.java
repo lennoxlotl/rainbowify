@@ -65,11 +65,6 @@ public abstract class MixinScreen implements RainbowifyScreen {
     @Shadow @Final
     private List<Drawable> drawables;
 
-    @Inject(method = "init()V", at = @At("HEAD"))
-    public void init(CallbackInfo info) {
-        RainbowifyMod.instance().eventBus().dispatch(new ScreenInitEvent());
-    }
-
     /**
      * @author Lennox
      * @reason Draw our custom effects instead of the minecraft gradient

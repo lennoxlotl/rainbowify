@@ -33,9 +33,11 @@ public class EventBus<T> {
                 try {
                     var accessible = field.canAccess(obj);
                     field.setAccessible(true);
+                    // Fetch the event being subscribed to
                     var eventType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
                     var subscriber = (Subscriber<T>) field.get(obj);
                     field.setAccessible(accessible);
+                    // If there already is a container list for an event type, add it in that list otherwise create a new one
                     if (containerMap.containsKey(eventType)) {
                         List<SubscriberContainer<T>> repositories = containerMap.get(eventType);
                         repositories.add(new SubscriberContainer<>(obj, subscriber));
@@ -55,6 +57,7 @@ public class EventBus<T> {
     }
 
     private void refreshSubscriptions() {
+        // Update the subscription cache
         containerMap.keySet().forEach(type -> {
             List<Subscriber<T>> subscribers = new ArrayList<>();
             List<SubscriberContainer<T>> containers = containerMap.get(type);
@@ -64,9 +67,10 @@ public class EventBus<T> {
     }
 
     public void dispatch(T event) {
+        // Search for subscribers that subscribed to the dispatched event, then execute an event call
         List<Subscriber<T>> subscribers = subscriberMap.get(event.getClass());
         if (subscribers != null) {
-            subscribers.forEach(tSubscriber -> tSubscriber.call(event));
+            subscribers.forEach(subscriber -> subscriber.call(event));
         }
     }
 

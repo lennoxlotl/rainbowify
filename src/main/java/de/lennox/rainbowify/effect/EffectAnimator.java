@@ -25,6 +25,7 @@ import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ProgressScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,12 @@ public class EffectAnimator {
             effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
         }
     };
-    private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> fadeAnimation.reset(0);
+    private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> {
+        // Check if the previous screen was whether null or a screen which pauses the game or is not affected by the mod
+        if(event.previous() == null || event.previous() instanceof ProgressScreen || event.previous() != null && event.previous().isPauseScreen()) {
+            fadeAnimation.reset(0);
+        }
+    };
 
     public void init(List<Effect> effects) {
         this.effects.addAll(effects);

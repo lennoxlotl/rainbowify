@@ -27,6 +27,8 @@ import net.minecraft.client.gl.WindowFramebuffer;
 public class RefreshingWindowBuffer extends WindowFramebuffer {
 
     private static final MinecraftClient MC = MinecraftClient.getInstance();
+
+    // Refreshes the framebuffer size if the minecraft window got resized
     public final Subscriber<ScreenResolutionChangeEvent> screenResolutionSubscriber = event -> resize(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight(), false);
 
     public RefreshingWindowBuffer(int width, int height) {

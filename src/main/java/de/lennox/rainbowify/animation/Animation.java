@@ -38,11 +38,13 @@ public class Animation {
     }
 
     public void animate(float min, float max, boolean direction) {
+        // If the animation is currently starting, set the start time to now
         if (!startedAnimating) {
             startMillis = System.currentTimeMillis();
             startedAnimating = true;
         }
         if (done()) return;
+        // Animate the object based on the direction it should go
         if (direction) {
             this.animation = min + ((animation + (max - min - animation)) * baseMultiplication());
         } else {
@@ -58,10 +60,12 @@ public class Animation {
     }
 
     private float baseMultiplication() {
+        // Return a multiplication factor based on how long the animation should take and how long its already animating for
         return (float) ((duration - (this.startMillis + duration - System.currentTimeMillis())) / (double) duration);
     }
 
     public float animation() {
+        // If the animation is already finished, give back the last recorded animation factor
         if (done()) {
             return lastDirection ? lastMax : lastMin;
         }

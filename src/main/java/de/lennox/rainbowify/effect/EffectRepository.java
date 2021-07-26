@@ -40,6 +40,7 @@ public class EffectRepository {
     };
 
     public void init() {
+        // Add all effects and initialize the effect animator
         effects.addAll(List.of(
             new BlurEffect(),
             new RainbowEffect()
