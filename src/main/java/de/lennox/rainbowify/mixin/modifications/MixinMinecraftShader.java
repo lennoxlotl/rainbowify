@@ -38,7 +38,7 @@ public class MixinMinecraftShader implements MinecraftShader {
     private String name;
     private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init> (Ljava/lang/String;)V"), index = 0)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"), index = 0)
     public String renameInit(String toReplace) {
         if (toReplace.contains("rainbowify:")) {
             return "rainbowify:" + toReplace.replace("rainbowify:","");
@@ -46,7 +46,7 @@ public class MixinMinecraftShader implements MinecraftShader {
         return toReplace;
     }
 
-    @ModifyArg(method = "loadProgram", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init> (Ljava/lang/String;)V"), index = 0)
+    @ModifyArg(method = "loadProgram", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"), index = 0)
     private static String renameLoadProgram(String toReplace) {
         if (toReplace.contains("rainbowify:")) {
             return "rainbowify:" + toReplace.replace("rainbowify:","");
@@ -55,11 +55,11 @@ public class MixinMinecraftShader implements MinecraftShader {
     }
 
     @ModifyArg(method = "addUniform", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z"))
-    public Object renameAddUniform(Object orig) {
-        if (orig instanceof GlUniform glUniform && this.name.contains("rainbowify:")) {
+    public Object renameAddUniform(Object toReplace) {
+        if (toReplace instanceof GlUniform glUniform && this.name.contains("rainbowify:")) {
             customUniforms.put(glUniform.getName(), glUniform);
         }
-        return orig;
+        return toReplace;
     }
 
     @Override
