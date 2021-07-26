@@ -56,7 +56,6 @@ public class RainbowifyResourceFactory implements ResourceFactory {
                 } catch (IOException var2) {
                     throw new UncheckedIOException("Could not get client resource from vanilla pack", var2);
                 }
-
                 return this.stream;
             }
 

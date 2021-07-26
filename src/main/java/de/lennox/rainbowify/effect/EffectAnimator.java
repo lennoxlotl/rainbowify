@@ -38,7 +38,6 @@ public class EffectAnimator {
 
     public void init(List<Effect> effects) {
         this.effects.addAll(effects);
-        fadeAnimation.setAnimation(0.5f);
         RainbowifyMod.instance().eventBus().subscribe(this);
     }
 
@@ -46,10 +45,11 @@ public class EffectAnimator {
         Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
-        if (currentScreen != null) {
+        // If the current screen is pausing the game we need to skip the animation
+        if (currentScreen != null)
             pausedScreen = currentScreen.isPauseScreen();
-        }
         fadeAnimation.animate(0, rainbowOpacity.opacity(), currentScreen != null);
+        // Set the animation status for all effects
         for (Effect effect : effects) {
             effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
         }

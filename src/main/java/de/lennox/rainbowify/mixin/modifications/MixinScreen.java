@@ -48,6 +48,9 @@ public abstract class MixinScreen {
 
     /**
      * @author Lennox
+     * @reason Draw our custom effects instead of the minecraft gradient
+     *
+     * TODO: Add an option to toggle off the rainbow and blur effects
      */
     @Overwrite
     public void renderBackground(MatrixStack matrices, int vOffset) {

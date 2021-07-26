@@ -34,39 +34,44 @@ import static de.lennox.rainbowify.gl.GLUtil.*;
 
 public class RainbowEffect extends Effect {
 
-    private Shader rainbowShader;
+    private Shader rainbow;
 
-    private GlUniform alphaU;
-    private GlUniform timeU;
-    private GlUniform resolutionU;
+    private GlUniform alpha;
+    private GlUniform time;
+    private GlUniform res;
 
     private long startTime;
 
     @Override
     public void init() {
-        startTime = System.currentTimeMillis();
+        // Create the shader instance
         try {
-            rainbowShader = new Shader(new RainbowifyResourceFactory(), "rainbowify:rainbow", VertexFormats.POSITION_TEXTURE);
+            rainbow = new Shader(new RainbowifyResourceFactory(), "rainbowify:rainbow", VertexFormats.POSITION_TEXTURE);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        MinecraftShader minecraftShaderInterface = (MinecraftShader) rainbowShader;
-        alphaU = minecraftShaderInterface.customUniform("alpha");
-        timeU = minecraftShaderInterface.customUniform("time");
-        resolutionU = minecraftShaderInterface.customUniform("res");
+        MinecraftShader minecraftShaderInterface = (MinecraftShader) rainbow;
+        // Create uniforms
+        alpha = minecraftShaderInterface.customUniform("alpha");
+        time = minecraftShaderInterface.customUniform("time");
+        res = minecraftShaderInterface.customUniform("res");
+        // Update start time
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public void draw(MatrixStack stack) {
+        // Draw the rainbow
         updateUniforms();
-        drawCanvas(stack, () -> rainbowShader);
+        drawCanvas(stack, () -> rainbow);
     }
 
     private void updateUniforms() {
         Config.RainbowSpeed rainbowSpeed = RainbowifyMod.instance().optionRepository().enumOption("rainbow_speed");
-        alphaU.set(fade);
-        timeU.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
-        resolutionU.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
+        // Set the uniforms
+        alpha.set(fade);
+        time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
+        res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
     }
 
 

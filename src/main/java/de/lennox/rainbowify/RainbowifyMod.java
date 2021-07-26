@@ -39,6 +39,7 @@ public class RainbowifyMod implements ModInitializer {
     }
 
     public void init() {
+        // Initialize the mod
         System.out.println("Loading Rainbowify.");
         eventBus.subscribe(this);
         optionRepository.init();

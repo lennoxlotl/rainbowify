@@ -32,6 +32,7 @@ public class OptionRepository {
     private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
 
     public void init() {
+        // Add all options to the option list (really bad method, might change this later)
         configOptions.addAll(List.of(
             Config.BLUR,
             Config.BLUR_AMOUNT,
@@ -42,13 +43,17 @@ public class OptionRepository {
     }
 
     public void load() {
+        // Check if the config file exists
         if(configLocation.exists()) {
             try {
+                // Parse the file content
                 var parsed = new JsonParser().parse(new FileReader(configLocation));
                 if(parsed.isJsonArray()) {
                     var settingsArray = parsed.getAsJsonArray();
+                    // Loop through all settings elements
                     for (JsonElement jsonElement : settingsArray) {
                         if(jsonElement.isJsonObject()) {
+                            // Fetch a setting by the name parameter and apply the value parameter on it
                             JsonObject settingsObject = jsonElement.getAsJsonObject();
                             if(settingsObject.has("name")) {
                                 var settingsName = settingsObject.get("name").getAsString();
@@ -65,6 +70,7 @@ public class OptionRepository {
     }
 
     public void save() {
+        // If the config location does not exist create it
         if(!configLocation.exists()) {
             try {
                 configLocation.createNewFile();
@@ -73,9 +79,11 @@ public class OptionRepository {
             }
         }
 
+        // Parse all options
         var settingsArray = new JsonArray();
         configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
 
+        // Write the parsed options into the file
         try(var fileWriter = new FileWriter(configLocation)) {
             fileWriter.write(gson.toJson(settingsArray));
         } catch (IOException e) {

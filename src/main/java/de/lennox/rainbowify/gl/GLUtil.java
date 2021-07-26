@@ -33,19 +33,18 @@ public class GLUtil {
 
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
-    public static void drawCanvas(MatrixStack matrixStack, Supplier<Shader> shaderSupplier) {
+    public static void drawCanvas(MatrixStack matrixStack, Supplier<Shader> shader) {
         var width = (float) (MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor());
         var height = (float) (MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor());
-
+        // Set GL caps
         RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-
-        RenderSystem.setShader(shaderSupplier);
-
+        // Set the shader
+        RenderSystem.setShader(shader);
         var tessellator = Tessellator.getInstance();
         var bufferBuilder = tessellator.getBuffer();
-
+        // Draw the canvas
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         Matrix4f matrix = matrixStack.peek().getModel();
         bufferBuilder.vertex(matrix, 0, 0, 0).texture(0, 1).next();
@@ -53,7 +52,7 @@ public class GLUtil {
         bufferBuilder.vertex(matrix, width, height, 0).texture(1, 0).next();
         bufferBuilder.vertex(matrix, width, 0, 0).texture(1, 1).next();
         tessellator.draw();
-
+        // Reset GL caps
         RenderSystem.disableBlend();
         RenderSystem.enableTexture();
     }

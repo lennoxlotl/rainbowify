@@ -36,7 +36,7 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 
 public class BlurEffect extends Effect {
 
-    private Shader blurShader;
+    private Shader blur;
 
     private GlUniform radius;
     private GlUniform direction;
@@ -46,14 +46,17 @@ public class BlurEffect extends Effect {
 
     @Override
     public void init() {
+        // Create the shader instance
         try {
-            blurShader = new Shader(new RainbowifyResourceFactory(), "rainbowify:blur", VertexFormats.POSITION_TEXTURE);
+            blur = new Shader(new RainbowifyResourceFactory(), "rainbowify:blur", VertexFormats.POSITION_TEXTURE);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Create an auto refreshing frame buffer (auto-resize)
         framebuffer = new RefreshingWindowBuffer(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight());
-        MinecraftShader minecraftShaderInterface = (MinecraftShader) blurShader;
+        MinecraftShader minecraftShaderInterface = (MinecraftShader) blur;
+        // Create uniforms
         radius = minecraftShaderInterface.customUniform("radius");
         direction = minecraftShaderInterface.customUniform("direction");
         inSize = minecraftShaderInterface.customUniform("InSize");
@@ -62,30 +65,27 @@ public class BlurEffect extends Effect {
     @Override
     public void draw(MatrixStack stack) {
         if (!Config.BLUR.value) return;
-        MC.getFramebuffer().endWrite();
+        // Draw the first pass
         framebuffer.beginWrite(false);
-
-        blurShader.addSampler("DiffuseSampler", MC.getFramebuffer());
+        blur.addSampler("DiffuseSampler", MC.getFramebuffer());
         updateUniforms(0);
-        drawCanvas(stack, () -> blurShader);
-
+        drawCanvas(stack, () -> blur);
         framebuffer.endWrite();
+        // Draw the second pass
         MC.getFramebuffer().beginWrite(false);
-
-        blurShader.addSampler("DiffuseSampler", framebuffer);
+        blur.addSampler("DiffuseSampler", framebuffer);
         updateUniforms(1);
-        drawCanvas(stack, () -> blurShader);
+        drawCanvas(stack, () -> blur);
     }
 
     private void updateUniforms(float pass) {
-        var width = MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor();
-        var height = MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor();
-
         Config.BlurAmount blurAmount = RainbowifyMod.instance().optionRepository().enumOption("blur_amount");
         Config.RainbowOpacity rainbowOpacity = RainbowifyMod.instance().optionRepository().enumOption("rainbow_opacity");
+        // Set the uniforms
         radius.set(Math.max(blurAmount.radius() * (fade * (1 / rainbowOpacity.opacity())), 1));
         direction.set(pass, 1f - pass);
-        inSize.set((float) width, (float) height);
+        inSize.set((float) (MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor()),
+            (float) (MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor()));
     }
 
 }

@@ -45,6 +45,7 @@ public class EffectRepository {
     }
 
     private final Subscriber<ScreenDrawEvent> screenDrawSubscriber = event -> {
+        // If the screen is the minecraft progress screen we should not render the screen due to graphic bugs
         if(MinecraftClient.getInstance().currentScreen instanceof ProgressScreen) return;
         effects.forEach(effect -> effect.draw(event.matrixStack()));
     };
