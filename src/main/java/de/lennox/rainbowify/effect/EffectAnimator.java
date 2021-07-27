@@ -36,6 +36,7 @@ public class EffectAnimator {
     private static final MinecraftClient MC = MinecraftClient.getInstance();
     private final Animation fadeAnimation = new Animation(250);
     private final List<Effect> effects = new ArrayList<>();
+
     private final Subscriber<InGameHudDrawEvent> inGameHudDrawSubscriber = event -> {
         Config.RainbowOpacity rainbowOpacity = (Config.RainbowOpacity) RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
         var pausedScreen = false;
@@ -49,6 +50,7 @@ public class EffectAnimator {
             effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
         }
     };
+
     private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> {
         // Check if the previous screen was whether null or a screen which pauses the game or is not affected by the mod
         if(event.previous() == null || event.previous() instanceof ProgressScreen || validatePause(event.previous())) {
