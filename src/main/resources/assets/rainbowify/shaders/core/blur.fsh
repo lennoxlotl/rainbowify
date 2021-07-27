@@ -28,14 +28,14 @@ in vec2 texelSize;
 
 out vec4 fragColor;
 
-float getKernel(float offset, float sigma) {
+float gauss(float offset, float sigma) {
     return ((1.0 / sqrt(2.0 * 3.1415926 * sigma * sigma)) * (pow((2.7182818284), -(offset * offset) / (2.0 * sigma * sigma))));
 }
 
 void main() {
     vec4 color = vec4(0.0);
     for (float r = -radius; r <= radius; r++) {
-        color += texture(DiffuseSampler, texCoord + r * texelSize * direction) * getKernel(r, radius / 2);
+        color += texture(DiffuseSampler, texCoord + r * texelSize * direction) * gauss(r, radius / 2);
     }
     fragColor = vec4(color.rgb, 1.0);
 }
