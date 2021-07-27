@@ -26,6 +26,7 @@ import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class EffectAnimator {
         var currentScreen = MC.currentScreen;
         // If the current screen is pausing the game we need to skip the animation
         if (currentScreen != null)
-            pausedScreen = currentScreen.isPauseScreen();
+            pausedScreen = validatePause(currentScreen);
         fadeAnimation.animate(0, rainbowOpacity.opacity(), currentScreen != null);
         // Set the animation status for all effects
         for (Effect effect : effects) {
@@ -50,7 +51,7 @@ public class EffectAnimator {
     };
     private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> {
         // Check if the previous screen was whether null or a screen which pauses the game or is not affected by the mod
-        if(event.previous() == null || event.previous() instanceof ProgressScreen || event.previous() != null && event.previous().isPauseScreen()) {
+        if(event.previous() == null || event.previous() instanceof ProgressScreen || validatePause(event.previous())) {
             fadeAnimation.reset(0);
         }
     };
@@ -58,6 +59,13 @@ public class EffectAnimator {
     public void init(List<Effect> effects) {
         this.effects.addAll(effects);
         RainbowifyMod.instance().eventBus().subscribe(this);
+    }
+
+    private boolean validatePause(Screen screen) {
+      // If the previous screen was null we don't need to do this check
+      if(screen == null) return true;
+      // Checks if the screen is pausing the game and if the player is in singleplayer as pausing only works in singleplayer
+      return screen.isPauseScreen() && MC.isInSingleplayer();
     }
 
 }
