@@ -20,7 +20,11 @@ package de.lennox.rainbowify.bus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EventBus<T> {
 
@@ -33,11 +37,9 @@ public class EventBus<T> {
                 try {
                     var accessible = field.canAccess(obj);
                     field.setAccessible(true);
-                    // Fetch the event being subscribed to
                     var eventType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
                     var subscriber = (Subscriber<T>) field.get(obj);
                     field.setAccessible(accessible);
-                    // If there already is a container list for an event type, add it in that list otherwise create a new one
                     if (containerMap.containsKey(eventType)) {
                         List<SubscriberContainer<T>> repositories = containerMap.get(eventType);
                         repositories.add(new SubscriberContainer<>(obj, subscriber));
@@ -48,30 +50,22 @@ public class EventBus<T> {
                     e.printStackTrace();
                 }
             });
-        refreshSubscriptions();
+        refresh();
     }
 
     public void unsubscribe(Object obj) {
         containerMap.values().forEach(subscriberContainers -> subscriberContainers.removeIf(tSubscriberContainer -> tSubscriberContainer.obj == obj));
-        refreshSubscriptions();
+        refresh();
     }
 
-    private void refreshSubscriptions() {
-        // Update the subscription cache
-        containerMap.keySet().forEach(type -> {
-            List<Subscriber<T>> subscribers = new ArrayList<>();
-            List<SubscriberContainer<T>> containers = containerMap.get(type);
-            containers.forEach(container -> subscribers.add(container.subscriber));
-            subscriberMap.put(type, subscribers);
-        });
+    private void refresh() {
+        containerMap.forEach((type, subscriberContainers) -> subscriberMap.put(type, subscriberContainers.stream().map(SubscriberContainer::subscriber).collect(Collectors.toList())));
     }
 
     public void dispatch(T event) {
-        // Search for subscribers that subscribed to the dispatched event, then execute an event call
+        if (!subscriberMap.containsKey(event.getClass())) return;
         List<Subscriber<T>> subscribers = subscriberMap.get(event.getClass());
-        if (subscribers != null) {
-            subscribers.forEach(subscriber -> subscriber.call(event));
-        }
+        subscribers.forEach(tSubscriber -> tSubscriber.call(event));
     }
 
     record SubscriberContainer<T>(Object obj, Subscriber<T> subscriber) {
