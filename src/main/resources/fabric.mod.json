@@ -16,7 +16,7 @@
   "license": "GPL-3.0",
   "icon": "assets/rainbowify/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "modmenu": [
       "de.lennox.rainbowify.config.modmenu.ModMenuImplementation"
