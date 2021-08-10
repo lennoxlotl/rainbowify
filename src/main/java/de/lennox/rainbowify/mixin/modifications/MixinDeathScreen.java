@@ -71,24 +71,18 @@ public abstract class MixinDeathScreen extends MixinScreen {
         } else {
             ((DrawableHelperInvoker) this).invokeFillGradient(matrices, 0, 0, this.width, this.height, 1615855616, -1602211792);
         }
-
         matrices.push();
         matrices.scale(2.0F, 2.0F, 2.0F);
         drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2 / 2, 30, 16777215);
         matrices.pop();
         if (this.message != null) {
             drawCenteredText(matrices, this.textRenderer, this.message, this.width / 2, 85, 16777215);
-        }
-
-        drawCenteredText(matrices, this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
-        if (this.message != null && mouseY > 85) {
-            Objects.requireNonNull(this.textRenderer);
-            if (mouseY < 85 + 9) {
-                Style style = this.getTextComponentUnderMouse(mouseX);
+            if(mouseY > 85 && mouseY < 94) {
+                var style = this.getTextComponentUnderMouse(mouseX);
                 this.renderTextHoverEffect(matrices, style, mouseX, mouseY);
             }
         }
-
+        drawCenteredText(matrices, this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
         for (Drawable drawable : ((ScreenAccessor) this).getDrawables()) {
             drawable.render(matrices, mouseX, mouseY, delta);
         }
