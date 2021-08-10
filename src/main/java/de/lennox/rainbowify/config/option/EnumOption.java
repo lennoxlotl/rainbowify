@@ -33,12 +33,18 @@ import static net.minecraft.client.option.CyclingOption.create;
 public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     private final Class<E> optionEnum;
 
-    public EnumOption(String key, E defaultValue) {
+    public EnumOption(
+        String key,
+        E defaultValue
+    ) {
         super(key, "rainbowify.setting." + key, defaultValue);
         this.optionEnum = defaultValue.getDeclaringClass();
     }
 
-    private static <E extends Enum<E>> Text valueText(EnumOption<E> option, E value) {
+    private static <E extends Enum<E>> Text valueText(
+        EnumOption<E> option,
+        E value
+    ) {
         return new TranslatableText(option.translationKey + "." + value.name().toLowerCase());
     }
 
@@ -62,6 +68,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     @Override
     public Option parseAsOption() {
         OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
+        //noinspection unchecked
         return create(
             translationKey,
             optionEnum.getEnumConstants(),

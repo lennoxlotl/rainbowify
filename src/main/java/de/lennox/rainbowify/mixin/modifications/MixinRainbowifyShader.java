@@ -34,6 +34,7 @@ import java.util.Map;
 public class MixinRainbowifyShader implements RainbowifyShader {
 
     private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
+
     @Shadow
     @Final
     private String name;

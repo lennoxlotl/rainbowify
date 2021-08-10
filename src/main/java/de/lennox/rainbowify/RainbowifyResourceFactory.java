@@ -29,7 +29,7 @@ import java.io.InputStream;
 
 public class RainbowifyResourceFactory implements ResourceFactory {
 
-    public Resource getResource(final Identifier id) {
+    public Resource getResource(Identifier id) {
         return new Resource() {
             @Nullable
             private InputStream stream;

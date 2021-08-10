@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class EventBus<T> {
 
-    private final Map<Type, List<SubscriberContainer<T>>> containerMap = new HashMap<>();
+    private final Map<Type, List<SubscriptionContainer<T>>> containerMap = new HashMap<>();
     private final Map<Type, List<Subscription<T>>> subscriptionMap = new HashMap<>();
 
     public void subscribe(Object obj) {
@@ -38,13 +38,14 @@ public class EventBus<T> {
                     var accessible = field.canAccess(obj);
                     field.setAccessible(true);
                     var eventType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                    //noinspection unchecked
                     var subscription = (Subscription<T>) field.get(obj);
                     field.setAccessible(accessible);
                     if (containerMap.containsKey(eventType)) {
-                        List<SubscriberContainer<T>> repositories = containerMap.get(eventType);
-                        repositories.add(new SubscriberContainer<>(obj, subscription));
+                        List<SubscriptionContainer<T>> repositories = containerMap.get(eventType);
+                        repositories.add(new SubscriptionContainer<>(obj, subscription));
                     } else {
-                        containerMap.put(eventType, List.of(new SubscriberContainer<>(obj, subscription)));
+                        containerMap.put(eventType, List.of(new SubscriptionContainer<>(obj, subscription)));
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -53,13 +54,8 @@ public class EventBus<T> {
         refresh();
     }
 
-    public void unsubscribe(Object obj) {
-        containerMap.values().forEach(subscriberContainers -> subscriberContainers.removeIf(tSubscriberContainer -> tSubscriberContainer.obj == obj));
-        refresh();
-    }
-
     private void refresh() {
-        containerMap.forEach((type, subscriberContainers) -> subscriptionMap.put(type, subscriberContainers.stream().map(SubscriberContainer::subscriber).collect(Collectors.toList())));
+        containerMap.forEach((type, subscriberContainers) -> subscriptionMap.put(type, subscriberContainers.stream().map(SubscriptionContainer::subscriber).collect(Collectors.toList())));
     }
 
     public void dispatch(T event) {
@@ -68,6 +64,6 @@ public class EventBus<T> {
         subscriptions.forEach(tSubscription -> tSubscription.call(event));
     }
 
-    record SubscriberContainer<T>(Object obj, Subscription<T> subscriber) {
+    record SubscriptionContainer<T>(Object obj, Subscription<T> subscriber) {
     }
 }

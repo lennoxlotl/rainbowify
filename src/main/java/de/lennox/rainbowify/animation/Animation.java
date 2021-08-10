@@ -60,7 +60,7 @@ public class Animation {
     }
 
     private float baseMultiplication() {
-        // Return a multiplication factor based on how long the animation should take and how long its already animating for
+        // Return a multiplication factor based on how long the animation should take and how long it's already animating for
         return (float) ((duration - (this.startMillis + duration - System.currentTimeMillis())) / (double) duration);
     }
 

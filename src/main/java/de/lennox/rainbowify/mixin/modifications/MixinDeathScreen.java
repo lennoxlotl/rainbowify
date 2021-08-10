@@ -21,6 +21,7 @@ package de.lennox.rainbowify.mixin.modifications;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.mixin.modifications.accessor.ScreenAccessor;
 import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
@@ -88,7 +89,7 @@ public abstract class MixinDeathScreen extends MixinScreen {
             }
         }
 
-        for (Drawable drawable : screenDrawables()) {
+        for (Drawable drawable : ((ScreenAccessor) this).getDrawables()) {
             drawable.render(matrices, mouseX, mouseY, delta);
         }
     }

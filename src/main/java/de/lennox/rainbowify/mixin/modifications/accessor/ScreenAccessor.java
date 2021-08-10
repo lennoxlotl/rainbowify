@@ -16,20 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.config.modmenu;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.lennox.rainbowify.config.ConfigScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+package de.lennox.rainbowify.mixin.modifications.accessor;
 
-@Environment(EnvType.CLIENT)
-public class ModMenuImplementation implements ModMenuApi {
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.screen.Screen;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ConfigScreen::new;
-    }
+import java.util.List;
 
+@Mixin(Screen.class)
+public interface ScreenAccessor {
+    @Accessor
+    List<Drawable> getDrawables();
 }

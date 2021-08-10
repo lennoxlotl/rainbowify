@@ -26,7 +26,11 @@ public abstract class CustomOption<T> {
     public final String name, translationKey;
     public T value;
 
-    public CustomOption(String name, String translationKey, T defaultValue) {
+    public CustomOption(
+        String name,
+        String translationKey,
+        T defaultValue
+    ) {
         this.name = name;
         this.translationKey = translationKey;
         this.value = defaultValue;

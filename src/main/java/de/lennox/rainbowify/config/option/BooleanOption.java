@@ -37,14 +37,21 @@ public class BooleanOption extends CustomOption<Boolean> {
     private final Text disabledText;
     private final Text tooltip;
 
-    public BooleanOption(String key, Boolean defaultValue) {
+    public BooleanOption(
+        String key,
+        Boolean defaultValue
+    ) {
         super(key, "rainbowify.setting." + key, defaultValue);
         this.enabledText = new TranslatableText(translationKey + ".true");
         this.disabledText = new TranslatableText(translationKey + ".false");
         tooltip = null;
     }
 
-    public BooleanOption(String key, Text tooltip, Boolean defaultValue) {
+    public BooleanOption(
+        String key,
+        Text tooltip,
+        Boolean defaultValue
+    ) {
         super(key, "rainbowify.setting." + key, defaultValue);
         this.enabledText = new TranslatableText(translationKey + ".true");
         this.disabledText = new TranslatableText(translationKey + ".false");

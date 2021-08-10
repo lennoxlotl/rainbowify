@@ -52,7 +52,12 @@ public class ConfigScreen extends GameOptionsScreen {
         }));
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(
+        MatrixStack matrices,
+        int mouseX,
+        int mouseY,
+        float delta
+    ) {
         this.renderBackground(matrices);
         this.list.render(matrices, mouseX, mouseY, delta);
         drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);

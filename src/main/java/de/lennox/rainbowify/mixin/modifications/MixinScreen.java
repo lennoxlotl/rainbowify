@@ -21,11 +21,8 @@ package de.lennox.rainbowify.mixin.modifications;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
-import de.lennox.rainbowify.gl.GLUtil;
-import de.lennox.rainbowify.mixin.interfaces.RainbowifyScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Style;
@@ -33,16 +30,13 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-
 @Mixin(Screen.class)
-public abstract class MixinScreen implements RainbowifyScreen {
+public abstract class MixinScreen {
 
     @Shadow
     public int width;
@@ -51,9 +45,6 @@ public abstract class MixinScreen implements RainbowifyScreen {
     @Shadow
     @Nullable
     protected MinecraftClient client;
-
-    @Shadow
-    public abstract void renderBackgroundTexture(int vOffset);
 
     @Shadow
     @Final
@@ -70,10 +61,6 @@ public abstract class MixinScreen implements RainbowifyScreen {
         int y
     );
 
-    @Shadow
-    @Final
-    private List<Drawable> drawables;
-
     @Inject(
         method = "renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V",
         at = @At("HEAD"),
@@ -89,10 +76,5 @@ public abstract class MixinScreen implements RainbowifyScreen {
                 callback.cancel();
             }
         }
-    }
-
-    @Override
-    public List<Drawable> screenDrawables() {
-        return drawables;
     }
 }
