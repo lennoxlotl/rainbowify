@@ -37,7 +37,10 @@ public class MixinMinecraftClient {
     }
 
     @Inject(method = "setScreen", at = @At("HEAD"))
-    public void setScreen(Screen screen, CallbackInfo ci) {
+    public void setScreen(
+        Screen screen,
+        CallbackInfo ci
+    ) {
         RainbowifyMod.instance().eventBus().dispatch(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
     }
 

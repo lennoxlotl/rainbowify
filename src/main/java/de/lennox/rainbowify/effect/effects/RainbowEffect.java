@@ -35,11 +35,9 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 public class RainbowEffect extends Effect {
 
     private Shader rainbow;
-
     private GlUniform alpha;
     private GlUniform time;
     private GlUniform res;
-
     private long startTime;
 
     @Override

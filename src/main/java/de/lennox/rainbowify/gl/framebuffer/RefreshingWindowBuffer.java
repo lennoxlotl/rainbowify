@@ -19,7 +19,7 @@
 package de.lennox.rainbowify.gl.framebuffer;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.Subscriber;
+import de.lennox.rainbowify.bus.Subscription;
 import de.lennox.rainbowify.bus.events.ScreenResolutionChangeEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.WindowFramebuffer;
@@ -29,9 +29,13 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
     // Refreshes the framebuffer size if the minecraft window got resized
-    public final Subscriber<ScreenResolutionChangeEvent> screenResolutionSubscriber = event -> resize(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight(), false);
+    public final Subscription<ScreenResolutionChangeEvent> screenResolutionSubscription =
+        event -> resize(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight(), false);
 
-    public RefreshingWindowBuffer(int width, int height) {
+    public RefreshingWindowBuffer(
+        int width,
+        int height
+    ) {
         super(width, height);
         RainbowifyMod.instance().eventBus().subscribe(this);
     }

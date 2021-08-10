@@ -57,7 +57,12 @@ public abstract class MixinDeathScreen extends MixinScreen {
      * @reason Remove the gradient in the background of the death screen (bad solution to fix this, need to find something better)
      */
     @Overwrite
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(
+        MatrixStack matrices,
+        int mouseX,
+        int mouseY,
+        float delta
+    ) {
         if (Config.ENABLED.value) {
             if (MinecraftClient.getInstance().world != null) {
                 RainbowifyMod.instance().eventBus().dispatch(new ScreenBackgroundDrawEvent(matrices));

@@ -18,6 +18,6 @@
  */
 package de.lennox.rainbowify.bus;
 
-public interface Subscriber<Event> {
+public interface Subscription<Event> {
     void call(Event event);
 }

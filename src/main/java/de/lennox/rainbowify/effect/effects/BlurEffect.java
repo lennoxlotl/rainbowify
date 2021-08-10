@@ -37,11 +37,9 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 public class BlurEffect extends Effect {
 
     private Shader blur;
-
     private GlUniform radius;
     private GlUniform direction;
     private GlUniform inSize;
-
     private Framebuffer framebuffer;
 
     @Override
@@ -53,7 +51,6 @@ public class BlurEffect extends Effect {
             System.err.println("Failed to create blur shader. Report this in the discord with the log!");
             e.printStackTrace();
         }
-
         // Create an auto refreshing frame buffer (auto-resize)
         framebuffer = new RefreshingWindowBuffer(MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight());
         RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) blur;

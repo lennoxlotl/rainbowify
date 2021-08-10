@@ -30,7 +30,10 @@ public class GLUtil {
 
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
-    public static void drawCanvas(MatrixStack matrixStack, Supplier<Shader> shader) {
+    public static void drawCanvas(
+        MatrixStack matrixStack,
+        Supplier<Shader> shader
+    ) {
         var width = (float) (MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor());
         var height = (float) (MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor());
         // Set GL caps
@@ -54,11 +57,28 @@ public class GLUtil {
         RenderSystem.enableTexture();
     }
 
-    public static void fillGradient(MatrixStack matrices, int startX, int startY, int endX, int endY, int colorStart, int colorEnd) {
+    public static void fillGradient(
+        MatrixStack matrices,
+        int startX,
+        int startY,
+        int endX,
+        int endY,
+        int colorStart,
+        int colorEnd
+    ) {
         fillGradient(matrices, startX, startY, endX, endY, colorStart, colorEnd, 0);
     }
 
-    private static void fillGradient(MatrixStack matrices, int startX, int startY, int endX, int endY, int colorStart, int colorEnd, int z) {
+    private static void fillGradient(
+        MatrixStack matrices,
+        int startX,
+        int startY,
+        int endX,
+        int endY,
+        int colorStart,
+        int colorEnd,
+        int z
+    ) {
         RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -72,7 +92,17 @@ public class GLUtil {
         RenderSystem.enableTexture();
     }
 
-    private static void fillGradient(Matrix4f matrix, BufferBuilder bufferBuilder, int startX, int startY, int endX, int endY, int z, int colorStart, int colorEnd) {
+    private static void fillGradient(
+        Matrix4f matrix,
+        BufferBuilder bufferBuilder,
+        int startX,
+        int startY,
+        int endX,
+        int endY,
+        int z,
+        int colorStart,
+        int colorEnd
+    ) {
         float f = (float) (colorStart >> 24 & 255) / 255.0F;
         float g = (float) (colorStart >> 16 & 255) / 255.0F;
         float h = (float) (colorStart >> 8 & 255) / 255.0F;

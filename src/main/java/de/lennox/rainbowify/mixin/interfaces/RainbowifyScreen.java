@@ -23,7 +23,5 @@ import net.minecraft.client.gui.Drawable;
 import java.util.List;
 
 public interface RainbowifyScreen {
-
     List<Drawable> screenDrawables();
-
 }

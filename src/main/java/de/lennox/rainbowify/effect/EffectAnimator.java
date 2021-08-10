@@ -20,7 +20,7 @@ package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.animation.Animation;
-import de.lennox.rainbowify.bus.Subscriber;
+import de.lennox.rainbowify.bus.Subscription;
 import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
@@ -37,7 +37,7 @@ public class EffectAnimator {
     private final Animation fadeAnimation = new Animation(250);
     private final List<Effect> effects = new ArrayList<>();
 
-    private final Subscriber<InGameHudDrawEvent> inGameHudDrawSubscriber = event -> {
+    private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription = event -> {
         Config.RainbowOpacity rainbowOpacity = (Config.RainbowOpacity) RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
@@ -51,7 +51,7 @@ public class EffectAnimator {
         }
     };
 
-    private final Subscriber<ScreenInitEvent> screenInitSubscriber = event -> {
+    private final Subscription<ScreenInitEvent> screenInitSubscriber = event -> {
         // Check if the previous screen was whether null or a screen which pauses the game or is not affected by the mod
         if(event.previous() == null || event.previous() instanceof ProgressScreen || validatePause(event.previous())) {
             fadeAnimation.reset(0);

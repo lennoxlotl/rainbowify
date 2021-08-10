@@ -20,7 +20,6 @@ package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
-import de.lennox.rainbowify.bus.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.gl.GLUtil;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyScreen;
@@ -36,9 +35,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
@@ -56,13 +52,23 @@ public abstract class MixinScreen implements RainbowifyScreen {
     @Shadow
     public abstract void renderBackgroundTexture(int vOffset);
 
-    @Shadow @Final protected Text title;
+    @Shadow
+    @Final
+    protected Text title;
 
-    @Shadow protected TextRenderer textRenderer;
+    @Shadow
+    protected TextRenderer textRenderer;
 
-    @Shadow protected abstract void renderTextHoverEffect(MatrixStack matrices, @Nullable Style style, int x, int y);
+    @Shadow
+    protected abstract void renderTextHoverEffect(
+        MatrixStack matrices,
+        @Nullable Style style,
+        int x,
+        int y
+    );
 
-    @Shadow @Final
+    @Shadow
+    @Final
     private List<Drawable> drawables;
 
     /**
@@ -70,7 +76,10 @@ public abstract class MixinScreen implements RainbowifyScreen {
      * @reason Draw our custom effects instead of the minecraft gradient
      */
     @Overwrite
-    public void renderBackground(MatrixStack matrices, int vOffset) {
+    public void renderBackground(
+        MatrixStack matrices,
+        int vOffset
+    ) {
         if (this.client.world != null) {
             if (Config.ENABLED.value) {
                 RainbowifyMod.instance().eventBus().dispatch(new ScreenBackgroundDrawEvent(matrices));

@@ -31,7 +31,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinInGameHud {
 
     @Inject(method = "render", at = {@At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")})
-    public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    public void render(
+        MatrixStack matrices,
+        float tickDelta,
+        CallbackInfo ci
+    ) {
         RainbowifyMod.instance().eventBus().dispatch(new InGameHudDrawEvent());
     }
 

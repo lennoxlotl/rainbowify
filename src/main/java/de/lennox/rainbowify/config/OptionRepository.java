@@ -79,11 +79,9 @@ public class OptionRepository {
                 e.printStackTrace();
             }
         }
-
         // Parse all options
         var settingsArray = new JsonArray();
         configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
-
         // Write the parsed options into the file
         try (var fileWriter = new FileWriter(configLocation)) {
             fileWriter.write(gson.toJson(settingsArray));
