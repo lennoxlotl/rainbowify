@@ -9,7 +9,8 @@
     "MixinInGameHud",
     "MixinMinecraftClient",
     "MixinRainbowifyShader",
-    "MixinScreen"
+    "MixinScreen",
+    "invoker.DrawableHelperInvoker"
   ],
   "client": [],
   "injectors": {

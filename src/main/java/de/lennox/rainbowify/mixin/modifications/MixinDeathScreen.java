@@ -21,7 +21,7 @@ package de.lennox.rainbowify.mixin.modifications;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
-import de.lennox.rainbowify.gl.GLUtil;
+import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.DeathScreen;
@@ -68,7 +68,7 @@ public abstract class MixinDeathScreen extends MixinScreen {
                 RainbowifyMod.instance().eventBus().dispatch(new ScreenBackgroundDrawEvent(matrices));
             }
         } else {
-            GLUtil.fillGradient(matrices, 0, 0, this.width, this.height, 1615855616, -1602211792);
+            ((DrawableHelperInvoker) this).invokeFillGradient(matrices, 0, 0, this.width, this.height, 1615855616, -1602211792);
         }
 
         matrices.push();
