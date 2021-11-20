@@ -75,7 +75,7 @@ public class MixinRainbowifyShader implements RainbowifyShader {
 
   @Override
   public GlUniform customUniform(String name) {
-    RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+    RenderSystem.assertOnRenderThread();
     return this.customUniforms.get(name);
   }
 }

@@ -26,8 +26,7 @@ import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
 
 public class Config {
-  public static final BooleanOption ENABLED =
-      new BooleanOption("enabled", new TranslatableText("rainbowify.setting.enabled"), true);
+  public static final BooleanOption ENABLED = new BooleanOption("enabled", true);
   public static final BooleanOption BLUR =
       new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
   public static final EnumOption<BlurAmount> BLUR_AMOUNT =

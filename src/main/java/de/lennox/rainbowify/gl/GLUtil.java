@@ -41,7 +41,7 @@ public class GLUtil {
     var bufferBuilder = tessellator.getBuffer();
     // Draw the canvas
     bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-    Matrix4f matrix = matrixStack.peek().getModel();
+    Matrix4f matrix = matrixStack.peek().getPositionMatrix();
     bufferBuilder.vertex(matrix, 0, 0, 0).texture(0, 1).next();
     bufferBuilder.vertex(matrix, 0, height, 0).texture(0, 0).next();
     bufferBuilder.vertex(matrix, width, height, 0).texture(1, 0).next();
