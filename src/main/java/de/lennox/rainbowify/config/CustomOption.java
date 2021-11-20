@@ -22,23 +22,18 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.option.Option;
 
 public abstract class CustomOption<T> {
+  public final String name, translationKey;
+  public T value;
 
-    public final String name, translationKey;
-    public T value;
+  public CustomOption(String name, String translationKey, T defaultValue) {
+    this.name = name;
+    this.translationKey = translationKey;
+    this.value = defaultValue;
+  }
 
-    public CustomOption(
-        String name,
-        String translationKey,
-        T defaultValue
-    ) {
-        this.name = name;
-        this.translationKey = translationKey;
-        this.value = defaultValue;
-    }
+  public abstract JsonObject parseJson();
 
-    public abstract JsonObject parseJson();
+  public abstract void fromJson(JsonObject object);
 
-    public abstract void fromJson(JsonObject object);
-
-    public abstract Option parseAsOption();
+  public abstract Option parseAsOption();
 }

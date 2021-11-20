@@ -18,5 +18,4 @@
  */
 package de.lennox.rainbowify.bus;
 
-public class Event {
-}
+public class Event {}

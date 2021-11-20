@@ -19,5 +19,5 @@
 package de.lennox.rainbowify.bus;
 
 public interface Subscription<Event> {
-    void call(Event event);
+  void call(Event event);
 }

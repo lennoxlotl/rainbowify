@@ -26,10 +26,8 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class ModMenuAccess implements ModMenuApi {
-
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ConfigScreen::new;
-    }
-
+  @Override
+  public ConfigScreenFactory<?> getModConfigScreenFactory() {
+    return ConfigScreen::new;
+  }
 }

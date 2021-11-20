@@ -18,63 +18,58 @@
  */
 package de.lennox.rainbowify.config.option;
 
+import static net.minecraft.client.option.CyclingOption.create;
+
 import com.google.gson.JsonObject;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.CustomOption;
 import de.lennox.rainbowify.config.OptionRepository;
+import java.util.Arrays;
 import net.minecraft.client.option.Option;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
-import java.util.Arrays;
-
-import static net.minecraft.client.option.CyclingOption.create;
-
 public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
-    private final Class<E> optionEnum;
+  private final Class<E> optionEnum;
 
-    public EnumOption(
-        String key,
-        E defaultValue
-    ) {
-        super(key, "rainbowify.setting." + key, defaultValue);
-        this.optionEnum = defaultValue.getDeclaringClass();
-    }
+  public EnumOption(String key, E defaultValue) {
+    super(key, "rainbowify.setting." + key, defaultValue);
+    this.optionEnum = defaultValue.getDeclaringClass();
+  }
 
-    private static <E extends Enum<E>> Text valueText(
-        EnumOption<E> option,
-        E value
-    ) {
-        return new TranslatableText(option.translationKey + "." + value.name().toLowerCase());
-    }
+  private static <E extends Enum<E>> Text valueText(EnumOption<E> option, E value) {
+    return new TranslatableText(option.translationKey + "." + value.name().toLowerCase());
+  }
 
-    @Override
-    public JsonObject parseJson() {
-        var json = new JsonObject();
-        json.addProperty("name", name);
-        json.addProperty("value", value.name());
-        return json;
-    }
+  @Override
+  public JsonObject parseJson() {
+    var json = new JsonObject();
+    json.addProperty("name", name);
+    json.addProperty("value", value.name());
+    return json;
+  }
 
-    @Override
-    public void fromJson(JsonObject object) {
-        if (object.has("value")) {
-            var enumName = object.get("value").getAsString();
-            var possibleConstant = Arrays.stream(optionEnum.getEnumConstants()).filter(constant -> constant.name().equals(enumName)).findFirst();
-            possibleConstant.ifPresent(constant -> value = constant);
-        }
+  @Override
+  public void fromJson(JsonObject object) {
+    if (object.has("value")) {
+      var enumName = object.get("value").getAsString();
+      var possibleConstant =
+          Arrays.stream(optionEnum.getEnumConstants())
+              .filter(constant -> constant.name().equals(enumName))
+              .findFirst();
+      possibleConstant.ifPresent(constant -> value = constant);
     }
+  }
 
-    @Override
-    public Option parseAsOption() {
-        OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
-        //noinspection unchecked
-        return create(
-            translationKey,
-            optionEnum.getEnumConstants(),
-            value -> valueText(this, value),
-            ignored -> (E) optionRepository.optionBy(name).value,
-            (ignored, option, value) -> optionRepository.optionBy(name).value = value
-        );
-    }
+  @Override
+  public Option parseAsOption() {
+    OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
+    //noinspection unchecked
+    return create(
+        translationKey,
+        optionEnum.getEnumConstants(),
+        value -> valueText(this, value),
+        ignored -> (E) optionRepository.optionBy(name).value,
+        (ignored, option, value) -> optionRepository.optionBy(name).value = value);
+  }
 }

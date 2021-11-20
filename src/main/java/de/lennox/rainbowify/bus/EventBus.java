@@ -18,52 +18,90 @@
  */
 package de.lennox.rainbowify.bus;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 public class EventBus<T> {
+  private final Map<Type, Set<Subscription<T>>> subscriptions = new HashMap<>();
 
-    private final Map<Type, List<SubscriptionContainer<T>>> containerMap = new HashMap<>();
-    private final Map<Type, List<Subscription<T>>> subscriptionMap = new HashMap<>();
-
-    public void subscribe(Object obj) {
-        Arrays.stream(obj.getClass().getDeclaredFields()).filter(field -> field.getType() == Subscription.class)
-            .forEach(field -> {
-                try {
-                    var accessible = field.canAccess(obj);
-                    field.setAccessible(true);
-                    var eventType = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-                    //noinspection unchecked
-                    var subscription = (Subscription<T>) field.get(obj);
-                    field.setAccessible(accessible);
-                    if (containerMap.containsKey(eventType)) {
-                        List<SubscriptionContainer<T>> repositories = containerMap.get(eventType);
-                        repositories.add(new SubscriptionContainer<>(obj, subscription));
-                    } else {
-                        containerMap.put(eventType, List.of(new SubscriptionContainer<>(obj, subscription)));
-                    }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            });
-        refresh();
+  public void createSubscription(Object obj) {
+    Class<?> type = obj.getClass();
+    for (Field field : type.getDeclaredFields()) {
+      if (field.getType() == Subscription.class) {
+        Subscription<T> fieldSubscription = subscriptionFieldOf(field, obj);
+        Type subscriptionType =
+            ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+        if (fieldSubscription == null) {
+          System.out.println(
+              "ERROR: Could not create a subscription for the object "
+                  + obj.getClass().getSimpleName()
+                  + " as a subscription field didn't have proper type arguments.");
+          return;
+        }
+        putSubscription(subscriptionType, fieldSubscription);
+      }
     }
+  }
 
-    private void refresh() {
-        containerMap.forEach((type, subscriberContainers) -> subscriptionMap.put(type, subscriberContainers.stream().map(SubscriptionContainer::subscriber).collect(Collectors.toList())));
+  public void removeSubscription(Object obj) {
+    Class<?> type = obj.getClass();
+    for (Field field : type.getDeclaredFields()) {
+      if (field.getType() == Subscription.class) {
+        Subscription<T> fieldSubscription = subscriptionFieldOf(field, obj);
+        Type subscriptionType =
+            ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+        if (fieldSubscription == null) {
+          // TODO: Log that an error happened
+          return;
+        }
+        if (subscriptions.containsKey(subscriptionType)) {
+          subscriptions.get(subscriptionType).remove(fieldSubscription);
+        }
+      }
     }
+  }
 
-    public void dispatch(T event) {
-        if (!subscriptionMap.containsKey(event.getClass())) return;
-        List<Subscription<T>> subscriptions = subscriptionMap.get(event.getClass());
-        subscriptions.forEach(tSubscription -> tSubscription.call(event));
-    }
+  public void on(Class<T> event, Subscription<T> subscription) {
+    putSubscription(event, subscription);
+  }
 
-    record SubscriptionContainer<T>(Object obj, Subscription<T> subscriber) {
+  public void postEvent(T event) {
+    Type eventType = event.getClass();
+    Set<Subscription<T>> subscriptionOfEvent = subscriptions.get(eventType);
+    if (subscriptionOfEvent == null) return;
+    for (Subscription<T> subscription : subscriptionOfEvent) {
+      subscription.call(event);
     }
+  }
+
+  private Subscription<T> subscriptionFieldOf(Field field, Object obj) {
+    boolean accessible = field.canAccess(obj);
+    if (!accessible) {
+      field.setAccessible(true);
+    }
+    Subscription<T> fieldSubscription = null;
+    try {
+      //noinspection unchecked
+      fieldSubscription = (Subscription<T>) field.get(obj);
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    field.setAccessible(accessible);
+    return fieldSubscription;
+  }
+
+  private void putSubscription(Type type, Subscription<T> subscription) {
+    if (subscriptions.containsKey(type)) {
+      subscriptions.get(type).add(subscription);
+    } else {
+      HashSet<Subscription<T>> subscriptionSet = new HashSet<>();
+      subscriptionSet.add(subscription);
+      subscriptions.put(type, subscriptionSet);
+    }
+  }
 }

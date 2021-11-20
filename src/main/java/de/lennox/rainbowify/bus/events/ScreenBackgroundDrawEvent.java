@@ -22,14 +22,13 @@ import de.lennox.rainbowify.bus.Event;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class ScreenBackgroundDrawEvent extends Event {
+  private final MatrixStack matrixStack;
 
-    private final MatrixStack matrixStack;
+  public ScreenBackgroundDrawEvent(MatrixStack matrixStack) {
+    this.matrixStack = matrixStack;
+  }
 
-    public ScreenBackgroundDrawEvent(MatrixStack matrixStack) {
-        this.matrixStack = matrixStack;
-    }
-
-    public MatrixStack matrixStack() {
-        return matrixStack;
-    }
+  public MatrixStack matrixStack() {
+    return matrixStack;
+  }
 }

@@ -10,8 +10,8 @@ background to many Minecraft HUDs.
 Discord: https://discord.gg/Ka2yV5MkFw<br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
-![screenshot of Minecraft settings](https://host.snens.team/i/UwMo309jxAFr)
-![screenshot of Minecraft inventory](https://host.snens.team/i/T1eoQM3NwfpO)
+![screenshot of Minecraft settings](https://host.snens.team/i/ZG3lOeUBTVLT)
+![screenshot of Minecraft inventory](https://host.snens.team/i/L7CgbgwwDyE9)
 
 ## Installation
 
@@ -29,7 +29,7 @@ for improved performance.
 
 In the mod menu rainbowify settings, you can customize multiple values:
 
-![screenshot of settings](https://host.snens.team/i/cLO8FP0oDPS1)
+![screenshot of settings](https://host.snens.team/i/FJtdLZG84ThU)
 
 * **Rainbowify:** Enables/disables the mod.
 * **Blur**: Enables/disables the blur in GUI backgrounds. This requires a good graphics card; if you notice any stutters in the GUI, turn this off or reduce the blur amount.
@@ -43,6 +43,9 @@ In the mod menu rainbowify settings, you can customize multiple values:
 2. Open the project in IntelliJ as gradle project
 3. Execute the `genSources` gradle task
 4. Build the jar with the `assemble` gradle task
+
+### Code Conventions
+We use Google Code Conventions with 2 spacings, please keep that in mind while contributing.
 
 ## License
 

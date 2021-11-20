@@ -21,6 +21,7 @@ package de.lennox.rainbowify.mixin.modifications;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
+import java.util.Map;
 import net.minecraft.client.gl.GlUniform;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,45 +29,53 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import java.util.Map;
-
 @Mixin(net.minecraft.client.render.Shader.class)
 public class MixinRainbowifyShader implements RainbowifyShader {
+  private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
 
-    private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
+  @Shadow @Final private String name;
 
-    @Shadow
-    @Final
-    private String name;
-
-    @ModifyArg(method = "loadProgram", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"), index = 0)
-    private static String renameLoadProgram(String toReplace) {
-        if (toReplace.contains("rainbowify:")) {
-            return "rainbowify:" + toReplace.replace("rainbowify:", "");
-        }
-        return toReplace;
+  @ModifyArg(
+      method = "loadProgram",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"),
+      index = 0)
+  private static String renameLoadProgram(String toReplace) {
+    if (toReplace.contains("rainbowify:")) {
+      return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }
+    return toReplace;
+  }
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"), index = 0)
-    public String renameInit(String toReplace) {
-        if (toReplace.contains("rainbowify:")) {
-            return "rainbowify:" + toReplace.replace("rainbowify:", "");
-        }
-        return toReplace;
+  @ModifyArg(
+      method = "<init>",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"),
+      index = 0)
+  public String renameInit(String toReplace) {
+    if (toReplace.contains("rainbowify:")) {
+      return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }
+    return toReplace;
+  }
 
-    @ModifyArg(method = "addUniform", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z"))
-    public Object renameAddUniform(Object toReplace) {
-        if (toReplace instanceof GlUniform glUniform && this.name.contains("rainbowify:")) {
-            customUniforms.put(glUniform.getName(), glUniform);
-        }
-        return toReplace;
+  @ModifyArg(
+      method = "addUniform",
+      at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z"))
+  public Object renameAddUniform(Object toReplace) {
+    if (toReplace instanceof GlUniform glUniform && this.name.contains("rainbowify:")) {
+      customUniforms.put(glUniform.getName(), glUniform);
     }
+    return toReplace;
+  }
 
-    @Override
-    public GlUniform customUniform(String name) {
-        RenderSystem.assertThread(RenderSystem::isOnRenderThread);
-        return this.customUniforms.get(name);
-    }
-
+  @Override
+  public GlUniform customUniform(String name) {
+    RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+    return this.customUniforms.get(name);
+  }
 }

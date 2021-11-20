@@ -20,5 +20,4 @@ package de.lennox.rainbowify.bus.events;
 
 import de.lennox.rainbowify.bus.Event;
 
-public class ScreenResolutionChangeEvent extends Event {
-}
+public class ScreenResolutionChangeEvent extends Event {}

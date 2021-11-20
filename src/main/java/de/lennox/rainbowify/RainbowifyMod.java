@@ -25,38 +25,37 @@ import de.lennox.rainbowify.effect.EffectRepository;
 import net.fabricmc.api.ModInitializer;
 
 public class RainbowifyMod implements ModInitializer {
+  private static RainbowifyMod rainbowifyMod;
+  private final EventBus<Event> eventBus = new EventBus<>();
+  private final EffectRepository effectRepository = new EffectRepository();
+  private final OptionRepository optionRepository = new OptionRepository();
 
-    private static RainbowifyMod rainbowifyMod;
-    private final EventBus<Event> eventBus = new EventBus<>();
-    private final EffectRepository effectRepository = new EffectRepository();
-    private final OptionRepository optionRepository = new OptionRepository();
+  public static RainbowifyMod instance() {
+    return rainbowifyMod;
+  }
 
-    public static RainbowifyMod instance() {
-        return rainbowifyMod;
-    }
+  @Override
+  public void onInitialize() {
+    rainbowifyMod = this;
+  }
 
-    @Override
-    public void onInitialize() {
-        rainbowifyMod = this;
-    }
+  public void init() {
+    // Initialize the mod
+    System.out.println("Loading Rainbowify.");
+    eventBus.createSubscription(this);
+    optionRepository.init();
+    System.out.println("Loaded Rainbowify successfully.");
+  }
 
-    public void init() {
-        // Initialize the mod
-        System.out.println("Loading Rainbowify.");
-        eventBus.subscribe(this);
-        optionRepository.init();
-        System.out.println("Loaded Rainbowify successfully.");
-    }
+  public void preShaderLoad() {
+    effectRepository.init();
+  }
 
-    public void preShaderLoad() {
-        effectRepository.init();
-    }
+  public OptionRepository optionRepository() {
+    return optionRepository;
+  }
 
-    public OptionRepository optionRepository() {
-        return optionRepository;
-    }
-
-    public EventBus<Event> eventBus() {
-        return eventBus;
-    }
+  public EventBus<Event> eventBus() {
+    return eventBus;
+  }
 }

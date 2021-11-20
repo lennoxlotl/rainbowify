@@ -19,84 +19,84 @@
 package de.lennox.rainbowify.config;
 
 import com.google.gson.*;
-import net.fabricmc.loader.api.FabricLoader;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class OptionRepository {
+  private final List<CustomOption> configOptions = new ArrayList<>();
+  private final File configLocation =
+      new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
+  private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
 
-    private final List<CustomOption> configOptions = new ArrayList<>();
-    private final File configLocation = new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
-    private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
-
-    public void init() {
-        // Add all options to the option list (really bad method, might change this later)
-        configOptions.addAll(List.of(
+  public void init() {
+    // Add all options to the option list (really bad method, might change this later)
+    configOptions.addAll(
+        List.of(
             Config.ENABLED,
             Config.BLUR,
             Config.BLUR_AMOUNT,
             Config.RAINBOW_OPACITY,
-            Config.RAINBOW_SPEED
-        ));
-        load();
-    }
+            Config.RAINBOW_SPEED));
+    load();
+  }
 
-    public void load() {
-        // Check if the config file exists
-        if (configLocation.exists()) {
-            try {
-                // Parse the file content
-                var parsed = new JsonParser().parse(new FileReader(configLocation));
-                if (parsed.isJsonArray()) {
-                    var settingsArray = parsed.getAsJsonArray();
-                    // Loop through all settings elements
-                    for (JsonElement jsonElement : settingsArray) {
-                        if (jsonElement.isJsonObject()) {
-                            // Fetch a setting by the name parameter and apply the value parameter on it
-                            JsonObject settingsObject = jsonElement.getAsJsonObject();
-                            if (settingsObject.has("name")) {
-                                var settingsName = settingsObject.get("name").getAsString();
-                                optionBy(settingsName).fromJson(settingsObject);
-                            }
-                        }
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                System.err.println("Error while loading rainbowify settings.");
-                e.printStackTrace();
+  public void load() {
+    // Check if the config file exists
+    if (configLocation.exists()) {
+      try {
+        // Parse the file content
+        var parsed = new JsonParser().parse(new FileReader(configLocation));
+        if (parsed.isJsonArray()) {
+          var settingsArray = parsed.getAsJsonArray();
+          // Loop through all settings elements
+          for (JsonElement jsonElement : settingsArray) {
+            if (jsonElement.isJsonObject()) {
+              // Fetch a setting by the name parameter and apply the value parameter on it
+              JsonObject settingsObject = jsonElement.getAsJsonObject();
+              if (settingsObject.has("name")) {
+                var settingsName = settingsObject.get("name").getAsString();
+                optionBy(settingsName).fromJson(settingsObject);
+              }
             }
+          }
         }
+      } catch (FileNotFoundException e) {
+        System.err.println("Error while loading rainbowify settings.");
+        e.printStackTrace();
+      }
     }
+  }
 
-    public void save() {
-        // If the config location does not exist create it
-        if (!configLocation.exists()) {
-            try {
-                configLocation.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        // Parse all options
-        var settingsArray = new JsonArray();
-        configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
-        // Write the parsed options into the file
-        try (var fileWriter = new FileWriter(configLocation)) {
-            fileWriter.write(gson.toJson(settingsArray));
-        } catch (IOException e) {
-            System.err.println("Error while saving rainbowify settings.");
-            e.printStackTrace();
-        }
+  public void save() {
+    // If the config location does not exist create it
+    if (!configLocation.exists()) {
+      try {
+        configLocation.createNewFile();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
+    // Parse all options
+    var settingsArray = new JsonArray();
+    configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
+    // Write the parsed options into the file
+    try (var fileWriter = new FileWriter(configLocation)) {
+      fileWriter.write(gson.toJson(settingsArray));
+    } catch (IOException e) {
+      System.err.println("Error while saving rainbowify settings.");
+      e.printStackTrace();
+    }
+  }
 
-    public CustomOption optionBy(String name) {
-        var option = configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();
-        return option.orElse(null);
-    }
+  public CustomOption optionBy(String name) {
+    var option =
+        configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();
+    return option.orElse(null);
+  }
 
-    public List<CustomOption> options() {
-        return configOptions;
-    }
+  public List<CustomOption> options() {
+    return configOptions;
+  }
 }

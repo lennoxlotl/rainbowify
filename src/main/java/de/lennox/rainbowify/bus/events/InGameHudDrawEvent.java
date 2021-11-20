@@ -20,5 +20,4 @@ package de.lennox.rainbowify.bus.events;
 
 import de.lennox.rainbowify.bus.Event;
 
-public class InGameHudDrawEvent extends Event {
-}
+public class InGameHudDrawEvent extends Event {}

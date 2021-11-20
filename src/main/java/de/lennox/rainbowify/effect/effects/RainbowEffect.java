@@ -18,60 +18,63 @@
  */
 package de.lennox.rainbowify.effect.effects;
 
+import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
+
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
+import java.io.IOException;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.io.IOException;
-
-import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
-
 public class RainbowEffect extends Effect {
+  private Shader rainbow;
+  private GlUniform alpha;
+  private GlUniform time;
+  private GlUniform res;
+  private long startTime;
 
-    private Shader rainbow;
-    private GlUniform alpha;
-    private GlUniform time;
-    private GlUniform res;
-    private long startTime;
-
-    @Override
-    public void init() {
-        // Create the shader instance
-        try {
-            rainbow = new Shader(new RainbowifyResourceFactory(), "rainbowify:rainbow", VertexFormats.POSITION_TEXTURE);
-        } catch (IOException e) {
-            System.err.println("Failed to create rainbow shader. Report this in the discord with the log!");
-            e.printStackTrace();
-        }
-        RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) rainbow;
-        // Create uniforms
-        alpha = rainbowifyShaderInterface.customUniform("alpha");
-        time = rainbowifyShaderInterface.customUniform("time");
-        res = rainbowifyShaderInterface.customUniform("res");
-        // Update start time
-        startTime = System.currentTimeMillis();
+  @Override
+  public void init() {
+    // Create the shader instance
+    try {
+      rainbow =
+          new Shader(
+              new RainbowifyResourceFactory(),
+              "rainbowify:rainbow",
+              VertexFormats.POSITION_TEXTURE);
+    } catch (IOException e) {
+      System.err.println(
+          "Failed to create rainbow shader. Report this in the discord with the log!");
+      e.printStackTrace();
     }
+    RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) rainbow;
+    // Create uniforms
+    alpha = rainbowifyShaderInterface.customUniform("alpha");
+    time = rainbowifyShaderInterface.customUniform("time");
+    res = rainbowifyShaderInterface.customUniform("res");
+    // Update start time
+    startTime = System.currentTimeMillis();
+  }
 
-    @Override
-    public void draw(MatrixStack stack) {
-        // Draw the rainbow
-        updateUniforms();
-        drawCanvas(stack, () -> rainbow);
-    }
+  @Override
+  public void draw(MatrixStack stack) {
+    // Draw the rainbow
+    updateUniforms();
+    drawCanvas(stack, () -> rainbow);
+  }
 
-    private void updateUniforms() {
-        Config.RainbowSpeed rainbowSpeed = (Config.RainbowSpeed) RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
-        // Set the uniforms
-        alpha.set(fade);
-        time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
-        res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
-    }
-
-
+  private void updateUniforms() {
+    Config.RainbowSpeed rainbowSpeed =
+        (Config.RainbowSpeed)
+            RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
+    // Set the uniforms
+    alpha.set(fade);
+    time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
+    res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
+  }
 }

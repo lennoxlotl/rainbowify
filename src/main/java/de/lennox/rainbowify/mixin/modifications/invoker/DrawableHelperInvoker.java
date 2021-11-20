@@ -26,8 +26,13 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(DrawableHelper.class)
 public interface DrawableHelperInvoker {
-
-    @Invoker
-    void invokeFillGradient(MatrixStack matrices, int startX, int startY, int endX, int endY, int colorStart, int colorEnd);
-
+  @Invoker
+  void invokeFillGradient(
+      MatrixStack matrices,
+      int startX,
+      int startY,
+      int endX,
+      int endY,
+      int colorStart,
+      int colorEnd);
 }

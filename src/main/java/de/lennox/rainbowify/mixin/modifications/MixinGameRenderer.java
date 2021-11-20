@@ -26,17 +26,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-
-    @Inject(method = "preloadShaders", at = @At("RETURN"))
-    public void preLoadShaders(
-        ResourceFactory factory,
-        CallbackInfo ci
-    ) {
-        RainbowifyMod.instance().preShaderLoad();
-    }
-
-
+  @Inject(method = "preloadShaders", at = @At("RETURN"))
+  public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {
+    RainbowifyMod.instance().preShaderLoad();
+  }
 }

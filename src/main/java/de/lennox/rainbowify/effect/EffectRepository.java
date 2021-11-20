@@ -23,32 +23,28 @@ import de.lennox.rainbowify.bus.Subscription;
 import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.effect.effects.BlurEffect;
 import de.lennox.rainbowify.effect.effects.RainbowEffect;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EffectRepository {
+  private final List<Effect> effects = new ArrayList<>();
+  private final EffectAnimator animator = new EffectAnimator();
 
-    private final List<Effect> effects = new ArrayList<>();
-    private final EffectAnimator animator = new EffectAnimator();
-
-    private final Subscription<ScreenBackgroundDrawEvent> screenDrawSubscription = event -> {
-        // If the screen is the minecraft progress screen we should not render the screen due to graphic bugs
+  private final Subscription<ScreenBackgroundDrawEvent> screenDrawSubscription =
+      event -> {
+        // If the screen is the minecraft progress screen we should not render the screen due to
+        // graphic bugs
         if (MinecraftClient.getInstance().currentScreen instanceof ProgressScreen) return;
         effects.forEach(effect -> effect.draw(event.matrixStack()));
-    };
+      };
 
-    public void init() {
-        // Add all effects and initialize the effect animator
-        effects.addAll(List.of(
-            new BlurEffect(),
-            new RainbowEffect()
-        ));
-        effects.forEach(Effect::init);
-        animator.init(effects);
-        RainbowifyMod.instance().eventBus().subscribe(this);
-    }
-
+  public void init() {
+    // Add all effects and initialize the effect animator
+    effects.addAll(List.of(new BlurEffect(), new RainbowEffect()));
+    effects.forEach(Effect::init);
+    animator.init(effects);
+    RainbowifyMod.instance().eventBus().createSubscription(this);
+  }
 }

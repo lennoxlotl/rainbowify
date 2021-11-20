@@ -37,44 +37,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public abstract class MixinScreen {
+  @Shadow public int width;
+  @Shadow public int height;
+  @Shadow @Nullable protected MinecraftClient client;
 
-    @Shadow
-    public int width;
-    @Shadow
-    public int height;
-    @Shadow
-    @Nullable
-    protected MinecraftClient client;
+  @Shadow @Final protected Text title;
 
-    @Shadow
-    @Final
-    protected Text title;
+  @Shadow protected TextRenderer textRenderer;
 
-    @Shadow
-    protected TextRenderer textRenderer;
+  @Shadow
+  protected abstract void renderTextHoverEffect(
+      MatrixStack matrices, @Nullable Style style, int x, int y);
 
-    @Shadow
-    protected abstract void renderTextHoverEffect(
-        MatrixStack matrices,
-        @Nullable Style style,
-        int x,
-        int y
-    );
-
-    @Inject(
-        method = "renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    public void renderBackground(
-        MatrixStack matrices,
-        CallbackInfo callback
-    ) {
-        if (this.client != null && this.client.world != null) {
-            if (Config.ENABLED.value) {
-                RainbowifyMod.instance().eventBus().dispatch(new ScreenBackgroundDrawEvent(matrices));
-                callback.cancel();
-            }
-        }
+  @Inject(
+      method = "renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V",
+      at = @At("HEAD"),
+      cancellable = true)
+  public void renderBackground(MatrixStack matrices, CallbackInfo callback) {
+    if (this.client != null && this.client.world != null) {
+      if (Config.ENABLED.value) {
+        RainbowifyMod.instance().eventBus().postEvent(new ScreenBackgroundDrawEvent(matrices));
+        callback.cancel();
+      }
     }
+  }
 }

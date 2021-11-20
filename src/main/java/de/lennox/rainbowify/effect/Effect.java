@@ -22,15 +22,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 public abstract class Effect {
+  protected static final MinecraftClient MC = MinecraftClient.getInstance();
+  protected float fade;
 
-    protected static final MinecraftClient MC = MinecraftClient.getInstance();
-    protected float fade;
+  public abstract void init();
 
-    public abstract void init();
+  public abstract void draw(MatrixStack stack);
 
-    public abstract void draw(MatrixStack stack);
-
-    public void setFade(float fade) {
-        this.fade = fade;
-    }
+  public void setFade(float fade) {
+    this.fade = fade;
+  }
 }

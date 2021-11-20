@@ -30,23 +30,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+  @Inject(method = "<init>", at = @At("TAIL"))
+  public void init(CallbackInfo ci) {
+    RainbowifyMod.instance().init();
+  }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(CallbackInfo ci) {
-        RainbowifyMod.instance().init();
-    }
+  @Inject(method = "setScreen", at = @At("HEAD"))
+  public void setScreen(Screen screen, CallbackInfo ci) {
+    RainbowifyMod.instance()
+        .eventBus()
+        .postEvent(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
+  }
 
-    @Inject(method = "setScreen", at = @At("HEAD"))
-    public void setScreen(
-        Screen screen,
-        CallbackInfo ci
-    ) {
-        RainbowifyMod.instance().eventBus().dispatch(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
-    }
-
-    @Inject(method = "onResolutionChanged", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V", ordinal = 0))
-    public void onResolutionChanged(CallbackInfo i) {
-        RainbowifyMod.instance().eventBus().dispatch(new ScreenResolutionChangeEvent());
-    }
-
+  @Inject(
+      method = "onResolutionChanged",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V",
+              ordinal = 0))
+  public void onResolutionChanged(CallbackInfo i) {
+    RainbowifyMod.instance().eventBus().postEvent(new ScreenResolutionChangeEvent());
+  }
 }

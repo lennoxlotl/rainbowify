@@ -18,79 +18,71 @@
  */
 package de.lennox.rainbowify.config.option;
 
+import static net.minecraft.client.option.CyclingOption.create;
+
 import com.google.gson.JsonObject;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.CustomOption;
 import de.lennox.rainbowify.config.OptionRepository;
+import java.util.List;
 import net.minecraft.client.option.CyclingOption;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
-import java.util.List;
-
-import static net.minecraft.client.option.CyclingOption.create;
-
 public class BooleanOption extends CustomOption<Boolean> {
+  private final Text enabledText;
+  private final Text disabledText;
+  private final Text tooltip;
 
-    private final Text enabledText;
-    private final Text disabledText;
-    private final Text tooltip;
+  public BooleanOption(String key, Boolean defaultValue) {
+    super(key, "rainbowify.setting." + key, defaultValue);
+    this.enabledText = new TranslatableText(translationKey + ".true");
+    this.disabledText = new TranslatableText(translationKey + ".false");
+    tooltip = null;
+  }
 
-    public BooleanOption(
-        String key,
-        Boolean defaultValue
-    ) {
-        super(key, "rainbowify.setting." + key, defaultValue);
-        this.enabledText = new TranslatableText(translationKey + ".true");
-        this.disabledText = new TranslatableText(translationKey + ".false");
-        tooltip = null;
-    }
+  public BooleanOption(String key, Text tooltip, Boolean defaultValue) {
+    super(key, "rainbowify.setting." + key, defaultValue);
+    this.enabledText = new TranslatableText(translationKey + ".true");
+    this.disabledText = new TranslatableText(translationKey + ".false");
+    this.tooltip = tooltip;
+  }
 
-    public BooleanOption(
-        String key,
-        Text tooltip,
-        Boolean defaultValue
-    ) {
-        super(key, "rainbowify.setting." + key, defaultValue);
-        this.enabledText = new TranslatableText(translationKey + ".true");
-        this.disabledText = new TranslatableText(translationKey + ".false");
-        this.tooltip = tooltip;
-    }
+  @Override
+  public JsonObject parseJson() {
+    var json = new JsonObject();
+    json.addProperty("name", name);
+    json.addProperty("value", value);
+    return json;
+  }
 
-    @Override
-    public JsonObject parseJson() {
-        var json = new JsonObject();
-        json.addProperty("name", name);
-        json.addProperty("value", value);
-        return json;
-    }
+  @Override
+  public void fromJson(JsonObject object) {
+    if (object.has("value")) value = object.get("value").getAsBoolean();
+  }
 
-    @Override
-    public void fromJson(JsonObject object) {
-        if (object.has("value")) value = object.get("value").getAsBoolean();
-    }
+  @Override
+  public CyclingOption<Boolean> parseAsOption() {
+    OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
 
-    @Override
-    public CyclingOption<Boolean> parseAsOption() {
-        OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
-
-        var booleanCyclingOption = create(
+    var booleanCyclingOption =
+        create(
             translationKey,
             enabledText,
             disabledText,
             ignored -> (Boolean) optionRepository.optionBy(name).value,
-            (ignored, option, value) -> optionRepository.optionBy(name).value = value
-        );
+            (ignored, option, value) -> optionRepository.optionBy(name).value = value);
 
-        if (tooltip != null) {
-            booleanCyclingOption = booleanCyclingOption.tooltip((client) -> {
+    if (tooltip != null) {
+      booleanCyclingOption =
+          booleanCyclingOption.tooltip(
+              (client) -> {
                 List<OrderedText> list = client.textRenderer.wrapLines(tooltip, 200);
                 return (value) -> list;
-            });
-        }
-
-        return booleanCyclingOption;
+              });
     }
 
+    return booleanCyclingOption;
+  }
 }
