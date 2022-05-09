@@ -21,7 +21,7 @@ package de.lennox.rainbowify.mixin.modifications;
 import static net.minecraft.client.gui.DrawableHelper.drawCenteredText;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
+import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.mixin.modifications.accessor.ScreenAccessor;
 import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;

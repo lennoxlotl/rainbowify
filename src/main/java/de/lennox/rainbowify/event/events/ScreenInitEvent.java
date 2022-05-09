@@ -16,8 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus.events;
+package de.lennox.rainbowify.event.events;
 
-import de.lennox.rainbowify.bus.Event;
+import de.lennox.rainbowify.event.Event;
+import net.minecraft.client.gui.screen.Screen;
 
-public class ScreenResolutionChangeEvent extends Event {}
+public class ScreenInitEvent extends Event {
+  private final Screen previous;
+
+  public ScreenInitEvent(Screen previous) {
+    this.previous = previous;
+  }
+
+  public Screen previous() {
+    return previous;
+  }
+}

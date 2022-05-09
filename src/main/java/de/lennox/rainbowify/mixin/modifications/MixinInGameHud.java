@@ -19,7 +19,7 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
+import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;

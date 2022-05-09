@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus;
+package de.lennox.rainbowify.event;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

@@ -19,8 +19,8 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.events.ScreenInitEvent;
-import de.lennox.rainbowify.bus.events.ScreenResolutionChangeEvent;
+import de.lennox.rainbowify.event.events.ScreenInitEvent;
+import de.lennox.rainbowify.event.events.ScreenResolutionChangeEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;

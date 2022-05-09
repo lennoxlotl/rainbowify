@@ -18,8 +18,8 @@
  */
 package de.lennox.rainbowify;
 
-import de.lennox.rainbowify.bus.Event;
-import de.lennox.rainbowify.bus.EventBus;
+import de.lennox.rainbowify.event.Event;
+import de.lennox.rainbowify.event.EventBus;
 import de.lennox.rainbowify.config.OptionRepository;
 import de.lennox.rainbowify.effect.EffectRepository;
 import net.fabricmc.api.ModInitializer;

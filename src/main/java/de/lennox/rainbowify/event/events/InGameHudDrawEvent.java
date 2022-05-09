@@ -16,19 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus.events;
+package de.lennox.rainbowify.event.events;
 
-import de.lennox.rainbowify.bus.Event;
-import net.minecraft.client.util.math.MatrixStack;
+import de.lennox.rainbowify.event.Event;
 
-public class ScreenBackgroundDrawEvent extends Event {
-  private final MatrixStack matrixStack;
-
-  public ScreenBackgroundDrawEvent(MatrixStack matrixStack) {
-    this.matrixStack = matrixStack;
-  }
-
-  public MatrixStack matrixStack() {
-    return matrixStack;
-  }
-}
+public class InGameHudDrawEvent extends Event {}

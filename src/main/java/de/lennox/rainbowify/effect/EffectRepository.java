@@ -19,8 +19,8 @@
 package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.Subscription;
-import de.lennox.rainbowify.bus.events.ScreenBackgroundDrawEvent;
+import de.lennox.rainbowify.event.Subscription;
+import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.effect.effects.BlurEffect;
 import de.lennox.rainbowify.effect.effects.RainbowEffect;
 import java.util.ArrayList;

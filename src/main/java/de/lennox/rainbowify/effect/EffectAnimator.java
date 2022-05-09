@@ -20,9 +20,9 @@ package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.animation.Animation;
-import de.lennox.rainbowify.bus.Subscription;
-import de.lennox.rainbowify.bus.events.InGameHudDrawEvent;
-import de.lennox.rainbowify.bus.events.ScreenInitEvent;
+import de.lennox.rainbowify.event.Subscription;
+import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
+import de.lennox.rainbowify.event.events.ScreenInitEvent;
 import de.lennox.rainbowify.config.Config;
 import java.util.ArrayList;
 import java.util.List;

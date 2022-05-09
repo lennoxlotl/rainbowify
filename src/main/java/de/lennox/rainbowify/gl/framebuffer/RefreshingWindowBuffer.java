@@ -22,8 +22,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.bus.Subscription;
-import de.lennox.rainbowify.bus.events.ScreenResolutionChangeEvent;
+import de.lennox.rainbowify.event.Subscription;
+import de.lennox.rainbowify.event.events.ScreenResolutionChangeEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.WindowFramebuffer;
 

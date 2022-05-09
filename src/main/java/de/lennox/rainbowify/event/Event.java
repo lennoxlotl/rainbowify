@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus;
+package de.lennox.rainbowify.event;
 
-public interface Subscription<T> {
-  void call(T t);
-}
+public class Event {}
