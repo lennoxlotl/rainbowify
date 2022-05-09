@@ -30,6 +30,7 @@ public class OptionRepository {
       new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
   private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
 
+  /** Initializes all configuration options */
   public void init() {
     // Add all options to the option list (really bad method, might change this later)
     configOptions.addAll(
@@ -42,6 +43,7 @@ public class OptionRepository {
     load();
   }
 
+  /** Loads all currently saved config options from the json file */
   public void load() {
     // Check if the config file exists
     if (configLocation.exists()) {
@@ -69,6 +71,7 @@ public class OptionRepository {
     }
   }
 
+  /** Saves all selected configuration options to a json file */
   public void save() {
     // If the config location does not exist create it
     if (!configLocation.exists()) {
@@ -90,6 +93,12 @@ public class OptionRepository {
     }
   }
 
+  /**
+   * Returns an option by its name
+   *
+   * @param name The option name
+   * @return The option
+   */
   public CustomOption optionBy(String name) {
     var option =
         configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();

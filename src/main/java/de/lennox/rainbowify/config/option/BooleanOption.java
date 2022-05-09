@@ -65,7 +65,7 @@ public class BooleanOption extends CustomOption<Boolean> {
   @Override
   public CyclingOption<Boolean> parseAsOption() {
     OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
-
+    // Create the base option
     var booleanCyclingOption =
         create(
             translationKey,
@@ -73,7 +73,7 @@ public class BooleanOption extends CustomOption<Boolean> {
             disabledText,
             ignored -> (Boolean) optionRepository.optionBy(name).value,
             (ignored, option, value) -> optionRepository.optionBy(name).value = value);
-
+    // Create the tool-tip if required
     if (tooltip != null) {
       booleanCyclingOption =
           booleanCyclingOption.tooltip(
@@ -82,7 +82,6 @@ public class BooleanOption extends CustomOption<Boolean> {
                 return (value) -> list;
               });
     }
-
     return booleanCyclingOption;
   }
 }

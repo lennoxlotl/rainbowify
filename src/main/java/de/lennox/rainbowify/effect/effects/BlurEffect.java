@@ -93,16 +93,19 @@ public class BlurEffect extends Effect {
     // Down-sample the main buffer
     for (int i = 0; i < iterations; i++) {
       RefreshingWindowBuffer framebuffer = buffers[i + 1];
+      // Clear the buffer
       framebuffer.clear(false);
       framebuffer.beginWrite(true);
       updateDownUniforms(framebuffer);
       down.addSampler("DiffuseSampler", i == 0 ? MC.getFramebuffer() : buffers[i]);
+      // Draw the canvas
       drawCanvas(MC.getFramebuffer(), stack, () -> down);
     }
 
     // Up-sample the buffer
     for (int i = iterations; i > 0; i--) {
       RefreshingWindowBuffer framebuffer = buffers[i - 1];
+      // Clear the buffer
       if (i == 1) {
         MC.getFramebuffer().beginWrite(true);
       } else {
@@ -111,6 +114,7 @@ public class BlurEffect extends Effect {
       }
       updateUpUniforms(framebuffer);
       up.addSampler("DiffuseSampler", buffers[i]);
+      // Draw the canvas
       drawCanvas(MC.getFramebuffer(), stack, () -> up);
     }
   }

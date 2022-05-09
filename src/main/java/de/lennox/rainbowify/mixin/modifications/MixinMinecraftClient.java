@@ -35,11 +35,13 @@ public class MixinMinecraftClient {
 
   @Inject(method = "<init>", at = @At("TAIL"))
   public void init(CallbackInfo ci) {
+    // Rainbowify entrypoint
     RainbowifyMod.instance().init();
   }
 
-  @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
+  @Inject(method = "setScreen", at = @At("HEAD"))
   public void setScreen(Screen screen, CallbackInfo callback) {
+    // Publish the screen initialize event
     RainbowifyMod.instance()
         .eventBus()
         .publish(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
@@ -53,6 +55,7 @@ public class MixinMinecraftClient {
               target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V",
               ordinal = 0))
   public void onResolutionChanged(CallbackInfo i) {
+    // Publish the screen resize event
     RainbowifyMod.instance().eventBus().publish(new ScreenResolutionChangeEvent());
   }
 }

@@ -40,6 +40,7 @@ public class EffectRepository {
         effects.forEach(effect -> effect.draw(event.matrixStack()));
       };
 
+  /** Initializes all effects */
   public void init() {
     // Add all effects and initialize the effect animator
     effects.addAll(List.of(new BlurEffect(), new RainbowEffect()));

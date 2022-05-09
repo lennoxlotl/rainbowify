@@ -56,6 +56,7 @@ public abstract class MixinScreen {
   public void renderBackground(MatrixStack matrices, CallbackInfo callback) {
     if (this.client != null && this.client.world != null) {
       if (Config.ENABLED.value) {
+        // Publish the screen background event
         RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
         callback.cancel();
       }

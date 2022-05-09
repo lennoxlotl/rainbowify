@@ -36,6 +36,13 @@ public class Animation {
     this.startMillis = System.currentTimeMillis();
   }
 
+  /**
+   * Processes the animation with the given parameters
+   *
+   * @param min The min value
+   * @param max The max value
+   * @param direction The direction the animation should go
+   */
   public void animate(float min, float max, boolean direction) {
     // If the animation is currently starting, set the start time to now
     if (!startedAnimating) {
@@ -51,10 +58,20 @@ public class Animation {
     lastMin = min;
   }
 
+  /**
+   * Returns if the calculation is done
+   *
+   * @return Current completion state
+   */
   public boolean done() {
     return System.currentTimeMillis() >= this.startMillis + duration;
   }
 
+  /**
+   * Calculates and returns the base multiplication factor
+   *
+   * @return The calculated multiplication factor
+   */
   private float baseMultiplication() {
     // Return a multiplication factor based on how long the animation should take and how long it's
     // already animating for
@@ -63,6 +80,11 @@ public class Animation {
             / (double) duration);
   }
 
+  /**
+   * Returns the current animation progress between 0 and 1
+   *
+   * @return The progress
+   */
   public float animation() {
     // If the animation is already finished, give back the last recorded animation factor
     if (done()) {

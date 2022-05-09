@@ -48,6 +48,7 @@ public class RainbowifyMod implements ModInitializer {
   }
 
   public void preShaderLoad() {
+    // Initialize the effects
     effectRepository.init();
   }
 

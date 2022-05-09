@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGameRenderer {
   @Inject(method = "preloadShaders", at = @At("RETURN"))
   public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {
+    // Pre-load the shaders once minecraft does it
     RainbowifyMod.instance().preShaderLoad();
   }
 }

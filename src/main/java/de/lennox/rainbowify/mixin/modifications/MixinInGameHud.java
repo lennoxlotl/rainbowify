@@ -38,6 +38,7 @@ public class MixinInGameHud {
             target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")
       })
   public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    // Publishes the in-game drawing event, used for animations etc.
     RainbowifyMod.instance().eventBus().publish(new InGameHudDrawEvent());
   }
 }

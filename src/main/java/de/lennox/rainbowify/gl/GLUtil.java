@@ -29,6 +29,13 @@ import net.minecraft.util.math.Matrix4f;
 public class GLUtil {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
 
+  /**
+   * Draws a canvas / framebuffer into the current context
+   *
+   * @param framebuffer The frame buffer
+   * @param matrixStack The matrix stack
+   * @param shader The shader supplier which will be used to draw
+   */
   public static void drawCanvas(
       Framebuffer framebuffer, MatrixStack matrixStack, Supplier<Shader> shader) {
     var width = (float) (framebuffer.textureWidth / MC.getWindow().getScaleFactor());

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
 
+// TODO: Rework this in a non static form factor, for now this is fine
 public class Config {
   public static final BooleanOption ENABLED = new BooleanOption("enabled", true);
   public static final BooleanOption BLUR =
@@ -36,7 +37,15 @@ public class Config {
   public static final EnumOption<RainbowSpeed> RAINBOW_SPEED =
       new EnumOption<>("rainbow_speed", RainbowSpeed.MEDIUM);
 
+  /**
+   * Parses all options as Minecraft Options
+   *
+   * @see Option
+   * @see OptionRepository
+   * @return The parsed options
+   */
   public static Option[] parseOptions() {
+    // Collect all options
     ArrayList<Option> parsedOptions = new ArrayList<>();
     RainbowifyMod.instance()
         .optionRepository()

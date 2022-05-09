@@ -62,11 +62,22 @@ public class EffectAnimator {
         }
       };
 
+  /**
+   * Initialize the effects to make them ready for animation
+   *
+   * @param effects
+   */
   public void init(List<Effect> effects) {
     this.effects.addAll(effects);
     RainbowifyMod.instance().eventBus().createSubscription(this);
   }
 
+  /**
+   * Validates if a screen is a pause screen or not
+   *
+   * @param screen The current screen
+   * @return Pause state of screen
+   */
   private boolean validatePause(Screen screen) {
     // If the previous screen was null we don't need to do this check
     if (screen == null) return true;

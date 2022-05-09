@@ -31,9 +31,30 @@ public abstract class CustomOption<T> {
     this.value = defaultValue;
   }
 
+  /**
+   * Parses the option as JsonObject
+   *
+   * @see JsonObject
+   * @see OptionRepository
+   * @return The parsed option
+   */
   public abstract JsonObject parseJson();
 
+  /**
+   * Loads the config value from a JsonObject
+   *
+   * @see JsonObject
+   * @see OptionRepository
+   * @param object The json object
+   */
   public abstract void fromJson(JsonObject object);
 
+  /**
+   * Parses the option as Minecraft Option
+   *
+   * @see Option
+   * @see OptionRepository
+   * @return The parsed option
+   */
   public abstract Option parseAsOption();
 }

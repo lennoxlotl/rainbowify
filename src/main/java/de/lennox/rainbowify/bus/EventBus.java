@@ -29,6 +29,11 @@ import java.util.Set;
 public class EventBus<T> {
   private final Map<Type, Set<Subscription<T>>> subscriptions = new HashMap<>();
 
+  /**
+   * Fetches and creates all subscriptions in an object / instance of a class
+   *
+   * @param obj The instance of the class
+   */
   public void createSubscription(Object obj) {
     Class<?> type = obj.getClass();
     for (Field field : type.getDeclaredFields()) {
@@ -48,27 +53,11 @@ public class EventBus<T> {
     }
   }
 
-  public void removeSubscription(Object obj) {
-    Class<?> type = obj.getClass();
-    for (Field field : type.getDeclaredFields()) {
-      if (field.getType() == Subscription.class) {
-        Subscription<T> fieldSubscription = subscriptionOf(field, obj);
-        Type subscriptionType =
-            ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-        if (fieldSubscription == null) {
-          System.err.println(
-              "ERROR: Could not remove a subscription for the object "
-                  + obj.getClass().getSimpleName()
-                  + " as a subscription field didn't have proper type arguments");
-          return;
-        }
-        if (subscriptions.containsKey(subscriptionType)) {
-          subscriptions.get(subscriptionType).remove(fieldSubscription);
-        }
-      }
-    }
-  }
-
+  /**
+   * Publishes an event to all types of that event
+   *
+   * @param event The event to be published
+   */
   public void publish(T event) {
     Type eventType = event.getClass();
     Set<Subscription<T>> subscriptionOfEvent = subscriptions.get(eventType);
@@ -78,6 +67,13 @@ public class EventBus<T> {
     }
   }
 
+  /**
+   * Returns the given field as a subscription if possible
+   *
+   * @param field The field
+   * @param obj The object / instance the field is in
+   * @return The subscription
+   */
   private Subscription<T> subscriptionOf(Field field, Object obj) {
     boolean accessible = field.canAccess(obj);
     if (!accessible) {
@@ -94,6 +90,12 @@ public class EventBus<T> {
     return fieldSubscription;
   }
 
+  /**
+   * Handles adding of a subscription by automatically handling HashSet creation
+   *
+   * @param type The event type
+   * @param subscription The subscription
+   */
   private void put(Type type, Subscription<T> subscription) {
     if (subscriptions.containsKey(type)) {
       subscriptions.get(type).add(subscription);

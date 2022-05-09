@@ -43,6 +43,7 @@ public class MixinRainbowifyShader implements RainbowifyShader {
               target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"),
       index = 0)
   private static String renameLoadProgram(String toReplace) {
+    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft moment
     if (toReplace.contains("rainbowify:")) {
       return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }
@@ -57,6 +58,7 @@ public class MixinRainbowifyShader implements RainbowifyShader {
               target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"),
       index = 0)
   public String renameInit(String toReplace) {
+    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft moment
     if (toReplace.contains("rainbowify:")) {
       return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }
@@ -67,6 +69,7 @@ public class MixinRainbowifyShader implements RainbowifyShader {
       method = "addUniform",
       at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z"))
   public Object renameAddUniform(Object toReplace) {
+    // Adds the uniform as a custom uniform if this is a rainbowify shader
     if (toReplace instanceof GlUniform glUniform && this.name.contains("rainbowify:")) {
       customUniforms.put(glUniform.getName(), glUniform);
     }

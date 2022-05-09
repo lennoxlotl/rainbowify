@@ -56,12 +56,15 @@ public abstract class MixinDeathScreen extends MixinScreen {
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     if (Config.ENABLED.value) {
       if (MinecraftClient.getInstance().world != null) {
+        // Publish the screen rendering background event if rainbowify is enabled
         RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
       }
     } else {
+      // Draw the normal background if rainbowify is disabled
       ((DrawableHelperInvoker) this)
           .invokeFillGradient(matrices, 0, 0, this.width, this.height, 1615855616, -1602211792);
     }
+    // Draw the normal death-screen content
     matrices.push();
     matrices.scale(2.0F, 2.0F, 2.0F);
     drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2 / 2, 30, 16777215);

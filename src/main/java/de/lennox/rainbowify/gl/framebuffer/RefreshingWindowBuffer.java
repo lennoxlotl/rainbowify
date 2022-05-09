@@ -38,6 +38,7 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
 
   public RefreshingWindowBuffer(int width, int height) {
     super(width, height);
+    // Create the subscription for the buffer callback
     RainbowifyMod.instance().eventBus().createSubscription(this);
   }
 
