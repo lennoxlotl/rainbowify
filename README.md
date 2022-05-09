@@ -49,7 +49,7 @@ We use Google Code Conventions with 2 spacings, please keep that in mind while c
 
 ## License
 
-Copyright (c) 2021 Lennox
+Copyright (c) 2021-2022 Lennox
 
 rainbowify is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
