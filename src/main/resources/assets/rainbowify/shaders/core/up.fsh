@@ -19,23 +19,22 @@
 #version 150
 
 uniform sampler2D DiffuseSampler;
-
-uniform vec2 direction;
-uniform float radius;
+uniform float offset;
 
 in vec2 texCoord;
 in vec2 texelSize;
 
 out vec4 fragColor;
 
-float gauss(float offset, float sigma) {
-    return ((1.0 / sqrt(2.0 * 3.1415926 * sigma * sigma)) * (pow((2.7182818284), -(offset * offset) / (2.0 * sigma * sigma))));
-}
-
 void main() {
-    vec4 color = vec4(0.0);
-    for (float r = -radius; r <= radius; r++) {
-        color += texture(DiffuseSampler, texCoord + r * texelSize * direction) * gauss(r, radius / 2);
-    }
-    fragColor = vec4(color.rgb, 1.0);
+    vec2 uv = texCoord;
+    vec4 sum = texture(DiffuseSampler, uv + vec2(-texelSize.x * 2.0, 0.0) * offset);
+    sum += texture(DiffuseSampler, uv + vec2(-texelSize.x, texelSize.y) * offset) * 2.0;
+    sum += texture(DiffuseSampler, uv + vec2(0.0, texelSize.y * 2.0) * offset);
+    sum += texture(DiffuseSampler, uv + vec2(texelSize.x, texelSize.y) * offset) * 2.0;
+    sum += texture(DiffuseSampler, uv + vec2(texelSize.x * 2.0, 0.0) * offset);
+    sum += texture(DiffuseSampler, uv + vec2(texelSize.x, -texelSize.y) * offset) * 2.0;
+    sum += texture(DiffuseSampler, uv + vec2(0.0, -texelSize.y * 2.0) * offset);
+    sum += texture(DiffuseSampler, uv + vec2(-texelSize.x, -texelSize.y) * offset) * 2.0;
+    fragColor = vec4(sum.rgb / 12.0, 1.0);
 }

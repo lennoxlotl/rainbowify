@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -27,7 +27,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class RainbowifyResourceFactory implements ResourceFactory {
-
   public Resource getResource(Identifier id) {
     return new Resource() {
       @Nullable private InputStream stream;

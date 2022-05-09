@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -81,11 +81,11 @@ public class Config {
   }
 
   public enum BlurAmount {
-    LOW(5),
-    MEDIUM(15),
-    HIGH(25),
-    VERY_HIGH(50),
-    EXTREME(100);
+    LOW(4),
+    MEDIUM(5),
+    HIGH(6),
+    VERY_HIGH(7),
+    EXTREME(8);
 
     private final int radius;
 
@@ -93,7 +93,7 @@ public class Config {
       this.radius = radius;
     }
 
-    public int radius() {
+    public int offset() {
       return radius;
     }
   }

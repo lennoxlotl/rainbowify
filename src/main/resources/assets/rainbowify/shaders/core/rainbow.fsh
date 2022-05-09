@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *

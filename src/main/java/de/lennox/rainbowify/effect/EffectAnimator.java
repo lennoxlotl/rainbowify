@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -72,6 +72,6 @@ public class EffectAnimator {
     if (screen == null) return true;
     // Checks if the screen is pausing the game and if the player is in singleplayer as pausing only
     // works in singleplayer
-    return screen.isPauseScreen() && MC.isInSingleplayer();
+    return screen.shouldPause() && MC.isInSingleplayer();
   }
 }

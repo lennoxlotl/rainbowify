@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -33,9 +33,7 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class RainbowEffect extends Effect {
   private Shader rainbow;
-  private GlUniform alpha;
-  private GlUniform time;
-  private GlUniform res;
+  private GlUniform alpha, time, res;
   private long startTime;
 
   @Override
@@ -65,7 +63,7 @@ public class RainbowEffect extends Effect {
   public void draw(MatrixStack stack) {
     // Draw the rainbow
     updateUniforms();
-    drawCanvas(stack, () -> rainbow);
+    drawCanvas(MC.getFramebuffer(), stack, () -> rainbow);
   }
 
   private void updateUniforms() {

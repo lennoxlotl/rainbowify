@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -56,7 +56,7 @@ public abstract class MixinScreen {
   public void renderBackground(MatrixStack matrices, CallbackInfo callback) {
     if (this.client != null && this.client.world != null) {
       if (Config.ENABLED.value) {
-        RainbowifyMod.instance().eventBus().postEvent(new ScreenBackgroundDrawEvent(matrices));
+        RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
         callback.cancel();
       }
     }

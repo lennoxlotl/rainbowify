@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -44,11 +44,8 @@ public class Animation {
     }
     if (done()) return;
     // Animate the object based on the direction it should go
-    if (direction) {
-      this.animation = min + ((animation + (max - min - animation)) * baseMultiplication());
-    } else {
-      this.animation = max - ((animation + (max - min - animation)) * baseMultiplication());
-    }
+    float goal = direction ? min : max;
+    this.animation = goal + ((animation + (max - min - animation)) * baseMultiplication());
     lastDirection = direction;
     lastMax = max;
     lastMin = min;

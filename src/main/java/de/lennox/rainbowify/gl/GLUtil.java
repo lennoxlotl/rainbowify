@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -21,6 +21,7 @@ package de.lennox.rainbowify.gl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Supplier;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
@@ -28,9 +29,10 @@ import net.minecraft.util.math.Matrix4f;
 public class GLUtil {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
 
-  public static void drawCanvas(MatrixStack matrixStack, Supplier<Shader> shader) {
-    var width = (float) (MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor());
-    var height = (float) (MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor());
+  public static void drawCanvas(
+      Framebuffer framebuffer, MatrixStack matrixStack, Supplier<Shader> shader) {
+    var width = (float) (framebuffer.textureWidth / MC.getWindow().getScaleFactor());
+    var height = (float) (framebuffer.textureHeight / MC.getWindow().getScaleFactor());
     // Set GL caps
     RenderSystem.disableTexture();
     RenderSystem.enableBlend();

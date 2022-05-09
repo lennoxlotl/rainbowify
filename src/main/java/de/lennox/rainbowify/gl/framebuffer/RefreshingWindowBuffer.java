@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -17,6 +17,9 @@
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
 package de.lennox.rainbowify.gl.framebuffer;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.bus.Subscription;
@@ -36,5 +39,17 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
   public RefreshingWindowBuffer(int width, int height) {
     super(width, height);
     RainbowifyMod.instance().eventBus().createSubscription(this);
+  }
+
+  public void check(int width, int height) {
+    if (this.textureWidth != width || this.textureHeight != height) {
+      this.resize(width, height, false);
+      // Set the texture filter and wrapping
+      setTexFilter(GL_LINEAR);
+      beginRead();
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+      endRead();
+    }
   }
 }

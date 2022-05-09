@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -56,7 +56,7 @@ public abstract class MixinDeathScreen extends MixinScreen {
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     if (Config.ENABLED.value) {
       if (MinecraftClient.getInstance().world != null) {
-        RainbowifyMod.instance().eventBus().postEvent(new ScreenBackgroundDrawEvent(matrices));
+        RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
       }
     } else {
       ((DrawableHelperInvoker) this)

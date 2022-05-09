@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -42,7 +42,7 @@ public class MixinMinecraftClient {
   public void setScreen(Screen screen, CallbackInfo callback) {
     RainbowifyMod.instance()
         .eventBus()
-        .postEvent(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
+        .publish(new ScreenInitEvent(MinecraftClient.getInstance().currentScreen));
   }
 
   @Inject(
@@ -53,6 +53,6 @@ public class MixinMinecraftClient {
               target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V",
               ordinal = 0))
   public void onResolutionChanged(CallbackInfo i) {
-    RainbowifyMod.instance().eventBus().postEvent(new ScreenResolutionChangeEvent());
+    RainbowifyMod.instance().eventBus().publish(new ScreenResolutionChangeEvent());
   }
 }

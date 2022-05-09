@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -38,6 +38,6 @@ public class MixinInGameHud {
             target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")
       })
   public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-    RainbowifyMod.instance().eventBus().postEvent(new InGameHudDrawEvent());
+    RainbowifyMod.instance().eventBus().publish(new InGameHudDrawEvent());
   }
 }

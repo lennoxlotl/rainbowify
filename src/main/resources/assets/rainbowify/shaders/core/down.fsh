@@ -16,8 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.bus;
+#version 150
 
-public interface Subscription<T> {
-  void call(T t);
+uniform sampler2D DiffuseSampler;
+uniform float offset;
+
+in vec2 texCoord;
+in vec2 texelSize;
+
+out vec4 fragColor;
+
+void main() {
+    vec2 uv = texCoord;
+    vec4 sum = texture(DiffuseSampler, uv) * 4.0;
+    sum += texture(DiffuseSampler, uv - texelSize.xy * offset);
+    sum += texture(DiffuseSampler, uv + texelSize.xy * offset);
+    sum += texture(DiffuseSampler, uv + vec2(texelSize.x, -texelSize.y) * offset);
+    sum += texture(DiffuseSampler, uv - vec2(texelSize.x, -texelSize.y) * offset);
+    fragColor = vec4(sum.rgb / 8.0, 1.0);
 }

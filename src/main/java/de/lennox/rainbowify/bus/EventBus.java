@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -33,17 +33,17 @@ public class EventBus<T> {
     Class<?> type = obj.getClass();
     for (Field field : type.getDeclaredFields()) {
       if (field.getType() == Subscription.class) {
-        Subscription<T> fieldSubscription = subscriptionFieldOf(field, obj);
+        Subscription<T> fieldSubscription = subscriptionOf(field, obj);
         Type subscriptionType =
             ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
         if (fieldSubscription == null) {
-          System.out.println(
+          System.err.println(
               "ERROR: Could not create a subscription for the object "
                   + obj.getClass().getSimpleName()
                   + " as a subscription field didn't have proper type arguments.");
           return;
         }
-        putSubscription(subscriptionType, fieldSubscription);
+        put(subscriptionType, fieldSubscription);
       }
     }
   }
@@ -52,11 +52,14 @@ public class EventBus<T> {
     Class<?> type = obj.getClass();
     for (Field field : type.getDeclaredFields()) {
       if (field.getType() == Subscription.class) {
-        Subscription<T> fieldSubscription = subscriptionFieldOf(field, obj);
+        Subscription<T> fieldSubscription = subscriptionOf(field, obj);
         Type subscriptionType =
             ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
         if (fieldSubscription == null) {
-          // TODO: Log that an error happened
+          System.err.println(
+              "ERROR: Could not remove a subscription for the object "
+                  + obj.getClass().getSimpleName()
+                  + " as a subscription field didn't have proper type arguments");
           return;
         }
         if (subscriptions.containsKey(subscriptionType)) {
@@ -66,11 +69,7 @@ public class EventBus<T> {
     }
   }
 
-  public void on(Class<T> event, Subscription<T> subscription) {
-    putSubscription(event, subscription);
-  }
-
-  public void postEvent(T event) {
+  public void publish(T event) {
     Type eventType = event.getClass();
     Set<Subscription<T>> subscriptionOfEvent = subscriptions.get(eventType);
     if (subscriptionOfEvent == null) return;
@@ -79,7 +78,7 @@ public class EventBus<T> {
     }
   }
 
-  private Subscription<T> subscriptionFieldOf(Field field, Object obj) {
+  private Subscription<T> subscriptionOf(Field field, Object obj) {
     boolean accessible = field.canAccess(obj);
     if (!accessible) {
       field.setAccessible(true);
@@ -95,7 +94,7 @@ public class EventBus<T> {
     return fieldSubscription;
   }
 
-  private void putSubscription(Type type, Subscription<T> subscription) {
+  private void put(Type type, Subscription<T> subscription) {
     if (subscriptions.containsKey(type)) {
       subscriptions.get(type).add(subscription);
     } else {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Lennox
+ * Copyright (c) 2021-2022 Lennox
  *
  * This file is part of rainbowify.
  *
@@ -19,6 +19,8 @@
 package de.lennox.rainbowify.effect.effects;
 
 import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.*;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
@@ -27,6 +29,7 @@ import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import java.io.IOException;
+
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
@@ -34,62 +37,99 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class BlurEffect extends Effect {
-  private Shader blur;
-  private GlUniform radius;
-  private GlUniform direction;
-  private GlUniform inSize;
-  private Framebuffer framebuffer;
+  private Shader down, up;
+  private GlUniform downOffset, downInSize;
+  private GlUniform upOffset, upInSize;
+  private final RefreshingWindowBuffer[] buffers = new RefreshingWindowBuffer[6];
+  private static final int[] POWERS_OF_TWO = new int[] {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
 
   @Override
   public void init() {
     // Create the shader instance
     try {
-      blur =
+      down =
           new Shader(
-              new RainbowifyResourceFactory(), "rainbowify:blur", VertexFormats.POSITION_TEXTURE);
+              new RainbowifyResourceFactory(), "rainbowify:down", VertexFormats.POSITION_TEXTURE);
+      up =
+          new Shader(
+              new RainbowifyResourceFactory(), "rainbowify:up", VertexFormats.POSITION_TEXTURE);
     } catch (IOException e) {
       System.err.println("Failed to create blur shader. Report this in the discord with the log!");
       e.printStackTrace();
     }
     // Create an auto refreshing frame buffer (auto-resize)
-    framebuffer =
-        new RefreshingWindowBuffer(
-            MC.getWindow().getFramebufferWidth(), MC.getWindow().getFramebufferHeight());
-    RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) blur;
+    for (int i = 0; i < buffers.length; i++) {
+      RefreshingWindowBuffer buffer = buffers[i];
+      if (buffer != null) {
+        buffer.delete();
+      }
+      // Set the buffer
+      buffers[i] = buffer = new RefreshingWindowBuffer(1, 1);
+      buffer.setTexFilter(GL_LINEAR);
+      buffer.beginRead();
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+      buffer.endRead();
+    }
+    RainbowifyShader downShader = (RainbowifyShader) down;
+    RainbowifyShader upShader = (RainbowifyShader) up;
     // Create uniforms
-    radius = rainbowifyShaderInterface.customUniform("radius");
-    direction = rainbowifyShaderInterface.customUniform("direction");
-    inSize = rainbowifyShaderInterface.customUniform("InSize");
+    downInSize = downShader.customUniform("InSize");
+    downOffset = downShader.customUniform("offset");
+    upInSize = upShader.customUniform("InSize");
+    upOffset = upShader.customUniform("offset");
   }
 
   @Override
   public void draw(MatrixStack stack) {
     if (!Config.BLUR.value) return;
-    // Draw the first pass
-    framebuffer.beginWrite(false);
-    blur.addSampler("DiffuseSampler", MC.getFramebuffer());
-    updateUniforms(0);
-    drawCanvas(stack, () -> blur);
-    framebuffer.endWrite();
-    // Draw the second pass
-    MC.getFramebuffer().beginWrite(false);
-    blur.addSampler("DiffuseSampler", framebuffer);
-    updateUniforms(1);
-    drawCanvas(stack, () -> blur);
+    // Refresh all buffers
+    for (int i = 0; i < buffers.length; i++) {
+      int scale = POWERS_OF_TWO[i];
+      buffers[i].check(MC.getWindow().getWidth() / scale, MC.getWindow().getHeight() / scale);
+    }
+
+    int iterations = 3;
+    // Down-sample the main buffer
+    for (int i = 0; i < iterations; i++) {
+      RefreshingWindowBuffer framebuffer = buffers[i + 1];
+      framebuffer.clear(false);
+      framebuffer.beginWrite(true);
+      updateDownUniforms(framebuffer);
+      down.addSampler("DiffuseSampler", i == 0 ? MC.getFramebuffer() : buffers[i]);
+      drawCanvas(MC.getFramebuffer(), stack, () -> down);
+    }
+
+    // Up-sample the buffer
+    for (int i = iterations; i > 0; i--) {
+      RefreshingWindowBuffer framebuffer = buffers[i - 1];
+      if (i == 1) {
+        MC.getFramebuffer().beginWrite(true);
+      } else {
+        framebuffer.clear(false);
+        framebuffer.beginWrite(true);
+      }
+      updateUpUniforms(framebuffer);
+      up.addSampler("DiffuseSampler", buffers[i]);
+      drawCanvas(MC.getFramebuffer(), stack, () -> up);
+    }
   }
 
-  private void updateUniforms(float pass) {
+  private void updateDownUniforms(Framebuffer framebuffer) {
     Config.BlurAmount blurAmount =
         (Config.BlurAmount)
             RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
-    Config.RainbowOpacity rainbowOpacity =
-        (Config.RainbowOpacity)
-            RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
     // Set the uniforms
-    radius.set(Math.max(blurAmount.radius() * (fade * (1 / rainbowOpacity.opacity())), 1));
-    direction.set(pass, 1f - pass);
-    inSize.set(
-        (float) (MC.getFramebuffer().textureWidth / MC.getWindow().getScaleFactor()),
-        (float) (MC.getFramebuffer().textureHeight / MC.getWindow().getScaleFactor()));
+    downInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
+    downOffset.set(blurAmount.offset() * 3 * fade);
+  }
+
+  private void updateUpUniforms(Framebuffer framebuffer) {
+    Config.BlurAmount blurAmount =
+        (Config.BlurAmount)
+            RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
+    // Set the uniforms
+    upInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
+    upOffset.set(blurAmount.offset() * 3 * fade);
   }
 }
