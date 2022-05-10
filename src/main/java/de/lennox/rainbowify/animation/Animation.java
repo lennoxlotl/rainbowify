@@ -20,10 +20,8 @@ package de.lennox.rainbowify.animation;
 
 public class Animation {
   private final long duration;
-  private boolean lastDirection = false;
-  private float lastMax, lastMin;
-  private boolean startedAnimating;
-  private float animation;
+  private boolean lastDirection, started;
+  private float lastMax, lastMin, animation;
   private long startMillis;
 
   public Animation(long duration) {
@@ -45,13 +43,13 @@ public class Animation {
    */
   public void animate(float min, float max, boolean direction) {
     // If the animation is currently starting, set the start time to now
-    if (!startedAnimating) {
+    if (!started) {
       startMillis = System.currentTimeMillis();
-      startedAnimating = true;
+      started = true;
     }
     if (done()) return;
-    // Animate the object based on the direction it should go
     float goal = direction ? min : max;
+    // Execute the actual animation
     this.animation = goal + ((animation + (max - min - animation)) * baseMultiplication());
     lastDirection = direction;
     lastMax = max;
@@ -76,7 +74,7 @@ public class Animation {
     // Return a multiplication factor based on how long the animation should take and how long it's
     // already animating for
     return (float)
-        ((duration - (this.startMillis + duration - System.currentTimeMillis()))
+        ((duration - (startMillis + duration - System.currentTimeMillis()))
             / (double) duration);
   }
 
