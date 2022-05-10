@@ -61,6 +61,7 @@ public class RainbowEffect extends Effect {
 
   @Override
   public void draw(MatrixStack stack) {
+    if (!Config.RAINBOW.value) return;
     // Draw the rainbow
     updateUniforms();
     drawCanvas(MC.getFramebuffer(), stack, () -> rainbow);

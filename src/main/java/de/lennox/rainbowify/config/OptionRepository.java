@@ -38,6 +38,7 @@ public class OptionRepository {
             Config.ENABLED,
             Config.BLUR,
             Config.BLUR_AMOUNT,
+            Config.RAINBOW,
             Config.RAINBOW_OPACITY,
             Config.RAINBOW_SPEED));
     load();
