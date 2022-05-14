@@ -33,10 +33,11 @@ for improved performance.
 
 In the mod menu rainbowify settings, you can customize multiple values:
 
-![screenshot of settings](https://host.snens.team/i/FJtdLZG84ThU)
+![screenshot of settings](https://host.snens.team/i/wN0fnRBVVbK9)
 
 * **Rainbowify:** Enables/disables the mod.
-* **Blur**: Enables/disables the blur in GUI backgrounds. This requires a good graphics card; if you notice any stutters in the GUI, turn this off or reduce the blur amount.
+* **Blur**: Enables/disables the blur in GUI backgrounds. If you notice any stutters in the GUI, turn this off.
+* **Rainbow**: Enables/disables the rainbow gradient in GUI backgrounds. 
 * **Blur amount**: How large the blur radius will be. The higher this setting, the less recognizable the background will be.
 * **Rainbow opacity**: How opaque the rainbow colors will be.
 * **Rainbow speed**: How fast the rainbow colors will move.
