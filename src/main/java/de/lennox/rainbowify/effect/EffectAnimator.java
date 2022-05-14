@@ -37,17 +37,14 @@ public class EffectAnimator {
 
   private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription =
       event -> {
-        Config.RainbowOpacity rainbowOpacity =
-            (Config.RainbowOpacity)
-                RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
         // If the current screen is pausing the game we need to skip the animation
         if (currentScreen != null) pausedScreen = validatePause(currentScreen);
-        fadeAnimation.animate(0, rainbowOpacity.opacity(), currentScreen != null);
+        fadeAnimation.animate(0, 1, currentScreen != null);
         // Set the animation status for all effects
         for (Effect effect : effects) {
-          effect.setFade(pausedScreen ? rainbowOpacity.opacity() : fadeAnimation.animation());
+          effect.setFade(pausedScreen ? 1 : fadeAnimation.animation());
         }
       };
 

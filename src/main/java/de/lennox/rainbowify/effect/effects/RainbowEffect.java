@@ -70,8 +70,11 @@ public class RainbowEffect extends Effect {
     Config.RainbowSpeed rainbowSpeed =
         (Config.RainbowSpeed)
             RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
+    Config.RainbowOpacity rainbowOpacity =
+        (Config.RainbowOpacity)
+            RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
     // Set the uniforms
-    alpha.set(fade);
+    alpha.set(fade * rainbowOpacity.opacity());
     time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
     res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
   }

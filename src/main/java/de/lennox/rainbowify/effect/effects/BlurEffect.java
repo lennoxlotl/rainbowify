@@ -125,7 +125,7 @@ public class BlurEffect extends Effect {
             RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
     // Set the uniforms
     downInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
-    downOffset.set(blurAmount.offset() * 3 * fade);
+    downOffset.set(blurAmount.offset() * fade);
   }
 
   private void updateUpUniforms(Framebuffer framebuffer) {
@@ -134,6 +134,6 @@ public class BlurEffect extends Effect {
             RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
     // Set the uniforms
     upInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
-    upOffset.set(blurAmount.offset() * 3 * fade);
+    upOffset.set(blurAmount.offset() * fade);
   }
 }
