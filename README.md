@@ -4,7 +4,7 @@
 # rainbowify
 </div>
 
-rainbowify is a Fabric mod for Minecraft 1.17 that adds a customizable rainbow
+rainbowify is a Fabric mod for Minecraft 1.18.2 that adds a customizable rainbow
 background to many Minecraft HUDs.
 
 Although the main feature of the mod is adding a rainbow gradient background to HUDs, there also is a blur option, which delivers a much better frame time than other solutions, even making it compatible and fluent with older GPUs.
