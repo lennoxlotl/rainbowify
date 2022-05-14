@@ -10,9 +10,9 @@ background to many Minecraft HUDs.
 Discord: https://discord.gg/Ka2yV5MkFw<br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
-![screenshot of Minecraft settings](https://host.snens.team/i/ZG3lOeUBTVLT)
-![screenshot of Minecraft inventory](https://host.snens.team/i/uXodcI3Ce84w)
-![screenshot of Minecraft inventory2](https://host.snens.team/i/NBHvWgKY9dGG)
+<img src="https://host.snens.team/i/ZG3lOeUBTVLT" width=50% height=50%>
+<img src="https://host.snens.team/i/uXodcI3Ce84w" width=50% height=50%>
+<img src="https://host.snens.team/i/NBHvWgKY9dGG" width=50% height=50%>
 
 ## Installation
 
