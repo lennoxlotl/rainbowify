@@ -21,13 +21,18 @@ package de.lennox.rainbowify.config;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.option.BooleanOption;
 import de.lennox.rainbowify.config.option.EnumOption;
+
 import java.util.ArrayList;
+
 import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
 
 // TODO: Rework this in a non static form factor, for now this is fine
 public class Config {
   public static final BooleanOption ENABLED = new BooleanOption("enabled", true);
+  public static final BooleanOption RAINBOW =
+      new BooleanOption(
+          "rainbow", new TranslatableText("rainbowify.setting.rainbow.tooltip"), true);
   public static final BooleanOption BLUR =
       new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
   public static final EnumOption<BlurAmount> BLUR_AMOUNT =
@@ -40,9 +45,9 @@ public class Config {
   /**
    * Parses all options as Minecraft Options
    *
+   * @return The parsed options
    * @see Option
    * @see OptionRepository
-   * @return The parsed options
    */
   public static Option[] parseOptions() {
     // Collect all options

@@ -10,6 +10,11 @@
   "rainbowify.setting.blur.true": "§aEnabled",
   "rainbowify.setting.blur.false": "§cDisabled",
 
+  "rainbowify.setting.rainbow": "Rainbow",
+  "rainbowify.setting.rainbow.tooltip": "§7Enables the rainbow gradient background, this does not require a good GPU.",
+  "rainbowify.setting.rainbow.true": "§aEnabled",
+  "rainbowify.setting.rainbow.false": "§cDisabled",
+
   "rainbowify.setting.blur_amount": "Blur Amount",
   "rainbowify.setting.blur_amount.low": "§aLow",
   "rainbowify.setting.blur_amount.medium": "§eMedium",
