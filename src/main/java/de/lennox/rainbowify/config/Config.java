@@ -95,11 +95,13 @@ public class Config {
   }
 
   public enum BlurAmount {
-    LOW(4),
-    MEDIUM(5),
-    HIGH(6),
-    VERY_HIGH(7),
-    EXTREME(8);
+    LOW(2),
+    MEDIUM(3),
+    HIGH(4),
+    VERY_HIGH(5),
+    EXTREME(6),
+    INSANE(7),
+    CRAZY(8);
 
     private final int radius;
 
