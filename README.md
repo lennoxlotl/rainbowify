@@ -11,7 +11,9 @@ Discord: https://discord.gg/Ka2yV5MkFw<br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
 ![screenshot of Minecraft settings](https://host.snens.team/i/ZG3lOeUBTVLT)
-![screenshot of Minecraft inventory](https://host.snens.team/i/L7CgbgwwDyE9)
+![screenshot of Minecraft inventory](https://host.snens.team/i/uXodcI3Ce84w)
+![screenshot of Minecraft inventory2](https://host.snens.team/i/NBHvWgKY9dGG)
+![screenshot of Minecraft inventory3](https://host.snens.team/i/VPe4oJPx6s2L)
 
 ## Installation
 
