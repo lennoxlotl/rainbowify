@@ -32,6 +32,7 @@ import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import java.io.IOException;
 import net.minecraft.client.gl.GlUniform;
+import net.minecraft.client.gl.Program;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
@@ -39,7 +40,7 @@ import net.minecraft.util.math.Matrix4f;
 
 public class RainbowGlintShader extends Effect {
   private Shader glint;
-  private Class<? extends Shader> cachedArmorGlint;
+  private Program cachedArmorGlint;
   private GlUniform time, res, screenTextureMat, insanity;
   private long startTime;
   private Matrix4f cachedTextureMatrix;
@@ -92,11 +93,11 @@ public class RainbowGlintShader extends Effect {
         screenTextureMat.set(cachedTextureMatrix);
         // Cache the armor glint class
         if (cachedArmorGlint == null && shader.getName().contains("armor")) {
-          cachedArmorGlint = shader.getClass();
+          cachedArmorGlint = shader.getFragmentShader();
         }
         // Enable insanity mode if wanted
         boolean requiresInsanity =
-            Config.INSANE_ARMOR.value && cachedArmorGlint == shader.getClass();
+            Config.INSANE_ARMOR.value && cachedArmorGlint == shader.getFragmentShader();
         insanity.set(requiresInsanity ? 1 : 0);
         // Overwrite the shader
         event.shader(glint);
