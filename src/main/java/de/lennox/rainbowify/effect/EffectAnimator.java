@@ -20,6 +20,8 @@ package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.animation.Animation;
+import de.lennox.rainbowify.event.Event;
+import de.lennox.rainbowify.event.EventBus;
 import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.event.events.ScreenInitEvent;
@@ -66,7 +68,9 @@ public class EffectAnimator {
    */
   public void init(List<Effect> effects) {
     this.effects.addAll(effects);
-    RainbowifyMod.instance().eventBus().createSubscription(this);
+    EventBus<Event> eventBus = RainbowifyMod.instance().eventBus();
+    effects.forEach(eventBus::createSubscription);
+    eventBus.createSubscription(this);
   }
 
   /**

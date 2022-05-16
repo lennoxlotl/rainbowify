@@ -40,7 +40,9 @@ public class OptionRepository {
             Config.BLUR_AMOUNT,
             Config.RAINBOW,
             Config.RAINBOW_OPACITY,
-            Config.RAINBOW_SPEED));
+            Config.RAINBOW_SPEED,
+            Config.GLINT,
+            Config.INSANE_ARMOR));
     load();
   }
 
@@ -65,7 +67,7 @@ public class OptionRepository {
             }
           }
         }
-      } catch (FileNotFoundException e) {
+      } catch (Exception e) {
         System.err.println("Error while loading rainbowify settings.");
         e.printStackTrace();
       }

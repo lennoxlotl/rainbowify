@@ -35,6 +35,10 @@ public class Config {
           "rainbow", new TranslatableText("rainbowify.setting.rainbow.tooltip"), true);
   public static final BooleanOption BLUR =
       new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
+
+  public static final BooleanOption GLINT =
+      new BooleanOption("glint", new TranslatableText("rainbowify.setting.glint.tooltip"), false);
+  public static final BooleanOption INSANE_ARMOR = new BooleanOption("insane_armor", false);
   public static final EnumOption<BlurAmount> BLUR_AMOUNT =
       new EnumOption<>("blur_amount", BlurAmount.MEDIUM);
   public static final EnumOption<RainbowOpacity> RAINBOW_OPACITY =

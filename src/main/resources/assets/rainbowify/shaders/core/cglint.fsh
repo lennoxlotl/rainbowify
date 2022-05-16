@@ -18,15 +18,28 @@
  */
 #version 150
 
+#moj_import <fog.glsl>
+
+uniform sampler2D Sampler0;
+
+uniform vec4 ColorModulator;
 uniform float time;
 uniform vec2 res;
-uniform float alpha;
+uniform int insanity;
 
+in float vertexDistance;
 in vec2 texCoord0;
+in vec2 texCoord1;
+in vec3 pos;
 
 out vec4 fragColor;
 
 void main() {
-    vec3 col = 1 - (0.5 + 1 * sin(time + texCoord0.xyx + vec3(0, 2, 4)) * cos(time + texCoord0.xyx + vec3(0, 2, 4)));
-    fragColor = vec4(col, alpha);
+    vec4 color = texture(Sampler0, texCoord0) * ColorModulator;
+    if (color.a < 0.1) {
+        discard;
+    }
+    vec2 vec = (insanity == 1) ? texCoord1 : pos.xy;
+    vec3 col = 1 - (0.5 + 1 * sin(time + vec.xyx + vec3(0, 2, 4)) * cos(time + vec.xyx + vec3(0, 2, 4)));
+    fragColor = vec4(col, color.a);
 }

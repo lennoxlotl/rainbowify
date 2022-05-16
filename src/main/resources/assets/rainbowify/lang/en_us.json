@@ -15,6 +15,15 @@
   "rainbowify.setting.rainbow.true": "§aEnabled",
   "rainbowify.setting.rainbow.false": "§cDisabled",
 
+  "rainbowify.setting.glint": "Glint",
+  "rainbowify.setting.glint.tooltip": "§7Enables the rainbow effect on enchanted items.",
+  "rainbowify.setting.glint.true": "§aEnabled",
+  "rainbowify.setting.glint.false": "§cDisabled",
+
+  "rainbowify.setting.insane_armor": "Insanity Glint",
+  "rainbowify.setting.insane_armor.true": "§aEnabled",
+  "rainbowify.setting.insane_armor.false": "§cDisabled",
+
   "rainbowify.setting.blur_amount": "Blur Amount",
   "rainbowify.setting.blur_amount.low": "§aLow",
   "rainbowify.setting.blur_amount.medium": "§eMedium",

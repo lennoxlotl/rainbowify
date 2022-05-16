@@ -19,6 +19,7 @@
 package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
+import de.lennox.rainbowify.effect.effects.RainbowGlintShader;
 import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.effect.effects.BlurEffect;
@@ -43,7 +44,7 @@ public class EffectRepository {
   /** Initializes all effects */
   public void init() {
     // Add all effects and initialize the effect animator
-    effects.addAll(List.of(new BlurEffect(), new RainbowEffect()));
+    effects.addAll(List.of(new BlurEffect(), new RainbowEffect(), new RainbowGlintShader()));
     effects.forEach(Effect::init);
     animator.init(effects);
     RainbowifyMod.instance().eventBus().createSubscription(this);
