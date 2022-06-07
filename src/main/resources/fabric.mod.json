@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "rainbowify",
   "version": "2.0.0-alpha.1",
-
   "name": "Rainbowify",
   "description": "Puts a rainbow on minecraft gui backgrounds.",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://discord.gg/Ka2yV5MkFw",
     "sources": "https://github.com/officialLennox/rainbowify"
   },
-
   "license": "GPL-3.0",
   "icon": "assets/rainbowify/icon.png",
-
   "environment": "client",
   "entrypoints": {
     "modmenu": [
@@ -28,11 +25,10 @@
   "mixins": [
     "rainbowify.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": ">=1.19-",
     "java": ">=17"
   },
   "suggests": {

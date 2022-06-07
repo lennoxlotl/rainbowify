@@ -19,16 +19,17 @@
 package de.lennox.rainbowify.config;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
+import java.util.List;
 
 public class ConfigScreen extends GameOptionsScreen {
   private final Screen previous;
@@ -38,10 +39,11 @@ public class ConfigScreen extends GameOptionsScreen {
     super(
         previous,
         MinecraftClient.getInstance().options,
-        new TranslatableText("rainbowify.setting.title"));
+        Text.translatable("rainbowify.setting.title"));
     this.previous = previous;
   }
 
+  /** Initializes the configuration screen */
   protected void init() {
     this.list =
         new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
@@ -60,6 +62,14 @@ public class ConfigScreen extends GameOptionsScreen {
             }));
   }
 
+  /**
+   * Renders the configuration screen
+   *
+   * @param matrices The current draw matrix
+   * @param mouseX The mouse x position
+   * @param mouseY The mouse y position
+   * @param delta The render-tick delta
+   */
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     this.renderBackground(matrices);
     this.list.render(matrices, mouseX, mouseY, delta);
@@ -71,6 +81,7 @@ public class ConfigScreen extends GameOptionsScreen {
     }
   }
 
+  /** Called when the gui is closed */
   public void removed() {
     RainbowifyMod.instance().optionRepository().save();
   }

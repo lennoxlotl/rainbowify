@@ -18,16 +18,17 @@
  */
 package de.lennox.rainbowify.config.option;
 
-import static net.minecraft.client.option.CyclingOption.create;
-
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.CustomOption;
 import de.lennox.rainbowify.config.OptionRepository;
-import java.util.Arrays;
-import net.minecraft.client.option.Option;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
   private final Class<E> optionEnum;
@@ -37,8 +38,8 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     this.optionEnum = defaultValue.getDeclaringClass();
   }
 
-  private static <E extends Enum<E>> Text valueText(EnumOption<E> option, E value) {
-    return new TranslatableText(option.translationKey + "." + value.name().toLowerCase());
+  private static <E extends Enum<E>> Text enumTooltipTextOf(EnumOption<E> option, E value) {
+    return Text.translatable(option.translationKey + "." + value.name().toLowerCase());
   }
 
   @Override
@@ -61,15 +62,57 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     }
   }
 
+  /**
+   * Converts all enum constants as array to a list of strings (their names)
+   *
+   * @param constants The constants
+   * @return The names of the constants
+   */
+  private List<String> enumNamesOf(E[] constants) {
+    // Map the constants to names
+    //noinspection Convert2MethodRef
+    return Arrays.stream(constants).map(e -> e.name()).toList();
+  }
+
+  /**
+   * Parses a given String value to the E of the setting, if there is none with that name it will
+   * use the first one in the constant array
+   *
+   * @param value The string value
+   * @return The value as E
+   */
+  private E enumValueOf(String value) {
+    E[] options = optionEnum.getEnumConstants();
+    // Resolve the requested value
+    return Arrays.stream(options)
+        .filter(e -> e.name().equalsIgnoreCase(value))
+        .findFirst()
+        .orElse(options[0]);
+  }
+
   @Override
-  public Option parseAsOption() {
+  public SimpleOption parseAsOption() {
+    // Create the option
     OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
+    E[] options = optionEnum.getEnumConstants();
     //noinspection unchecked
-    return create(
+    return new SimpleOption(
         translationKey,
-        optionEnum.getEnumConstants(),
-        value -> valueText(this, value),
-        ignored -> (E) optionRepository.optionBy(name).value,
-        (ignored, option, value) -> optionRepository.optionBy(name).value = value);
+        // Enum values can't have tooltips yet...
+        SimpleOption.emptyTooltip(),
+        (optionText, value) ->
+            enumTooltipTextOf(
+                this,
+                // Retrieve the value E from the selected value as String
+                enumValueOf((String) value)),
+        // Create a custom cycling callback
+        new SimpleOption.AlternateValuesSupportingCyclingCallbacks<>(
+            enumNamesOf(options), List.of(), () -> false, SimpleOption::setValue, Codec.STRING),
+        value.name(),
+        (Consumer<Object>)
+            newValue -> {
+              // Update the options value in the option repository
+              optionRepository.optionBy(name).value = enumValueOf((String) newValue);
+            });
   }
 }

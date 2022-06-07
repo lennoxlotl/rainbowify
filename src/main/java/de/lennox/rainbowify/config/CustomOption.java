@@ -19,7 +19,7 @@
 package de.lennox.rainbowify.config;
 
 import com.google.gson.JsonObject;
-import net.minecraft.client.option.Option;
+import net.minecraft.client.option.SimpleOption;
 
 public abstract class CustomOption<T> {
   public final String name, translationKey;
@@ -52,9 +52,9 @@ public abstract class CustomOption<T> {
   /**
    * Parses the option as Minecraft Option
    *
-   * @see Option
+   * @see SimpleOption
    * @see OptionRepository
    * @return The parsed option
    */
-  public abstract Option parseAsOption();
+  public abstract SimpleOption parseAsOption();
 }

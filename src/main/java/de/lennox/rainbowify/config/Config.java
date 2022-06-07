@@ -21,23 +21,21 @@ package de.lennox.rainbowify.config;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.option.BooleanOption;
 import de.lennox.rainbowify.config.option.EnumOption;
+import net.minecraft.client.option.SimpleOption;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
-
-import net.minecraft.client.option.Option;
-import net.minecraft.text.TranslatableText;
 
 // TODO: Rework this in a non static form factor, for now this is fine
 public class Config {
   public static final BooleanOption ENABLED = new BooleanOption("enabled", true);
   public static final BooleanOption RAINBOW =
-      new BooleanOption(
-          "rainbow", new TranslatableText("rainbowify.setting.rainbow.tooltip"), true);
+      new BooleanOption("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true);
   public static final BooleanOption BLUR =
-      new BooleanOption("blur", new TranslatableText("rainbowify.setting.blur.tooltip"), false);
+      new BooleanOption("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false);
 
   public static final BooleanOption GLINT =
-      new BooleanOption("glint", new TranslatableText("rainbowify.setting.glint.tooltip"), false);
+      new BooleanOption("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false);
   public static final BooleanOption INSANE_ARMOR = new BooleanOption("insane_armor", false);
   public static final EnumOption<BlurAmount> BLUR_AMOUNT =
       new EnumOption<>("blur_amount", BlurAmount.MEDIUM);
@@ -50,17 +48,17 @@ public class Config {
    * Parses all options as Minecraft Options
    *
    * @return The parsed options
-   * @see Option
+   * @see SimpleOption
    * @see OptionRepository
    */
-  public static Option[] parseOptions() {
+  public static SimpleOption[] parseOptions() {
     // Collect all options
-    ArrayList<Option> parsedOptions = new ArrayList<>();
+    ArrayList<SimpleOption> parsedOptions = new ArrayList<>();
     RainbowifyMod.instance()
         .optionRepository()
         .options()
         .forEach(customOption -> parsedOptions.add(customOption.parseAsOption()));
-    return parsedOptions.toArray(Option[]::new);
+    return parsedOptions.toArray(SimpleOption[]::new);
   }
 
   public enum RainbowOpacity {

@@ -18,17 +18,12 @@
  */
 package de.lennox.rainbowify.config.option;
 
-import static net.minecraft.client.option.CyclingOption.create;
-
 import com.google.gson.JsonObject;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.CustomOption;
 import de.lennox.rainbowify.config.OptionRepository;
-import java.util.List;
-import net.minecraft.client.option.CyclingOption;
-import net.minecraft.text.OrderedText;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class BooleanOption extends CustomOption<Boolean> {
   private final Text enabledText;
@@ -37,15 +32,15 @@ public class BooleanOption extends CustomOption<Boolean> {
 
   public BooleanOption(String key, Boolean defaultValue) {
     super(key, "rainbowify.setting." + key, defaultValue);
-    this.enabledText = new TranslatableText(translationKey + ".true");
-    this.disabledText = new TranslatableText(translationKey + ".false");
+    this.enabledText = Text.translatable(translationKey + ".true");
+    this.disabledText = Text.translatable(translationKey + ".false");
     tooltip = null;
   }
 
   public BooleanOption(String key, Text tooltip, Boolean defaultValue) {
     super(key, "rainbowify.setting." + key, defaultValue);
-    this.enabledText = new TranslatableText(translationKey + ".true");
-    this.disabledText = new TranslatableText(translationKey + ".false");
+    this.enabledText = Text.translatable(translationKey + ".true");
+    this.disabledText = Text.translatable(translationKey + ".false");
     this.tooltip = tooltip;
   }
 
@@ -63,25 +58,21 @@ public class BooleanOption extends CustomOption<Boolean> {
   }
 
   @Override
-  public CyclingOption<Boolean> parseAsOption() {
-    OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
+  public SimpleOption<Boolean> parseAsOption() {
     // Create the base option
-    var booleanCyclingOption =
-        create(
-            translationKey,
-            enabledText,
-            disabledText,
-            ignored -> (Boolean) optionRepository.optionBy(name).value,
-            (ignored, option, value) -> optionRepository.optionBy(name).value = value);
-    // Create the tool-tip if required
-    if (tooltip != null) {
-      booleanCyclingOption =
-          booleanCyclingOption.tooltip(
-              (client) -> {
-                List<OrderedText> list = client.textRenderer.wrapLines(tooltip, 200);
-                return (value) -> list;
-              });
-    }
-    return booleanCyclingOption;
+    OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
+    return new SimpleOption<>(
+        translationKey,
+        tooltip == null ? SimpleOption.emptyTooltip() : SimpleOption.constantTooltip(tooltip),
+        (optionText, value1) -> {
+          if (value1) {
+            return enabledText;
+          } else {
+            return disabledText;
+          }
+        },
+        SimpleOption.BOOLEAN,
+        value,
+        aBoolean -> optionRepository.optionBy(name).value = aBoolean);
   }
 }

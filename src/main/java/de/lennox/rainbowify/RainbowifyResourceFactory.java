@@ -20,6 +20,8 @@ package de.lennox.rainbowify;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
+
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceFactory;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
@@ -27,39 +29,45 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class RainbowifyResourceFactory implements ResourceFactory {
-  public Resource getResource(Identifier id) {
-    return new Resource() {
-      @Nullable private InputStream stream;
+  public Optional<Resource> getResource(Identifier id) {
+    return Optional.of(
+        new Resource(
+            "",
+            () ->
+                getClass()
+                    .getResourceAsStream(
+                        "/assets" + "/" + id.getNamespace() + "/" + id.getPath())) {
+          @Nullable private InputStream stream;
 
-      public void close() throws IOException {
-        if (stream != null) {
-          stream.close();
-        }
-      }
+          public void close() throws IOException {
+            if (stream != null) {
+              stream.close();
+            }
+          }
 
-      public Identifier getId() {
-        return id;
-      }
+          public Identifier getId() {
+            return id;
+          }
 
-      public InputStream getInputStream() {
-        stream =
-            getClass()
-                .getResourceAsStream("/assets" + "/" + id.getNamespace() + "/" + id.getPath());
-        return stream;
-      }
+          public InputStream getInputStream() {
+            stream =
+                getClass()
+                    .getResourceAsStream("/assets" + "/" + id.getNamespace() + "/" + id.getPath());
+            return stream;
+          }
 
-      public boolean hasMetadata() {
-        return false;
-      }
+          public boolean hasMetadata() {
+            return false;
+          }
 
-      @Nullable
-      public <T> T getMetadata(ResourceMetadataReader<T> metaReader) {
-        return null;
-      }
+          @Nullable
+          public <T> T getMetadata(ResourceMetadataReader<T> metaReader) {
+            return null;
+          }
 
-      public String getResourcePackName() {
-        return id.toString();
-      }
-    };
+          public String getResourcePackName() {
+            return id.toString();
+          }
+        });
   }
 }
