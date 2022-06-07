@@ -2,15 +2,18 @@
 <img src="src/main/resources/assets/rainbowify/icon.png" align="right" width="128">
 
 # rainbowify
+
 </div>
 
-rainbowify is a Fabric mod for Minecraft 1.18.2 that adds a customizable rainbow
-background to many Minecraft HUDs.
+rainbowify is a Fabric mod for Minecraft 1.19 that adds a customizable rainbow
+background to many Minecraft HUDs and optionally modifies enchantment glint.
 
-Although the main feature of the mod is adding a rainbow gradient background to HUDs, there also is a blur option, which delivers a much better frame time than other solutions, even making it compatible and fluent with older GPUs.
+Although the main feature of the mod is adding a rainbow gradient background to HUDs, there also is a blur option, which
+delivers a much better frame time than other solutions, even making it compatible and fluent with older GPUs.
 If you don't like the rainbow gradient you can simply disable it in the options and only use the blur backdrop.
 
-Discord: https://discord.gg/Ka2yV5MkFw<br>
+Discord: https://discord.gg/Ka2yV5MkFw
+<br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
 <img src="https://host.snens.team/i/ZG3lOeUBTVLT" width=75% height=75%>
@@ -33,14 +36,17 @@ for improved performance.
 
 In the mod menu rainbowify settings, you can customize multiple values:
 
-![screenshot of settings](https://host.snens.team/i/wN0fnRBVVbK9)
+![screenshot of settings](https://host.snens.team/i/H8fE7AXh6N1f)
 
 * **Rainbowify:** Enables/disables the mod.
 * **Blur**: Enables/disables the blur in GUI backgrounds. If you notice any stutters in the GUI, turn this off.
-* **Rainbow**: Enables/disables the rainbow gradient in GUI backgrounds. 
-* **Blur amount**: How large the blur radius will be. The higher this setting, the less recognizable the background will be.
+* **Rainbow**: Enables/disables the rainbow gradient in GUI backgrounds.
+* **Blur amount**: How large the blur radius will be. The higher this setting, the less recognizable the background will
+  be.
 * **Rainbow opacity**: How opaque the rainbow colors will be.
 * **Rainbow speed**: How fast the rainbow colors will move.
+* **Glint**: Turns the enchantment glint into a customized rainbow glint
+* **Insanity Glint**: Enables insanity glint for armor, this also makes it screen position independent
 
 ## Development Setup
 
@@ -50,6 +56,7 @@ In the mod menu rainbowify settings, you can customize multiple values:
 4. Build the jar with the `assemble` gradle task
 
 ### Code Conventions
+
 We use Google Code Conventions with 2 spacings, please keep that in mind while contributing.
 
 ## License
@@ -63,8 +70,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 rainbowify is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
+along with rainbowify. If not, see <https://www.gnu.org/licenses/>.
