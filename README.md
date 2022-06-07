@@ -4,14 +4,18 @@
 # rainbowify
 </div>
 
-rainbowify is a Fabric mod for Minecraft 1.17 that adds a customizable rainbow
+rainbowify is a Fabric mod for Minecraft 1.18.2 that adds a customizable rainbow
 background to many Minecraft HUDs.
+
+Although the main feature of the mod is adding a rainbow gradient background to HUDs, there also is a blur option, which delivers a much better frame time than other solutions, even making it compatible and fluent with older GPUs.
+If you don't like the rainbow gradient you can simply disable it in the options and only use the blur backdrop.
 
 Discord: https://discord.gg/Ka2yV5MkFw<br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
-![screenshot of Minecraft settings](https://host.snens.team/i/ZG3lOeUBTVLT)
-![screenshot of Minecraft inventory](https://host.snens.team/i/L7CgbgwwDyE9)
+<img src="https://host.snens.team/i/ZG3lOeUBTVLT" width=75% height=75%>
+<img src="https://host.snens.team/i/uXodcI3Ce84w" width=75% height=75%>
+<img src="https://host.snens.team/i/NBHvWgKY9dGG" width=75% height=75%>
 
 ## Installation
 
@@ -29,10 +33,11 @@ for improved performance.
 
 In the mod menu rainbowify settings, you can customize multiple values:
 
-![screenshot of settings](https://host.snens.team/i/FJtdLZG84ThU)
+![screenshot of settings](https://host.snens.team/i/wN0fnRBVVbK9)
 
 * **Rainbowify:** Enables/disables the mod.
-* **Blur**: Enables/disables the blur in GUI backgrounds. This requires a good graphics card; if you notice any stutters in the GUI, turn this off or reduce the blur amount.
+* **Blur**: Enables/disables the blur in GUI backgrounds. If you notice any stutters in the GUI, turn this off.
+* **Rainbow**: Enables/disables the rainbow gradient in GUI backgrounds. 
 * **Blur amount**: How large the blur radius will be. The higher this setting, the less recognizable the background will be.
 * **Rainbow opacity**: How opaque the rainbow colors will be.
 * **Rainbow speed**: How fast the rainbow colors will move.
