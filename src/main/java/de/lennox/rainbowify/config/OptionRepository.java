@@ -19,20 +19,26 @@
 package de.lennox.rainbowify.config;
 
 import com.google.gson.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import net.fabricmc.loader.api.FabricLoader;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class OptionRepository {
+  @SuppressWarnings("rawtypes")
   private final List<CustomOption> configOptions = new ArrayList<>();
+
   private final File configLocation =
       new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
   private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
 
   /** Initializes all configuration options */
   public void init() {
-    // Add all options to the option list (really bad method, might change this later)
+    // Add all options to the option list (awful method, might change this later)
     configOptions.addAll(
         List.of(
             Config.ENABLED,
@@ -52,7 +58,7 @@ public class OptionRepository {
     if (configLocation.exists()) {
       try {
         // Parse the file content
-        var parsed = new JsonParser().parse(new FileReader(configLocation));
+        var parsed = JsonParser.parseReader(new FileReader(configLocation));
         if (parsed.isJsonArray()) {
           var settingsArray = parsed.getAsJsonArray();
           // Loop through all settings elements
@@ -79,6 +85,7 @@ public class OptionRepository {
     // If the config location does not exist create it
     if (!configLocation.exists()) {
       try {
+        //noinspection ResultOfMethodCallIgnored
         configLocation.createNewFile();
       } catch (IOException e) {
         e.printStackTrace();
@@ -102,12 +109,14 @@ public class OptionRepository {
    * @param name The option name
    * @return The option
    */
+  @SuppressWarnings("rawtypes")
   public CustomOption optionBy(String name) {
     var option =
         configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();
     return option.orElse(null);
   }
 
+  @SuppressWarnings("rawtypes")
   public List<CustomOption> options() {
     return configOptions;
   }

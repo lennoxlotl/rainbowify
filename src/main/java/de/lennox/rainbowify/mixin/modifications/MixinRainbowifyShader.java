@@ -21,7 +21,6 @@ package de.lennox.rainbowify.mixin.modifications;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
-import java.util.Map;
 import net.minecraft.client.gl.GlUniform;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +28,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import java.util.Map;
+
+@SuppressWarnings("unused")
 @Mixin(net.minecraft.client.render.Shader.class)
 public class MixinRainbowifyShader implements RainbowifyShader {
   private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
@@ -43,7 +45,8 @@ public class MixinRainbowifyShader implements RainbowifyShader {
               target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"),
       index = 0)
   private static String renameLoadProgram(String toReplace) {
-    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft moment
+    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft
+    // moment
     if (toReplace.contains("rainbowify:")) {
       return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }
@@ -58,7 +61,8 @@ public class MixinRainbowifyShader implements RainbowifyShader {
               target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"),
       index = 0)
   public String renameInit(String toReplace) {
-    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft moment
+    // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft
+    // moment
     if (toReplace.contains("rainbowify:")) {
       return "rainbowify:" + toReplace.replace("rainbowify:", "");
     }

@@ -31,6 +31,7 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
 
   // Refreshes the framebuffer size if the minecraft window got resized
+  @SuppressWarnings("unused")
   public final Subscription<ScreenResolutionChangeEvent> screenResolutionSubscription =
       event ->
           resize(

@@ -25,18 +25,19 @@ import de.lennox.rainbowify.event.EventBus;
 import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.event.events.ScreenInitEvent;
-import de.lennox.rainbowify.config.Config;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.client.gui.screen.Screen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EffectAnimator {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
   private final Animation fadeAnimation = new Animation(250);
   private final List<Effect> effects = new ArrayList<>();
 
+  @SuppressWarnings("unused")
   private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription =
       event -> {
         var pausedScreen = false;
@@ -50,6 +51,7 @@ public class EffectAnimator {
         }
       };
 
+  @SuppressWarnings("unused")
   private final Subscription<ScreenInitEvent> screenInitSubscriber =
       event -> {
         // Check if the previous screen was whether null or a screen which pauses the game or is not
@@ -64,7 +66,7 @@ public class EffectAnimator {
   /**
    * Initialize the effects to make them ready for animation
    *
-   * @param effects
+   * @param effects The effects
    */
   public void init(List<Effect> effects) {
     this.effects.addAll(effects);

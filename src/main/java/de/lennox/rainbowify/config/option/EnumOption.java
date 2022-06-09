@@ -90,6 +90,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
         .orElse(options[0]);
   }
 
+  @SuppressWarnings("rawtypes")
   @Override
   public SimpleOption parseAsOption() {
     // Create the option

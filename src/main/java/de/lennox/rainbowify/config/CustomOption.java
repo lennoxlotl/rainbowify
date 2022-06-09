@@ -56,5 +56,6 @@ public abstract class CustomOption<T> {
    * @see OptionRepository
    * @return The parsed option
    */
+  @SuppressWarnings("rawtypes")
   public abstract SimpleOption parseAsOption();
 }

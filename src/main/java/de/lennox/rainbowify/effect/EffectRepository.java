@@ -33,6 +33,7 @@ public class EffectRepository {
   private final List<Effect> effects = new ArrayList<>();
   private final EffectAnimator animator = new EffectAnimator();
 
+  @SuppressWarnings("unused")
   private final Subscription<ScreenBackgroundDrawEvent> screenDrawSubscription =
       event -> {
         // If the screen is the minecraft progress screen we should not render the screen due to

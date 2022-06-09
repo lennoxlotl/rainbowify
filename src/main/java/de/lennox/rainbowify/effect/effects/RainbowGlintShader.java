@@ -30,13 +30,14 @@ import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.GlintShaderEvent;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
-import java.io.IOException;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.Program;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
+
+import java.io.IOException;
 
 public class RainbowGlintShader extends Effect {
   private Shader glint;
@@ -73,12 +74,14 @@ public class RainbowGlintShader extends Effect {
     cachedTextureMatrix.multiply(4f);
   }
 
+  @SuppressWarnings("unused")
   private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription =
       event -> {
         cachedTextureMatrix = new Matrix4f(RenderSystem.getTextureMatrix());
         cachedTextureMatrix.multiply(4f);
       };
 
+  @SuppressWarnings("unused")
   private final Subscription<GlintShaderEvent> glintShaderSubscription =
       event -> {
         if (!Config.GLINT.value) return;

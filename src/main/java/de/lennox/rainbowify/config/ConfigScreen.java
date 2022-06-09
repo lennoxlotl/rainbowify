@@ -58,7 +58,9 @@ public class ConfigScreen extends GameOptionsScreen {
             ScreenTexts.DONE,
             (button) -> {
               RainbowifyMod.instance().optionRepository().save();
-              this.client.setScreen(this.previous);
+              if (this.client != null) {
+                this.client.setScreen(this.previous);
+              }
             }));
   }
 

@@ -30,8 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
-
+@SuppressWarnings("unused")
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
   @Shadow private static Shader renderTypeGlintDirectShader;
@@ -42,7 +41,7 @@ public class MixinGameRenderer {
 
   @Inject(method = "preloadShaders", at = @At("RETURN"))
   public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {
-    // Pre-load the shaders once minecraft does it
+    // Preload the shaders once minecraft does it
     RainbowifyMod.instance().preShaderLoad();
   }
 

@@ -18,11 +18,9 @@
  */
 package de.lennox.rainbowify.mixin.modifications;
 
-import static net.minecraft.client.gui.DrawableHelper.drawCenteredText;
-
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.mixin.modifications.accessor.ScreenAccessor;
 import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;
 import net.minecraft.client.MinecraftClient;
@@ -37,6 +35,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import static net.minecraft.client.gui.DrawableHelper.drawCenteredText;
+
+@SuppressWarnings("unused")
 @Mixin(DeathScreen.class)
 public abstract class MixinDeathScreen extends MixinScreen {
   @Shadow

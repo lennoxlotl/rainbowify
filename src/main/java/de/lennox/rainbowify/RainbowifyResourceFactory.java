@@ -18,18 +18,19 @@
  */
 package de.lennox.rainbowify;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
-
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceFactory;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+
 public class RainbowifyResourceFactory implements ResourceFactory {
   public Optional<Resource> getResource(Identifier id) {
+    //noinspection unused
     return Optional.of(
         new Resource(
             "",

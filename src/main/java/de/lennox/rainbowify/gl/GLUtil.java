@@ -19,12 +19,16 @@
 package de.lennox.rainbowify.gl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.function.Supplier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.Shader;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
+
+import java.util.function.Supplier;
 
 public class GLUtil {
   private static final MinecraftClient MC = MinecraftClient.getInstance();

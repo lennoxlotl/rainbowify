@@ -19,8 +19,8 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
@@ -49,6 +49,7 @@ public abstract class MixinScreen {
   protected abstract void renderTextHoverEffect(
       MatrixStack matrices, @Nullable Style style, int x, int y);
 
+  @SuppressWarnings("unused")
   @Inject(
       method = "renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V",
       at = @At("HEAD"),
