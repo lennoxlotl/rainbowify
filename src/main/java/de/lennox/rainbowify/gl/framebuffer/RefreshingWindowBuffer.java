@@ -18,14 +18,14 @@
  */
 package de.lennox.rainbowify.gl.framebuffer;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
-
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.ScreenResolutionChangeEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.WindowFramebuffer;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 public class RefreshingWindowBuffer extends WindowFramebuffer {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
@@ -44,7 +44,7 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
 
   public void check(int width, int height) {
     if (this.textureWidth != width || this.textureHeight != height) {
-      this.resize(width, height, false);
+      this.resize(Math.max(width, 1), Math.max(height, 1), false);
       // Set the texture filter and wrapping
       setTexFilter(GL_LINEAR);
       beginRead();
