@@ -20,18 +20,17 @@ package de.lennox.rainbowify.config;
 
 import com.google.gson.*;
 import de.lennox.rainbowify.config.option.BooleanOption;
+import de.lennox.rainbowify.config.option.CategoryOption;
 import de.lennox.rainbowify.config.option.EnumOption;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OptionRepository {
@@ -44,30 +43,28 @@ public class OptionRepository {
 
   /** Initializes all configuration options */
   public void init() {
-    add(BooleanOption.of("enabled", true));
-    add(BooleanOption.of("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true));
-    add(BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false));
-    add(BooleanOption.of("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false));
-    add(BooleanOption.of("insane_armor", false));
-    add(EnumOption.of("blur_amount", Config.BlurAmount.MEDIUM));
-    add(EnumOption.of("rainbow_opacity", Config.RainbowOpacity.HIGH));
-    add(EnumOption.of("rainbow_speed", Config.RainbowSpeed.MEDIUM));
+    add(CategoryOption.of("cgeneral", BooleanOption.of("enabled", true)));
+    // Add blur options
+    add(
+        CategoryOption.of(
+            "cblur",
+            BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false),
+            EnumOption.of("blur_amount", Config.BlurAmount.MEDIUM)));
+    // Add rainbow options
+    add(
+        CategoryOption.of(
+            "crainbow",
+            BooleanOption.of(
+                "rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true),
+            EnumOption.of("rainbow_opacity", Config.RainbowOpacity.HIGH),
+            EnumOption.of("rainbow_speed", Config.RainbowSpeed.MEDIUM)));
+    // Add glint options
+    add(
+        CategoryOption.of(
+            "cglint",
+            BooleanOption.of("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false),
+            BooleanOption.of("insane_armor", false)));
     load();
-  }
-
-  /**
-   * Parses all options as Minecraft Options
-   *
-   * @return The parsed options
-   * @see SimpleOption
-   * @see OptionRepository
-   */
-  @SuppressWarnings("rawtypes")
-  public SimpleOption[] parsedOptions() {
-    // Collect all options
-    List<SimpleOption> parsedOptions = new ArrayList<>();
-    configOptions.values().forEach(option -> parsedOptions.add(option.parseAsOption()));
-    return parsedOptions.toArray(SimpleOption[]::new);
   }
 
   /** Loads all currently saved config options from the json file */
@@ -111,7 +108,9 @@ public class OptionRepository {
     }
     // Parse all options
     var settingsArray = new JsonArray();
-    configOptions.values().forEach(option -> settingsArray.add(option.parseJson()));
+    configOptions.values().stream()
+        .filter(option -> !(option instanceof CategoryOption))
+        .forEach(option -> settingsArray.add(option.parseJson()));
     // Write the parsed options into the file
     try (var fileWriter = new FileWriter(configLocation)) {
       fileWriter.write(gson.toJson(settingsArray));
@@ -127,7 +126,8 @@ public class OptionRepository {
    * @param option The option which is going to be added
    */
   @SuppressWarnings("rawtypes")
-  private void add(Option option) {
+  public void add(Option option) {
+    System.out.println("Adding: " + option);
     // Add the option
     configOptions.put(option.name, option);
   }
@@ -140,6 +140,14 @@ public class OptionRepository {
    */
   @SuppressWarnings("rawtypes")
   public Option optionOf(String name) {
-    return configOptions.get(name);
+    return configOptions.values().stream()
+        .filter(option -> !(option instanceof CategoryOption))
+        .filter(option -> option.name.equals(name))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public Collection<Option> options() {
+    return configOptions.values();
   }
 }

@@ -11,6 +11,7 @@
     "MixinRainbowifyShader",
     "MixinScreen",
     "accessor.ScreenAccessor",
+    "accessor.EntryListWidgetAccessor",
     "invoker.DrawableHelperInvoker"
   ],
   "client": [],

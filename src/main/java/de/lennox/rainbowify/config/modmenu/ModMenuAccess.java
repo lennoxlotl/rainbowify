@@ -20,7 +20,7 @@ package de.lennox.rainbowify.config.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.lennox.rainbowify.config.ConfigScreen;
+import de.lennox.rainbowify.config.screen.ConfigScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 

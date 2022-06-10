@@ -24,6 +24,7 @@ import net.minecraft.client.option.SimpleOption;
 public abstract class Option<T> {
   public final String name, translationKey;
   public T value;
+  public boolean child;
 
   public Option(String name, String translationKey, T defaultValue) {
     this.name = name;
@@ -58,4 +59,12 @@ public abstract class Option<T> {
    */
   @SuppressWarnings("rawtypes")
   public abstract SimpleOption parseAsOption();
+
+  public boolean child() {
+    return child;
+  }
+
+  public void child(boolean child) {
+    this.child = child;
+  }
 }

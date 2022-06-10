@@ -1,29 +1,23 @@
 {
   "rainbowify.setting.title": "Rainbowify Settings",
-
   "rainbowify.setting.enabled": "Rainbowify",
   "rainbowify.setting.enabled.true": "§aEnabled",
   "rainbowify.setting.enabled.false": "§cDisabled",
-
   "rainbowify.setting.blur": "Blur",
   "rainbowify.setting.blur.tooltip": "§c§lWARNING!\n§7This setting should only be used on a relatively good GPU.",
   "rainbowify.setting.blur.true": "§aEnabled",
   "rainbowify.setting.blur.false": "§cDisabled",
-
   "rainbowify.setting.rainbow": "Rainbow",
   "rainbowify.setting.rainbow.tooltip": "§7Enables the rainbow gradient background, this does not require a good GPU.",
   "rainbowify.setting.rainbow.true": "§aEnabled",
   "rainbowify.setting.rainbow.false": "§cDisabled",
-
   "rainbowify.setting.glint": "Glint",
   "rainbowify.setting.glint.tooltip": "§7Enables the rainbow effect on enchanted items.",
   "rainbowify.setting.glint.true": "§aEnabled",
   "rainbowify.setting.glint.false": "§cDisabled",
-
   "rainbowify.setting.insane_armor": "Insanity Glint",
   "rainbowify.setting.insane_armor.true": "§aEnabled",
   "rainbowify.setting.insane_armor.false": "§cDisabled",
-
   "rainbowify.setting.blur_amount": "Blur Amount",
   "rainbowify.setting.blur_amount.low": "§aLow",
   "rainbowify.setting.blur_amount.medium": "§eMedium",
@@ -32,17 +26,19 @@
   "rainbowify.setting.blur_amount.extreme": "§4Extreme",
   "rainbowify.setting.blur_amount.insane": "§4I§cN§4S§cA§4N§cE",
   "rainbowify.setting.blur_amount.crazy": "§4CRAZY!!!",
-
   "rainbowify.setting.rainbow_opacity": "Rainbow Opacity",
   "rainbowify.setting.rainbow_opacity.low": "§aLow",
   "rainbowify.setting.rainbow_opacity.medium": "§eMedium",
   "rainbowify.setting.rainbow_opacity.high": "§6High",
   "rainbowify.setting.rainbow_opacity.very_high": "§cVery High",
   "rainbowify.setting.rainbow_opacity.full": "§4Full",
-
   "rainbowify.setting.rainbow_speed": "Rainbow Speed",
   "rainbowify.setting.rainbow_speed.slow": "§aSlow",
   "rainbowify.setting.rainbow_speed.medium": "§eMedium",
   "rainbowify.setting.rainbow_speed.fast": "§6Fast",
-  "rainbowify.setting.rainbow_speed.very_fast": "§cVery Fast"
+  "rainbowify.setting.rainbow_speed.very_fast": "§cVery Fast",
+  "rainbowify.category.cgeneral": "General Options",
+  "rainbowify.category.cblur": "Blur Options",
+  "rainbowify.category.crainbow": "Rainbow Options",
+  "rainbowify.category.cglint": "Glint Options"
 }
