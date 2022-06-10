@@ -19,7 +19,6 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -56,7 +55,9 @@ public abstract class MixinScreen {
       cancellable = true)
   public void renderBackground(MatrixStack matrices, CallbackInfo callback) {
     if (this.client != null && this.client.world != null) {
-      if (Config.ENABLED.value) {
+      boolean enabled =
+          (boolean) RainbowifyMod.instance().optionRepository().optionOf("enabled").value;
+      if (enabled) {
         // Publish the screen background event
         RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
         callback.cancel();

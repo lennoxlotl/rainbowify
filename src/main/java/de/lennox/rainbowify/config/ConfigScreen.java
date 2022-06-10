@@ -47,7 +47,7 @@ public class ConfigScreen extends GameOptionsScreen {
   protected void init() {
     this.list =
         new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
-    this.list.addAll(Config.parseOptions());
+    this.list.addAll(RainbowifyMod.instance().optionRepository().parsedOptions());
     this.addSelectableChild(this.list);
     this.addDrawableChild(
         new ButtonWidget(

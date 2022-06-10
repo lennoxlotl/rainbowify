@@ -18,49 +18,11 @@
  */
 package de.lennox.rainbowify.config;
 
-import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.option.BooleanOption;
 import de.lennox.rainbowify.config.option.EnumOption;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
-import java.util.ArrayList;
-
-// TODO: Rework this in a non static form factor, for now this is fine
 public class Config {
-  public static final BooleanOption ENABLED = BooleanOption.of("enabled", true);
-  public static final BooleanOption RAINBOW =
-      BooleanOption.of("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true);
-  public static final BooleanOption BLUR =
-      BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false);
-
-  public static final BooleanOption GLINT =
-      BooleanOption.of("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false);
-  public static final BooleanOption INSANE_ARMOR = BooleanOption.of("insane_armor", false);
-  public static final EnumOption<BlurAmount> BLUR_AMOUNT =
-      EnumOption.of("blur_amount", BlurAmount.MEDIUM);
-  public static final EnumOption<RainbowOpacity> RAINBOW_OPACITY =
-      EnumOption.of("rainbow_opacity", RainbowOpacity.HIGH);
-  public static final EnumOption<RainbowSpeed> RAINBOW_SPEED =
-      EnumOption.of("rainbow_speed", RainbowSpeed.MEDIUM);
-
-  /**
-   * Parses all options as Minecraft Options
-   *
-   * @return The parsed options
-   * @see SimpleOption
-   * @see OptionRepository
-   */
-  public static SimpleOption[] parseOptions() {
-    // Collect all options
-    ArrayList<SimpleOption> parsedOptions = new ArrayList<>();
-    RainbowifyMod.instance()
-        .optionRepository()
-        .options()
-        .forEach(customOption -> parsedOptions.add(customOption.parseAsOption()));
-    return parsedOptions.toArray(SimpleOption[]::new);
-  }
-
   public enum RainbowOpacity {
     LOW(0.1f),
     MEDIUM(0.25f),

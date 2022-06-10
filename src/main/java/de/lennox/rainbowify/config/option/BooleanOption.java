@@ -73,7 +73,7 @@ public class BooleanOption extends CustomOption<Boolean> {
         },
         SimpleOption.BOOLEAN,
         value,
-        aBoolean -> optionRepository.optionBy(name).value = aBoolean);
+        aBoolean -> optionRepository.optionOf(name).value = aBoolean);
   }
 
   /**

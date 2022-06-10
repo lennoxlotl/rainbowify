@@ -84,12 +84,16 @@ public class RainbowGlintShader extends Effect {
   @SuppressWarnings("unused")
   private final Subscription<GlintShaderEvent> glintShaderSubscription =
       event -> {
-        if (!Config.GLINT.value) return;
+        boolean enabled =
+            (boolean) RainbowifyMod.instance().optionRepository().optionOf("glint").value;
+        boolean insaneArmor =
+            (boolean) RainbowifyMod.instance().optionRepository().optionOf("insane_armor").value;
+        if (!enabled) return;
         //noinspection resource
         Shader shader = event.shader();
         Config.RainbowSpeed rainbowSpeed =
             (Config.RainbowSpeed)
-                RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
+                RainbowifyMod.instance().optionRepository().optionOf("rainbow_speed").value;
         // Set the uniforms now and override the shader
         time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
         res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
@@ -99,8 +103,7 @@ public class RainbowGlintShader extends Effect {
           cachedArmorGlint = shader.getFragmentShader();
         }
         // Enable insanity mode if wanted
-        boolean requiresInsanity =
-            Config.INSANE_ARMOR.value && cachedArmorGlint == shader.getFragmentShader();
+        boolean requiresInsanity = insaneArmor && cachedArmorGlint == shader.getFragmentShader();
         insanity.set(requiresInsanity ? 1 : 0);
         // Overwrite the shader
         event.shader(glint);

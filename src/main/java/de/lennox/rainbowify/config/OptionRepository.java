@@ -19,18 +19,24 @@
 package de.lennox.rainbowify.config;
 
 import com.google.gson.*;
+import de.lennox.rainbowify.config.option.BooleanOption;
+import de.lennox.rainbowify.config.option.EnumOption;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.option.SimpleOption;
+import net.minecraft.text.Text;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OptionRepository {
   @SuppressWarnings("rawtypes")
-  private final List<CustomOption> configOptions = new ArrayList<>();
+  private final Map<String, CustomOption> configOptions = new HashMap<>();
 
   private final File configLocation =
       new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
@@ -38,18 +44,30 @@ public class OptionRepository {
 
   /** Initializes all configuration options */
   public void init() {
-    // Add all options to the option list (awful method, might change this later)
-    configOptions.addAll(
-        List.of(
-            Config.ENABLED,
-            Config.BLUR,
-            Config.BLUR_AMOUNT,
-            Config.RAINBOW,
-            Config.RAINBOW_OPACITY,
-            Config.RAINBOW_SPEED,
-            Config.GLINT,
-            Config.INSANE_ARMOR));
+    add(BooleanOption.of("enabled", true));
+    add(BooleanOption.of("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true));
+    add(BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false));
+    add(BooleanOption.of("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false));
+    add(BooleanOption.of("insane_armor", false));
+    add(EnumOption.of("blur_amount", Config.BlurAmount.MEDIUM));
+    add(EnumOption.of("rainbow_opacity", Config.RainbowOpacity.HIGH));
+    add(EnumOption.of("rainbow_speed", Config.RainbowSpeed.MEDIUM));
     load();
+  }
+
+  /**
+   * Parses all options as Minecraft Options
+   *
+   * @return The parsed options
+   * @see SimpleOption
+   * @see OptionRepository
+   */
+  @SuppressWarnings("rawtypes")
+  public SimpleOption[] parsedOptions() {
+    // Collect all options
+    List<SimpleOption> parsedOptions = new ArrayList<>();
+    configOptions.values().forEach(customOption -> parsedOptions.add(customOption.parseAsOption()));
+    return parsedOptions.toArray(SimpleOption[]::new);
   }
 
   /** Loads all currently saved config options from the json file */
@@ -68,7 +86,7 @@ public class OptionRepository {
               JsonObject settingsObject = jsonElement.getAsJsonObject();
               if (settingsObject.has("name")) {
                 var settingsName = settingsObject.get("name").getAsString();
-                optionBy(settingsName).fromJson(settingsObject);
+                optionOf(settingsName).fromJson(settingsObject);
               }
             }
           }
@@ -93,7 +111,7 @@ public class OptionRepository {
     }
     // Parse all options
     var settingsArray = new JsonArray();
-    configOptions.forEach(customOption -> settingsArray.add(customOption.parseJson()));
+    configOptions.values().forEach(customOption -> settingsArray.add(customOption.parseJson()));
     // Write the parsed options into the file
     try (var fileWriter = new FileWriter(configLocation)) {
       fileWriter.write(gson.toJson(settingsArray));
@@ -104,20 +122,24 @@ public class OptionRepository {
   }
 
   /**
+   * Adds a new custom option
+   *
+   * @param option The option which is going to be added
+   */
+  @SuppressWarnings("rawtypes")
+  private void add(CustomOption option) {
+    // Add the option
+    configOptions.put(option.name, option);
+  }
+
+  /**
    * Returns an option by its name
    *
    * @param name The option name
    * @return The option
    */
   @SuppressWarnings("rawtypes")
-  public CustomOption optionBy(String name) {
-    var option =
-        configOptions.stream().filter(customOption -> customOption.name.equals(name)).findFirst();
-    return option.orElse(null);
-  }
-
-  @SuppressWarnings("rawtypes")
-  public List<CustomOption> options() {
-    return configOptions;
+  public CustomOption optionOf(String name) {
+    return configOptions.get(name);
   }
 }

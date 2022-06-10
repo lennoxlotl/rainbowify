@@ -113,7 +113,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
         (Consumer<Object>)
             newValue -> {
               // Update the options value in the option repository
-              optionRepository.optionBy(name).value = enumValueOf((String) newValue);
+              optionRepository.optionOf(name).value = enumValueOf((String) newValue);
             });
   }
 
