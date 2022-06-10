@@ -20,12 +20,12 @@ package de.lennox.rainbowify.config.option;
 
 import com.google.gson.JsonObject;
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.config.CustomOption;
+import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
-public class BooleanOption extends CustomOption<Boolean> {
+public class BooleanOption extends Option<Boolean> {
   private final Text enabledText;
   private final Text disabledText;
   private final Text tooltip;

@@ -21,11 +21,11 @@ package de.lennox.rainbowify.config;
 import com.google.gson.JsonObject;
 import net.minecraft.client.option.SimpleOption;
 
-public abstract class CustomOption<T> {
+public abstract class Option<T> {
   public final String name, translationKey;
   public T value;
 
-  public CustomOption(String name, String translationKey, T defaultValue) {
+  public Option(String name, String translationKey, T defaultValue) {
     this.name = name;
     this.translationKey = translationKey;
     this.value = defaultValue;

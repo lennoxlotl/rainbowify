@@ -21,7 +21,7 @@ package de.lennox.rainbowify.config.option;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.config.CustomOption;
+import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
+public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   private final Class<E> optionEnum;
 
   public EnumOption(String key, E defaultValue) {

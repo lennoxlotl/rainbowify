@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class OptionRepository {
   @SuppressWarnings("rawtypes")
-  private final Map<String, CustomOption> configOptions = new HashMap<>();
+  private final Map<String, Option> configOptions = new HashMap<>();
 
   private final File configLocation =
       new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
@@ -66,7 +66,7 @@ public class OptionRepository {
   public SimpleOption[] parsedOptions() {
     // Collect all options
     List<SimpleOption> parsedOptions = new ArrayList<>();
-    configOptions.values().forEach(customOption -> parsedOptions.add(customOption.parseAsOption()));
+    configOptions.values().forEach(option -> parsedOptions.add(option.parseAsOption()));
     return parsedOptions.toArray(SimpleOption[]::new);
   }
 
@@ -111,7 +111,7 @@ public class OptionRepository {
     }
     // Parse all options
     var settingsArray = new JsonArray();
-    configOptions.values().forEach(customOption -> settingsArray.add(customOption.parseJson()));
+    configOptions.values().forEach(option -> settingsArray.add(option.parseJson()));
     // Write the parsed options into the file
     try (var fileWriter = new FileWriter(configLocation)) {
       fileWriter.write(gson.toJson(settingsArray));
@@ -122,12 +122,12 @@ public class OptionRepository {
   }
 
   /**
-   * Adds a new custom option
+   * Adds a new option
    *
    * @param option The option which is going to be added
    */
   @SuppressWarnings("rawtypes")
-  private void add(CustomOption option) {
+  private void add(Option option) {
     // Add the option
     configOptions.put(option.name, option);
   }
@@ -139,7 +139,7 @@ public class OptionRepository {
    * @return The option
    */
   @SuppressWarnings("rawtypes")
-  public CustomOption optionOf(String name) {
+  public Option optionOf(String name) {
     return configOptions.get(name);
   }
 }
