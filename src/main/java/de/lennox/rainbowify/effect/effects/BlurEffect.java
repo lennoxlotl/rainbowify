@@ -18,23 +18,22 @@
  */
 package de.lennox.rainbowify.effect.effects;
 
-import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL14.*;
-
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
-import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
-import java.io.IOException;
-
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
+
+import java.io.IOException;
+
+import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 public class BlurEffect extends Effect {
   private Shader down, up;
@@ -82,7 +81,8 @@ public class BlurEffect extends Effect {
 
   @Override
   public void draw(MatrixStack stack) {
-    if (!Config.BLUR.value) return;
+    boolean enabled = (boolean) RainbowifyMod.instance().optionRepository().optionOf("blur").value;
+    if (!enabled) return;
     // Refresh all buffers
     for (int i = 0; i < buffers.length; i++) {
       int scale = POWERS_OF_TWO[i];
@@ -120,20 +120,18 @@ public class BlurEffect extends Effect {
   }
 
   private void updateDownUniforms(Framebuffer framebuffer) {
-    Config.BlurAmount blurAmount =
-        (Config.BlurAmount)
-            RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
+    int blurAmount =
+        (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
     // Set the uniforms
     downInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
-    downOffset.set(blurAmount.offset() * fade);
+    downOffset.set(blurAmount * fade);
   }
 
   private void updateUpUniforms(Framebuffer framebuffer) {
-    Config.BlurAmount blurAmount =
-        (Config.BlurAmount)
-            RainbowifyMod.instance().optionRepository().optionBy("blur_amount").value;
+    int blurAmount =
+        (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
     // Set the uniforms
     upInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
-    upOffset.set(blurAmount.offset() * fade);
+    upOffset.set(blurAmount * fade);
   }
 }

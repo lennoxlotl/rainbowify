@@ -16,18 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.config.modmenu;
+package de.lennox.rainbowify.config;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.lennox.rainbowify.config.screen.ConfigScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+public class CyclingOptions {
+  public enum RainbowOpacity {
+    LOW(0.1f),
+    MEDIUM(0.25f),
+    HIGH(0.5f),
+    VERY_HIGH(0.75f),
+    FULL(1.0f);
 
-@Environment(EnvType.CLIENT)
-public class ModMenuAccess implements ModMenuApi {
-  @Override
-  public ConfigScreenFactory<?> getModConfigScreenFactory() {
-    return ConfigScreen::new;
+    private final float opacity;
+
+    RainbowOpacity(float opacity) {
+      this.opacity = opacity;
+    }
+
+    public float opacity() {
+      return opacity;
+    }
+  }
+
+  public enum RainbowSpeed {
+    SLOW(5000),
+    MEDIUM(3000),
+    FAST(1000),
+    VERY_FAST(500);
+
+    private final long time;
+
+    RainbowSpeed(long time) {
+      this.time = time;
+    }
+
+    public long time() {
+      return time;
+    }
   }
 }

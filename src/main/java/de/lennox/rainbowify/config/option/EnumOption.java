@@ -18,11 +18,11 @@
  */
 package de.lennox.rainbowify.config.option;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.config.CustomOption;
+import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
+import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
+public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   private final Class<E> optionEnum;
 
   public EnumOption(String key, E defaultValue) {
@@ -38,28 +38,18 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     this.optionEnum = defaultValue.getDeclaringClass();
   }
 
-  private static <E extends Enum<E>> Text enumTooltipTextOf(EnumOption<E> option, E value) {
+  private static <E extends Enum<E>> Text enumValueTextOf(EnumOption<E> option, E value) {
     return Text.translatable(option.translationKey + "." + value.name().toLowerCase());
   }
 
   @Override
-  public JsonObject parseJson() {
-    var json = new JsonObject();
-    json.addProperty("name", name);
-    json.addProperty("value", value.name());
-    return json;
+  public ParsedOption parseConfig() {
+    return new ParsedOption(name, value);
   }
 
   @Override
-  public void fromJson(JsonObject object) {
-    if (object.has("value")) {
-      var enumName = object.get("value").getAsString();
-      var possibleConstant =
-          Arrays.stream(optionEnum.getEnumConstants())
-              .filter(constant -> constant.name().equals(enumName))
-              .findFirst();
-      possibleConstant.ifPresent(constant -> value = constant);
-    }
+  public void fromConfig(ParsedOption option) {
+    this.value = E.valueOf(optionEnum, (String) option.value());
   }
 
   /**
@@ -102,7 +92,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
         // Enum values can't have tooltips yet...
         SimpleOption.emptyTooltip(),
         (optionText, value) ->
-            enumTooltipTextOf(
+            enumValueTextOf(
                 this,
                 // Retrieve the value E from the selected value as String
                 enumValueOf((String) value)),
@@ -113,7 +103,19 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
         (Consumer<Object>)
             newValue -> {
               // Update the options value in the option repository
-              optionRepository.optionBy(name).value = enumValueOf((String) newValue);
+              optionRepository.optionOf(name).value = enumValueOf((String) newValue);
             });
+  }
+
+  /**
+   * Creates an enum option
+   *
+   * @param key The key name
+   * @param defaultValue The default value
+   * @return The enum option
+   * @param <T> The enum of selectables
+   */
+  public static <T extends Enum<T>> EnumOption<T> of(String key, T defaultValue) {
+    return new EnumOption<>(key, defaultValue);
   }
 }

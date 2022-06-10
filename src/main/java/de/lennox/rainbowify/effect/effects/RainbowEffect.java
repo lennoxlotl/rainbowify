@@ -18,18 +18,19 @@
  */
 package de.lennox.rainbowify.effect.effects;
 
-import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
-
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
-import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.config.CyclingOptions;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
-import java.io.IOException;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
+
+import java.io.IOException;
+
+import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 
 public class RainbowEffect extends Effect {
   private Shader rainbow;
@@ -61,19 +62,21 @@ public class RainbowEffect extends Effect {
 
   @Override
   public void draw(MatrixStack stack) {
-    if (!Config.RAINBOW.value) return;
+    boolean enabled =
+        (boolean) RainbowifyMod.instance().optionRepository().optionOf("rainbow").value;
+    if (!enabled) return;
     // Draw the rainbow
     updateUniforms();
     drawCanvas(MC.getFramebuffer(), stack, () -> rainbow);
   }
 
   private void updateUniforms() {
-    Config.RainbowSpeed rainbowSpeed =
-        (Config.RainbowSpeed)
-            RainbowifyMod.instance().optionRepository().optionBy("rainbow_speed").value;
-    Config.RainbowOpacity rainbowOpacity =
-        (Config.RainbowOpacity)
-            RainbowifyMod.instance().optionRepository().optionBy("rainbow_opacity").value;
+    CyclingOptions.RainbowSpeed rainbowSpeed =
+        (CyclingOptions.RainbowSpeed)
+            RainbowifyMod.instance().optionRepository().optionOf("rainbow_speed").value;
+    CyclingOptions.RainbowOpacity rainbowOpacity =
+        (CyclingOptions.RainbowOpacity)
+            RainbowifyMod.instance().optionRepository().optionOf("rainbow_opacity").value;
     // Set the uniforms
     alpha.set(fade * rainbowOpacity.opacity());
     time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());

@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.config.modmenu;
+package de.lennox.rainbowify.mixin.modifications.accessor;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.lennox.rainbowify.config.screen.ConfigScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.widget.EntryListWidget;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Environment(EnvType.CLIENT)
-public class ModMenuAccess implements ModMenuApi {
-  @Override
-  public ConfigScreenFactory<?> getModConfigScreenFactory() {
-    return ConfigScreen::new;
-  }
+@Mixin(EntryListWidget.class)
+public interface EntryListWidgetAccessor<E extends EntryListWidget.Entry<E>> {
+  @Accessor
+  void setTop(int top);
+
+  @Accessor
+  void setBottom(int bottom);
+
+  @Accessor
+  E getHoveredEntry();
+
+  @Accessor
+  boolean getScrolling();
 }

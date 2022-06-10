@@ -18,10 +18,10 @@
  */
 package de.lennox.rainbowify;
 
-import de.lennox.rainbowify.event.Event;
-import de.lennox.rainbowify.event.EventBus;
 import de.lennox.rainbowify.config.OptionRepository;
 import de.lennox.rainbowify.effect.EffectRepository;
+import de.lennox.rainbowify.event.Event;
+import de.lennox.rainbowify.event.EventBus;
 import net.fabricmc.api.ModInitializer;
 
 public class RainbowifyMod implements ModInitializer {
@@ -43,7 +43,13 @@ public class RainbowifyMod implements ModInitializer {
     // Initialize the mod
     System.out.println("Loading Rainbowify.");
     eventBus.createSubscription(this);
-    optionRepository.init();
+    try {
+      optionRepository.init();
+    } catch (Exception ex) {
+      System.err.println(
+          "Something went wrong while loading rainbowify's configuration file, please report the following error in the support discord");
+      ex.printStackTrace();
+    }
     System.out.println("Loaded Rainbowify successfully.");
   }
 

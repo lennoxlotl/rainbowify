@@ -19,13 +19,15 @@
 package de.lennox.rainbowify.config;
 
 import com.google.gson.JsonObject;
+import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 
-public abstract class CustomOption<T> {
+public abstract class Option<T> {
   public final String name, translationKey;
   public T value;
+  public boolean child;
 
-  public CustomOption(String name, String translationKey, T defaultValue) {
+  public Option(String name, String translationKey, T defaultValue) {
     this.name = name;
     this.translationKey = translationKey;
     this.value = defaultValue;
@@ -38,16 +40,14 @@ public abstract class CustomOption<T> {
    * @see OptionRepository
    * @return The parsed option
    */
-  public abstract JsonObject parseJson();
+  public abstract ParsedOption parseConfig();
 
   /**
-   * Loads the config value from a JsonObject
+   * Sets the options value by the given parsed config option
    *
-   * @see JsonObject
-   * @see OptionRepository
-   * @param object The json object
+   * @param option The config option
    */
-  public abstract void fromJson(JsonObject object);
+  public abstract void fromConfig(ParsedOption option);
 
   /**
    * Parses the option as Minecraft Option
@@ -58,4 +58,12 @@ public abstract class CustomOption<T> {
    */
   @SuppressWarnings("rawtypes")
   public abstract SimpleOption parseAsOption();
+
+  public boolean child() {
+    return child;
+  }
+
+  public void child(boolean child) {
+    this.child = child;
+  }
 }

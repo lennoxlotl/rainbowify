@@ -18,6 +18,7 @@
  */
 package de.lennox.rainbowify.config.option;
 
+import com.mojang.serialization.Codec;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
@@ -25,23 +26,28 @@ import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
-public class BooleanOption extends Option<Boolean> {
-  private final Text enabledText;
-  private final Text disabledText;
+/**
+ * Option for integer options in the form of sliders
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
+public class SliderOption extends Option<Integer> {
   private final Text tooltip;
+  private final int min, max;
 
-  public BooleanOption(String key, Boolean defaultValue) {
+  public SliderOption(String key, int defaultValue, int min, int max) {
     super(key, "rainbowify.setting." + key, defaultValue);
-    this.enabledText = Text.translatable(translationKey + ".true");
-    this.disabledText = Text.translatable(translationKey + ".false");
     tooltip = null;
+    this.min = min;
+    this.max = max;
   }
 
-  public BooleanOption(String key, Text tooltip, Boolean defaultValue) {
+  public SliderOption(String key, Text tooltip, int defaultValue, int min, int max) {
     super(key, "rainbowify.setting." + key, defaultValue);
-    this.enabledText = Text.translatable(translationKey + ".true");
-    this.disabledText = Text.translatable(translationKey + ".false");
     this.tooltip = tooltip;
+    this.min = min;
+    this.max = max;
   }
 
   @Override
@@ -51,41 +57,40 @@ public class BooleanOption extends Option<Boolean> {
 
   @Override
   public void fromConfig(ParsedOption option) {
-    this.value = (Boolean) option.value();
+    this.value = (int) option.value();
   }
 
   @Override
-  public SimpleOption<Boolean> parseAsOption() {
+  public SimpleOption<Integer> parseAsOption() {
     // Create the base option
     OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
     return new SimpleOption<>(
         translationKey,
         // Display a tool-tip
         tooltip == null ? SimpleOption.emptyTooltip() : SimpleOption.constantTooltip(tooltip),
-        // Display the enabled or disabled text based on the value
-        (optionText, value1) -> {
-          if (value1) {
-            return enabledText;
-          } else {
-            return disabledText;
-          }
-        },
-        // Boolean option
-        SimpleOption.BOOLEAN,
+        // Format the value string to a proper format with name and value
+        (optionText, val) -> Text.of(Text.translatable(translationKey).getString() + ": " + val),
+        // Define min and max
+        new SimpleOption.ValidatingIntSliderCallbacks(min, max),
+        // Define int codec
+        Codec.INT,
         value,
         // Set the value in the option repository once changed
-        aBoolean -> optionRepository.optionOf(name).value = aBoolean);
+        aInteger -> optionRepository.optionOf(name).value = aInteger);
   }
 
   /**
    * Creates a new boolean option without a tooltip
    *
    * @param key The key name
-   * @param defaultValue The default value
+   * @param defaultValue The default value#
+   * @param min The minimum value
+   * @param max The maximum value
    * @return The created boolean option
+   * @since 2.0.0
    */
-  public static BooleanOption of(String key, boolean defaultValue) {
-    return new BooleanOption(key, defaultValue);
+  public static SliderOption of(String key, int defaultValue, int min, int max) {
+    return new SliderOption(key, defaultValue, min, max);
   }
 
   /**
@@ -94,9 +99,12 @@ public class BooleanOption extends Option<Boolean> {
    * @param key The key name
    * @param tooltip The tool tip
    * @param defaultValue The default value
+   * @param min The minimum value
+   * @param max The maximum value
    * @return The created boolean option
+   * @since 2.0.0
    */
-  public static BooleanOption of(String key, Text tooltip, boolean defaultValue) {
-    return new BooleanOption(key, tooltip, defaultValue);
+  public static SliderOption of(String key, Text tooltip, int defaultValue, int min, int max) {
+    return new SliderOption(key, tooltip, defaultValue, min, max);
   }
 }

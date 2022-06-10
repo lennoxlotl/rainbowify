@@ -19,7 +19,6 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
-import de.lennox.rainbowify.config.Config;
 import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
 import de.lennox.rainbowify.mixin.modifications.accessor.ScreenAccessor;
 import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;
@@ -55,7 +54,9 @@ public abstract class MixinDeathScreen extends MixinScreen {
    */
   @Overwrite
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-    if (Config.ENABLED.value) {
+    boolean enabled =
+        (boolean) RainbowifyMod.instance().optionRepository().optionOf("enabled").value;
+    if (enabled) {
       if (MinecraftClient.getInstance().world != null) {
         // Publish the screen rendering background event if rainbowify is enabled
         RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));

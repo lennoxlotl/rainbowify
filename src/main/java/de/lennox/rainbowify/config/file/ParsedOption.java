@@ -16,18 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.config.modmenu;
+package de.lennox.rainbowify.config.file;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.lennox.rainbowify.config.screen.ConfigScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
-@Environment(EnvType.CLIENT)
-public class ModMenuAccess implements ModMenuApi {
-  @Override
-  public ConfigScreenFactory<?> getModConfigScreenFactory() {
-    return ConfigScreen::new;
-  }
-}
+/**
+ * The data-class which contains the parsed option
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
+public record ParsedOption(String name, Object value) {}
