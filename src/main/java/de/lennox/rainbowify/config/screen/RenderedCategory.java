@@ -69,6 +69,7 @@ public class RenderedCategory {
     // Render the list widget
     //noinspection rawtypes
     EntryListWidgetAccessor accessor = (EntryListWidgetAccessor) listWidget;
+    // Re-position the category
     accessor.setTop(y);
     accessor.setBottom(y + height - 20);
     listWidget.render(matrices, mouseX, mouseY, delta);
