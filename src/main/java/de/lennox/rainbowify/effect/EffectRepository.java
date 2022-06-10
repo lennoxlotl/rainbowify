@@ -19,16 +19,23 @@
 package de.lennox.rainbowify.effect;
 
 import de.lennox.rainbowify.RainbowifyMod;
+import de.lennox.rainbowify.effect.effects.BlurEffect;
+import de.lennox.rainbowify.effect.effects.RainbowEffect;
 import de.lennox.rainbowify.effect.effects.RainbowGlintShader;
 import de.lennox.rainbowify.event.Subscription;
 import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
-import de.lennox.rainbowify.effect.effects.BlurEffect;
-import de.lennox.rainbowify.effect.effects.RainbowEffect;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ProgressScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Repository for all effects, contains and initializes all effects
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class EffectRepository {
   private final List<Effect> effects = new ArrayList<>();
   private final EffectAnimator animator = new EffectAnimator();
@@ -42,7 +49,11 @@ public class EffectRepository {
         effects.forEach(effect -> effect.draw(event.matrixStack()));
       };
 
-  /** Initializes all effects */
+  /**
+   * Initializes all effects
+   *
+   * @since 1.0.0
+   */
   public void init() {
     // Add all effects and initialize the effect animator
     effects.addAll(List.of(new BlurEffect(), new RainbowEffect(), new RainbowGlintShader()));

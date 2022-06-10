@@ -32,6 +32,12 @@ import java.io.IOException;
 
 import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 
+/**
+ * The rainbow effect which renders an animated rainbow backdrop to the gui
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class RainbowEffect extends Effect {
   private Shader rainbow;
   private GlUniform alpha, time, res;
@@ -70,6 +76,11 @@ public class RainbowEffect extends Effect {
     drawCanvas(MC.getFramebuffer(), stack, () -> rainbow);
   }
 
+  /**
+   * Updates the uniforms for the rainbow shader
+   *
+   * @since 1.0.0
+   */
   private void updateUniforms() {
     CyclingOptions.RainbowSpeed rainbowSpeed =
         (CyclingOptions.RainbowSpeed)

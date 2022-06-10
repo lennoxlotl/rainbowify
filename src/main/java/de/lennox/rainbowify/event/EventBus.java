@@ -26,6 +26,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The eventbus used to publish to events and subscribe to them
+ *
+ * @param <T> The event base class type
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class EventBus<T> {
   private final Map<Type, Set<Subscription<T>>> subscriptions = new HashMap<>();
 
@@ -33,12 +40,16 @@ public class EventBus<T> {
    * Fetches and creates all subscriptions in an object / instance of a class
    *
    * @param obj The instance of the class
+   * @since 1.0.0
    */
   public void createSubscription(Object obj) {
     Class<?> type = obj.getClass();
     for (Field field : type.getDeclaredFields()) {
+      // Check if the field is a subscription
       if (field.getType() == Subscription.class) {
+        // Get the subscription interface
         Subscription<T> fieldSubscription = subscriptionOf(field, obj);
+        // Get the type arguments (event type which is going to be subscribed to)
         Type subscriptionType =
             ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
         if (fieldSubscription == null) {
@@ -48,6 +59,7 @@ public class EventBus<T> {
                   + " as a subscription field didn't have proper type arguments.");
           return;
         }
+        // Insert the subscription
         put(subscriptionType, fieldSubscription);
       }
     }
@@ -57,11 +69,13 @@ public class EventBus<T> {
    * Publishes an event to all types of that event
    *
    * @param event The event to be published
+   * @since 1.0.0
    */
   public void publish(T event) {
     Type eventType = event.getClass();
     Set<Subscription<T>> subscriptionOfEvent = subscriptions.get(eventType);
     if (subscriptionOfEvent == null) return;
+    // Publish to all subscribers
     for (Subscription<T> subscription : subscriptionOfEvent) {
       subscription.call(event);
     }
@@ -73,12 +87,15 @@ public class EventBus<T> {
    * @param field The field
    * @param obj The object / instance the field is in
    * @return The subscription
+   * @since 1.0.0
    */
   private Subscription<T> subscriptionOf(Field field, Object obj) {
     boolean accessible = field.canAccess(obj);
+    // Make the field accessible
     if (!accessible) {
       field.setAccessible(true);
     }
+    // Get the subscription field
     Subscription<T> fieldSubscription = null;
     try {
       //noinspection unchecked
@@ -86,6 +103,7 @@ public class EventBus<T> {
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     }
+    // Revert the accessible state
     field.setAccessible(accessible);
     return fieldSubscription;
   }
@@ -95,11 +113,14 @@ public class EventBus<T> {
    *
    * @param type The event type
    * @param subscription The subscription
+   * @since 1.0.0
    */
   private void put(Type type, Subscription<T> subscription) {
     if (subscriptions.containsKey(type)) {
+      // Insert the subscription
       subscriptions.get(type).add(subscription);
     } else {
+      // Create a new subscription map
       HashSet<Subscription<T>> subscriptionSet = new HashSet<>();
       subscriptionSet.add(subscription);
       subscriptions.put(type, subscriptionSet);

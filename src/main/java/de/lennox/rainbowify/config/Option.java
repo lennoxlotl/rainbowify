@@ -22,10 +22,16 @@ import com.google.gson.JsonObject;
 import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 
+/**
+ * The base option type
+ *
+ * @param <T>
+ * @since 1.0.0
+ * @author Lennox
+ */
 public abstract class Option<T> {
   public final String name, translationKey;
   public T value;
-  public boolean child;
 
   public Option(String name, String translationKey, T defaultValue) {
     this.name = name;
@@ -39,6 +45,7 @@ public abstract class Option<T> {
    * @see JsonObject
    * @see OptionRepository
    * @return The parsed option
+   * @since 2.0.0
    */
   public abstract ParsedOption parseConfig();
 
@@ -46,6 +53,7 @@ public abstract class Option<T> {
    * Sets the options value by the given parsed config option
    *
    * @param option The config option
+   * @since 2.0.0
    */
   public abstract void fromConfig(ParsedOption option);
 
@@ -55,15 +63,8 @@ public abstract class Option<T> {
    * @see SimpleOption
    * @see OptionRepository
    * @return The parsed option
+   * @since 1.0.0
    */
   @SuppressWarnings("rawtypes")
   public abstract SimpleOption parseAsOption();
-
-  public boolean child() {
-    return child;
-  }
-
-  public void child(boolean child) {
-    this.child = child;
-  }
 }

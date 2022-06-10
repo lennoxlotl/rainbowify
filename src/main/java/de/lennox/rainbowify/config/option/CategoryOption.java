@@ -47,8 +47,6 @@ public class CategoryOption extends Option {
     //noinspection unchecked
     super(key, "rainbowify.category." + key, null);
     this.children = List.of(children);
-    // Define all children as category child in their instance
-    this.children.forEach(child -> child.child(true));
   }
 
   @Override

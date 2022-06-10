@@ -27,6 +27,13 @@ import net.minecraft.client.gl.WindowFramebuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
+/**
+ * An extension of the normal framebuffer which automatically refreshes its size on window resize,
+ * this way we don't have to manually check every render tick if the window size has changed
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class RefreshingWindowBuffer extends WindowFramebuffer {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
 
@@ -43,6 +50,12 @@ public class RefreshingWindowBuffer extends WindowFramebuffer {
     RainbowifyMod.instance().eventBus().createSubscription(this);
   }
 
+  /**
+   * Checks if the framebuffer size has changed, if it has changed it will recreate the buffer
+   *
+   * @param width The current width
+   * @param height The current height
+   */
   public void check(int width, int height) {
     if (this.textureWidth != width || this.textureHeight != height) {
       this.resize(Math.max(width, 1), Math.max(height, 1), false);

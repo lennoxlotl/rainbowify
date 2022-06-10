@@ -24,6 +24,12 @@ import de.lennox.rainbowify.config.screen.ConfigScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
+/**
+ * Implementation of the mod menu api to include support for config changes
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 @Environment(EnvType.CLIENT)
 public class ModMenuAccess implements ModMenuApi {
   @Override

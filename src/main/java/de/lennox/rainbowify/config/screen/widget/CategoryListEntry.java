@@ -42,16 +42,6 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
     this.renderedCategory = renderedCategory;
   }
 
-  @Override
-  public List<? extends Selectable> selectableChildren() {
-    return collectClickableWidgets();
-  }
-
-  @Override
-  public List<? extends Element> children() {
-    return collectClickableWidgets();
-  }
-
   /**
    * Collects all clickable widgets from the category renderer
    *
@@ -85,6 +75,16 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
     renderedCategory.render(matrices, y, mouseX, mouseY, tickDelta);
   }
 
+  @Override
+  public List<? extends Selectable> selectableChildren() {
+    return collectClickableWidgets();
+  }
+
+  @Override
+  public List<? extends Element> children() {
+    return collectClickableWidgets();
+  }
+
   public RenderedCategory renderedCategory() {
     return renderedCategory;
   }
@@ -94,6 +94,7 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
    *
    * @param category The category renderer
    * @return The category list entry
+   * @since 2.0.0
    */
   public static CategoryListEntry of(RenderedCategory category) {
     return new CategoryListEntry(category);

@@ -35,6 +35,12 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
+/**
+ * The blur effect which adds a blur backdrop to the gui
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class BlurEffect extends Effect {
   private Shader down, up;
   private GlUniform downOffset, downInSize;
@@ -119,6 +125,12 @@ public class BlurEffect extends Effect {
     }
   }
 
+  /**
+   * Updates the down-sampling uniform
+   *
+   * @param framebuffer The framebuffer
+   * @since 1.2.0
+   */
   private void updateDownUniforms(Framebuffer framebuffer) {
     int blurAmount =
         (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
@@ -127,6 +139,12 @@ public class BlurEffect extends Effect {
     downOffset.set(blurAmount * fade);
   }
 
+  /**
+   * Updates the up-sampling uniform
+   *
+   * @param framebuffer The framebuffer
+   * @since 1.2.0
+   */
   private void updateUpUniforms(Framebuffer framebuffer) {
     int blurAmount =
         (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;

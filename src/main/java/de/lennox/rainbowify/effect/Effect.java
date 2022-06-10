@@ -21,15 +21,32 @@ package de.lennox.rainbowify.effect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
+/**
+ * The base effect class
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public abstract class Effect {
   protected static final MinecraftClient MC = MinecraftClient.getInstance();
   protected float fade;
 
+  /**
+   * Initializes the effect and all it's dependencies
+   *
+   * @since 2.0.0
+   */
   public abstract void init();
 
+  /**
+   * Draws the effect in the background of the gui
+   *
+   * @param stack The rendering stack
+   * @since 2.0.0
+   */
   public abstract void draw(MatrixStack stack);
 
-  public void setFade(float fade) {
+  public void fade(float fade) {
     this.fade = fade;
   }
 }
