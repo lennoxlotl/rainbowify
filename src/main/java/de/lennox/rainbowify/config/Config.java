@@ -28,21 +28,21 @@ import java.util.ArrayList;
 
 // TODO: Rework this in a non static form factor, for now this is fine
 public class Config {
-  public static final BooleanOption ENABLED = new BooleanOption("enabled", true);
+  public static final BooleanOption ENABLED = BooleanOption.of("enabled", true);
   public static final BooleanOption RAINBOW =
-      new BooleanOption("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true);
+      BooleanOption.of("rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true);
   public static final BooleanOption BLUR =
-      new BooleanOption("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false);
+      BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false);
 
   public static final BooleanOption GLINT =
-      new BooleanOption("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false);
-  public static final BooleanOption INSANE_ARMOR = new BooleanOption("insane_armor", false);
+      BooleanOption.of("glint", Text.translatable("rainbowify.setting.glint.tooltip"), false);
+  public static final BooleanOption INSANE_ARMOR = BooleanOption.of("insane_armor", false);
   public static final EnumOption<BlurAmount> BLUR_AMOUNT =
-      new EnumOption<>("blur_amount", BlurAmount.MEDIUM);
+      EnumOption.of("blur_amount", BlurAmount.MEDIUM);
   public static final EnumOption<RainbowOpacity> RAINBOW_OPACITY =
-      new EnumOption<>("rainbow_opacity", RainbowOpacity.HIGH);
+      EnumOption.of("rainbow_opacity", RainbowOpacity.HIGH);
   public static final EnumOption<RainbowSpeed> RAINBOW_SPEED =
-      new EnumOption<>("rainbow_speed", RainbowSpeed.MEDIUM);
+      EnumOption.of("rainbow_speed", RainbowSpeed.MEDIUM);
 
   /**
    * Parses all options as Minecraft Options

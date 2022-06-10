@@ -75,4 +75,27 @@ public class BooleanOption extends CustomOption<Boolean> {
         value,
         aBoolean -> optionRepository.optionBy(name).value = aBoolean);
   }
+
+  /**
+   * Creates a new boolean option without a tooltip
+   *
+   * @param key The key name
+   * @param defaultValue The default value
+   * @return The created boolean option
+   */
+  public static BooleanOption of(String key, boolean defaultValue) {
+    return new BooleanOption(key, defaultValue);
+  }
+
+  /**
+   * Creates a new boolean option with a tooltip
+   *
+   * @param key The key name
+   * @param tooltip The tool tip
+   * @param defaultValue The default value
+   * @return The created boolean option
+   */
+  public static BooleanOption of(String key, Text tooltip, boolean defaultValue) {
+    return new BooleanOption(key, tooltip, defaultValue);
+  }
 }

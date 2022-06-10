@@ -38,7 +38,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
     this.optionEnum = defaultValue.getDeclaringClass();
   }
 
-  private static <E extends Enum<E>> Text enumTooltipTextOf(EnumOption<E> option, E value) {
+  private static <E extends Enum<E>> Text enumValueTextOf(EnumOption<E> option, E value) {
     return Text.translatable(option.translationKey + "." + value.name().toLowerCase());
   }
 
@@ -102,7 +102,7 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
         // Enum values can't have tooltips yet...
         SimpleOption.emptyTooltip(),
         (optionText, value) ->
-            enumTooltipTextOf(
+            enumValueTextOf(
                 this,
                 // Retrieve the value E from the selected value as String
                 enumValueOf((String) value)),
@@ -115,5 +115,17 @@ public class EnumOption<E extends Enum<E>> extends CustomOption<Enum<E>> {
               // Update the options value in the option repository
               optionRepository.optionBy(name).value = enumValueOf((String) newValue);
             });
+  }
+
+  /**
+   * Creates an enum option
+   *
+   * @param key The key name
+   * @param defaultValue The default value
+   * @return The enum option
+   * @param <T> The enum of selectables
+   */
+  public static <T extends Enum<T>> EnumOption<T> of(String key, T defaultValue) {
+    return new EnumOption<>(key, defaultValue);
   }
 }
