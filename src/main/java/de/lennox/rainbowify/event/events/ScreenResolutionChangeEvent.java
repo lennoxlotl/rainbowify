@@ -20,4 +20,10 @@ package de.lennox.rainbowify.event.events;
 
 import de.lennox.rainbowify.event.Event;
 
+/**
+ * Called on resolution change (screen resize)
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class ScreenResolutionChangeEvent extends Event {}

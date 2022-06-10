@@ -30,6 +30,12 @@ import net.minecraft.util.math.Matrix4f;
 
 import java.util.function.Supplier;
 
+/**
+ * Contains several utility methods for OpenGL or rendering with Minecrafts pipeline
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class GLUtil {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
 
@@ -39,6 +45,7 @@ public class GLUtil {
    * @param framebuffer The frame buffer
    * @param matrixStack The matrix stack
    * @param shader The shader supplier which will be used to draw
+   * @since 1.0.0
    */
   public static void drawCanvas(
       Framebuffer framebuffer, MatrixStack matrixStack, Supplier<Shader> shader) {

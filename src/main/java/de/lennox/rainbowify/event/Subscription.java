@@ -18,6 +18,14 @@
  */
 package de.lennox.rainbowify.event;
 
+/**
+ * The subscription interface for subscribing to events with the eventbus
+ *
+ * @param <T> The event type
+ * @see EventBus
+ * @since 1.0.0
+ * @author Lennox
+ */
 public interface Subscription<T> {
   void call(T t);
 }

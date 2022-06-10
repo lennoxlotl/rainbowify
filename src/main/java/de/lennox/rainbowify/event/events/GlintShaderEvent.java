@@ -21,6 +21,12 @@ package de.lennox.rainbowify.event.events;
 import de.lennox.rainbowify.event.Event;
 import net.minecraft.client.render.Shader;
 
+/**
+ * Called on rendering of the glint effect
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
 public class GlintShaderEvent extends Event {
   private Shader shader;
 

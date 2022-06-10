@@ -21,6 +21,12 @@ package de.lennox.rainbowify.event.events;
 import de.lennox.rainbowify.event.Event;
 import net.minecraft.client.util.math.MatrixStack;
 
+/**
+ * Called on screen background drawing
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class ScreenBackgroundDrawEvent extends Event {
   private final MatrixStack matrixStack;
 

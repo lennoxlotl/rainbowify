@@ -28,6 +28,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
+/**
+ * The rainbowify resource factory used to get files out of the mod file
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class RainbowifyResourceFactory implements ResourceFactory {
   public Optional<Resource> getResource(Identifier id) {
     //noinspection unused

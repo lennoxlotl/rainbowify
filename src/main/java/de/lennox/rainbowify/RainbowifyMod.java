@@ -24,6 +24,12 @@ import de.lennox.rainbowify.event.Event;
 import de.lennox.rainbowify.event.EventBus;
 import net.fabricmc.api.ModInitializer;
 
+/**
+ * The main rainbowify mod class
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class RainbowifyMod implements ModInitializer {
   private static RainbowifyMod rainbowifyMod;
   private final EventBus<Event> eventBus = new EventBus<>();
@@ -39,6 +45,11 @@ public class RainbowifyMod implements ModInitializer {
     rainbowifyMod = this;
   }
 
+  /**
+   * Initializes the mod
+   *
+   * @since 1.0.0
+   */
   public void init() {
     // Initialize the mod
     System.out.println("Loading Rainbowify.");
@@ -53,6 +64,11 @@ public class RainbowifyMod implements ModInitializer {
     System.out.println("Loaded Rainbowify successfully.");
   }
 
+  /**
+   * Called on shader preload, there the shaders are going to be initialized
+   *
+   * @since 1.0.0
+   */
   public void preShaderLoad() {
     // Initialize the effects
     effectRepository.init();
