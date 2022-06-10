@@ -53,24 +53,4 @@ public class CyclingOptions {
       return time;
     }
   }
-
-  public enum BlurAmount {
-    LOW(2),
-    MEDIUM(3),
-    HIGH(4),
-    VERY_HIGH(5),
-    EXTREME(6),
-    INSANE(7),
-    CRAZY(8);
-
-    private final int radius;
-
-    BlurAmount(int radius) {
-      this.radius = radius;
-    }
-
-    public int offset() {
-      return radius;
-    }
-  }
 }

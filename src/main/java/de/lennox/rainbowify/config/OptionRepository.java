@@ -26,6 +26,7 @@ import de.lennox.rainbowify.config.file.ParsedOption;
 import de.lennox.rainbowify.config.option.BooleanOption;
 import de.lennox.rainbowify.config.option.CategoryOption;
 import de.lennox.rainbowify.config.option.EnumOption;
+import de.lennox.rainbowify.config.option.SliderOption;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
 import org.apache.commons.io.IOUtils;
@@ -60,7 +61,7 @@ public class OptionRepository {
         CategoryOption.of(
             "cblur",
             BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false),
-            EnumOption.of("blur_amount", CyclingOptions.BlurAmount.MEDIUM)));
+            SliderOption.of("blur_amount", 3, 1, 8)));
     // Add rainbow options
     add(
         CategoryOption.of(
