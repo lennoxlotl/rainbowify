@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with rainbowify.  If not, see <https://www.gnu.org/licenses/>.
  */
-package de.lennox.rainbowify.mixin.modifications.accessor;
+package de.lennox.rainbowify.config.file;
 
-import net.minecraft.client.gui.widget.EntryListWidget;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
+import java.util.List;
 
-@Mixin(EntryListWidget.class)
-public interface EntryListWidgetAccessor<E extends EntryListWidget.Entry<E>> {
-  @Accessor
-  void setTop(int top);
-
-  @Accessor
-  void setBottom(int bottom);
-
-  @Accessor
-  E getHoveredEntry();
-
-  @Accessor
-  boolean getScrolling();
-}
+/**
+ * The data-class which contains all fields in a config .json
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
+public record ConfigFile(String version, List<ParsedOption> options) {}

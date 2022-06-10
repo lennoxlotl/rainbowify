@@ -32,6 +32,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -71,7 +72,13 @@ public class ConfigScreen extends GameOptionsScreen {
             20,
             ScreenTexts.DONE,
             (button) -> {
-              RainbowifyMod.instance().optionRepository().save();
+              try {
+                RainbowifyMod.instance().optionRepository().save();
+              } catch (IOException e) {
+                System.err.println(
+                    "There was an error while saving rainbowify's configuration file, please report the following error in the support discord");
+                e.printStackTrace();
+              }
               if (this.client != null) {
                 this.client.setScreen(this.previous);
               }
@@ -98,7 +105,7 @@ public class ConfigScreen extends GameOptionsScreen {
       // Get the tool-tip for the individual category
       list = getHoveredButtonTooltip(widget, mouseX, mouseY);
       // If a tool-tip was found another one won't be rendered
-      if (list != null) {
+      if (list != null && !list.isEmpty()) {
         break;
       }
     }
@@ -141,6 +148,12 @@ public class ConfigScreen extends GameOptionsScreen {
 
   /** Called when the gui is closed */
   public void removed() {
-    RainbowifyMod.instance().optionRepository().save();
+    try {
+      RainbowifyMod.instance().optionRepository().save();
+    } catch (IOException e) {
+      System.err.println(
+          "There was an error while saving rainbowify's configuration file, please report the following error in the support discord");
+      e.printStackTrace();
+    }
   }
 }

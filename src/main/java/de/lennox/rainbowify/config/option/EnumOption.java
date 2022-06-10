@@ -18,11 +18,11 @@
  */
 package de.lennox.rainbowify.config.option;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
+import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
@@ -43,23 +43,13 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   }
 
   @Override
-  public JsonObject parseJson() {
-    var json = new JsonObject();
-    json.addProperty("name", name);
-    json.addProperty("value", value.name());
-    return json;
+  public ParsedOption parseConfig() {
+    return new ParsedOption(name, value);
   }
 
   @Override
-  public void fromJson(JsonObject object) {
-    if (object.has("value")) {
-      var enumName = object.get("value").getAsString();
-      var possibleConstant =
-          Arrays.stream(optionEnum.getEnumConstants())
-              .filter(constant -> constant.name().equals(enumName))
-              .findFirst();
-      possibleConstant.ifPresent(constant -> value = constant);
-    }
+  public void fromConfig(ParsedOption option) {
+    this.value = E.valueOf(optionEnum, (String) option.value());
   }
 
   /**

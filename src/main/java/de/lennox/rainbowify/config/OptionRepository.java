@@ -18,46 +18,57 @@
  */
 package de.lennox.rainbowify.config;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import de.lennox.rainbowify.config.file.ConfigFile;
+import de.lennox.rainbowify.config.file.ParsedOption;
 import de.lennox.rainbowify.config.option.BooleanOption;
 import de.lennox.rainbowify.config.option.CategoryOption;
 import de.lennox.rainbowify.config.option.EnumOption;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class OptionRepository {
+  private static final String CONFIG_VERSION = "1";
+
   @SuppressWarnings("rawtypes")
   private final Map<String, Option> configOptions = new HashMap<>();
 
   private final File configLocation =
       new File(FabricLoader.getInstance().getConfigDir().toFile(), "rainbowify.json");
-  private final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
+  private final Gson gson =
+      new GsonBuilder()
+          .registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+          .setLenient()
+          .setPrettyPrinting()
+          .create();
 
   /** Initializes all configuration options */
-  public void init() {
+  public void init() throws IOException {
     add(CategoryOption.of("cgeneral", BooleanOption.of("enabled", true)));
     // Add blur options
     add(
         CategoryOption.of(
             "cblur",
             BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false),
-            EnumOption.of("blur_amount", Config.BlurAmount.MEDIUM)));
+            EnumOption.of("blur_amount", CyclingOptions.BlurAmount.MEDIUM)));
     // Add rainbow options
     add(
         CategoryOption.of(
             "crainbow",
             BooleanOption.of(
                 "rainbow", Text.translatable("rainbowify.setting.rainbow.tooltip"), true),
-            EnumOption.of("rainbow_opacity", Config.RainbowOpacity.HIGH),
-            EnumOption.of("rainbow_speed", Config.RainbowSpeed.MEDIUM)));
+            EnumOption.of("rainbow_opacity", CyclingOptions.RainbowOpacity.HIGH),
+            EnumOption.of("rainbow_speed", CyclingOptions.RainbowSpeed.MEDIUM)));
     // Add glint options
     add(
         CategoryOption.of(
@@ -68,56 +79,67 @@ public class OptionRepository {
   }
 
   /** Loads all currently saved config options from the json file */
-  public void load() {
-    // Check if the config file exists
+  public void load() throws IOException {
     if (configLocation.exists()) {
-      try {
-        // Parse the file content
-        var parsed = JsonParser.parseReader(new FileReader(configLocation));
-        if (parsed.isJsonArray()) {
-          var settingsArray = parsed.getAsJsonArray();
-          // Loop through all settings elements
-          for (JsonElement jsonElement : settingsArray) {
-            if (jsonElement.isJsonObject()) {
-              // Fetch a setting by the name parameter and apply the value parameter on it
-              JsonObject settingsObject = jsonElement.getAsJsonObject();
-              if (settingsObject.has("name")) {
-                var settingsName = settingsObject.get("name").getAsString();
-                optionOf(settingsName).fromJson(settingsObject);
-              }
-            }
-          }
+      // Check if the config being loaded is an old configuration file
+      boolean oldConfig = !JsonParser.parseReader(new FileReader(configLocation)).isJsonObject();
+      if (oldConfig) {
+        warnOldConfig();
+        return;
+      }
+      // Load the config
+      String configContent =
+          new String(IOUtils.toByteArray(new FileReader(configLocation), StandardCharsets.UTF_8));
+      ConfigFile file = gson.fromJson(configContent, ConfigFile.class);
+      if (!file.version().equals(CONFIG_VERSION)) {
+        warnOldConfig();
+        return;
+      }
+      // Load all options values
+      for (ParsedOption parsedOption : file.options()) {
+        //noinspection rawtypes
+        Option option = optionOf(parsedOption.name());
+        // Check if the option exists
+        if (option == null) {
+          continue;
         }
-      } catch (Exception e) {
-        System.err.println("Error while loading rainbowify settings.");
-        e.printStackTrace();
+        // Set the value of the option
+        try {
+          option.fromConfig(parsedOption);
+        } catch (Exception ex) {
+          System.err.println(
+              "The config option "
+                  + option.name
+                  + " could not be loaded! This might be due to a config option change.");
+        }
       }
     }
   }
 
+  /**
+   * Warns the user in the console that his config is outdated and has to be re-configured
+   *
+   * @since 2.0.0
+   */
+  private void warnOldConfig() {
+    System.out.println(
+        "WARNING: Your old config has been deleted due to it being deprecated, you need to re-configure the mod!");
+    //noinspection ResultOfMethodCallIgnored
+    configLocation.delete();
+  }
+
   /** Saves all selected configuration options to a json file */
-  public void save() {
-    // If the config location does not exist create it
-    if (!configLocation.exists()) {
-      try {
-        //noinspection ResultOfMethodCallIgnored
-        configLocation.createNewFile();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  public void save() throws IOException {
     // Parse all options
-    var settingsArray = new JsonArray();
+    List<ParsedOption> parsedOptions = new ArrayList<>();
     configOptions.values().stream()
         .filter(option -> !(option instanceof CategoryOption))
-        .forEach(option -> settingsArray.add(option.parseJson()));
+        .forEach(option -> parsedOptions.add(option.parseConfig()));
     // Write the parsed options into the file
-    try (var fileWriter = new FileWriter(configLocation)) {
-      fileWriter.write(gson.toJson(settingsArray));
-    } catch (IOException e) {
-      System.err.println("Error while saving rainbowify settings.");
-      e.printStackTrace();
-    }
+    FileOutputStream fos = new FileOutputStream(configLocation);
+    fos.write(gson.toJson(new ConfigFile(CONFIG_VERSION, parsedOptions)).getBytes());
+    fos.flush();
+    fos.close();
   }
 
   /**
@@ -127,7 +149,6 @@ public class OptionRepository {
    */
   @SuppressWarnings("rawtypes")
   public void add(Option option) {
-    System.out.println("Adding: " + option);
     // Add the option
     configOptions.put(option.name, option);
   }

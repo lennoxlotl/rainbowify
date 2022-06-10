@@ -18,11 +18,7 @@
  */
 package de.lennox.rainbowify.config;
 
-import de.lennox.rainbowify.config.option.BooleanOption;
-import de.lennox.rainbowify.config.option.EnumOption;
-import net.minecraft.text.Text;
-
-public class Config {
+public class CyclingOptions {
   public enum RainbowOpacity {
     LOW(0.1f),
     MEDIUM(0.25f),

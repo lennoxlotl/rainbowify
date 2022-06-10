@@ -18,10 +18,10 @@
  */
 package de.lennox.rainbowify.config.option;
 
-import com.google.gson.JsonObject;
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.config.Option;
 import de.lennox.rainbowify.config.OptionRepository;
+import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
@@ -45,16 +45,13 @@ public class BooleanOption extends Option<Boolean> {
   }
 
   @Override
-  public JsonObject parseJson() {
-    var json = new JsonObject();
-    json.addProperty("name", name);
-    json.addProperty("value", value);
-    return json;
+  public ParsedOption parseConfig() {
+    return new ParsedOption(name, value);
   }
 
   @Override
-  public void fromJson(JsonObject object) {
-    if (object.has("value")) value = object.get("value").getAsBoolean();
+  public void fromConfig(ParsedOption option) {
+    this.value = (Boolean) option.value();
   }
 
   @Override

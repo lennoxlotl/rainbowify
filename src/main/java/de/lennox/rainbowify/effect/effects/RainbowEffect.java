@@ -20,7 +20,7 @@ package de.lennox.rainbowify.effect.effects;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
-import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.config.CyclingOptions;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
@@ -71,11 +71,11 @@ public class RainbowEffect extends Effect {
   }
 
   private void updateUniforms() {
-    Config.RainbowSpeed rainbowSpeed =
-        (Config.RainbowSpeed)
+    CyclingOptions.RainbowSpeed rainbowSpeed =
+        (CyclingOptions.RainbowSpeed)
             RainbowifyMod.instance().optionRepository().optionOf("rainbow_speed").value;
-    Config.RainbowOpacity rainbowOpacity =
-        (Config.RainbowOpacity)
+    CyclingOptions.RainbowOpacity rainbowOpacity =
+        (CyclingOptions.RainbowOpacity)
             RainbowifyMod.instance().optionRepository().optionOf("rainbow_opacity").value;
     // Set the uniforms
     alpha.set(fade * rainbowOpacity.opacity());

@@ -20,7 +20,7 @@ package de.lennox.rainbowify.effect.effects;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.RainbowifyResourceFactory;
-import de.lennox.rainbowify.config.Config;
+import de.lennox.rainbowify.config.CyclingOptions;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
@@ -121,8 +121,8 @@ public class BlurEffect extends Effect {
   }
 
   private void updateDownUniforms(Framebuffer framebuffer) {
-    Config.BlurAmount blurAmount =
-        (Config.BlurAmount)
+    CyclingOptions.BlurAmount blurAmount =
+        (CyclingOptions.BlurAmount)
             RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
     // Set the uniforms
     downInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
@@ -130,8 +130,8 @@ public class BlurEffect extends Effect {
   }
 
   private void updateUpUniforms(Framebuffer framebuffer) {
-    Config.BlurAmount blurAmount =
-        (Config.BlurAmount)
+    CyclingOptions.BlurAmount blurAmount =
+        (CyclingOptions.BlurAmount)
             RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
     // Set the uniforms
     upInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
