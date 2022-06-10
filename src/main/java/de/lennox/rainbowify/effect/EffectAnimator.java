@@ -32,6 +32,13 @@ import net.minecraft.client.gui.screen.Screen;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the fading animation for all effects, this animation is used in every effect, this way
+ * everything is kept simple
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class EffectAnimator {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
   private final Animation fadeAnimation = new Animation(250);
@@ -47,7 +54,7 @@ public class EffectAnimator {
         fadeAnimation.animate(0, 1, currentScreen != null);
         // Set the animation status for all effects
         for (Effect effect : effects) {
-          effect.setFade(pausedScreen ? 1 : fadeAnimation.animation());
+          effect.fade(pausedScreen ? 1 : fadeAnimation.animation());
         }
       };
 
@@ -67,6 +74,7 @@ public class EffectAnimator {
    * Initialize the effects to make them ready for animation
    *
    * @param effects The effects
+   * @since 1.0.0
    */
   public void init(List<Effect> effects) {
     this.effects.addAll(effects);
@@ -80,6 +88,7 @@ public class EffectAnimator {
    *
    * @param screen The current screen
    * @return Pause state of screen
+   * @since 1.1.0
    */
   private boolean validatePause(Screen screen) {
     // If the previous screen was null we don't need to do this check
