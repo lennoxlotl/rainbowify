@@ -36,9 +36,7 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class RenderedCategory {
   private final Text title;
-
   private final List<SimpleOption> options;
-
   private final ButtonListWidget listWidget;
   private final int height;
 

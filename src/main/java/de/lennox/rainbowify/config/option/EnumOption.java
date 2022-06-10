@@ -30,16 +30,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * The enum option of a type T, used to create cycling options
+ *
+ * @param <E> The type E
+ * @since 2.0.0
+ */
 public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   private final Class<E> optionEnum;
 
   public EnumOption(String key, E defaultValue) {
     super(key, "rainbowify.setting." + key, defaultValue);
     this.optionEnum = defaultValue.getDeclaringClass();
-  }
-
-  private static <E extends Enum<E>> Text enumValueTextOf(EnumOption<E> option, E value) {
-    return Text.translatable(option.translationKey + "." + value.name().toLowerCase());
   }
 
   @Override
@@ -53,10 +55,24 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   }
 
   /**
+   * Retrieves a translatable text for a given enum value
+   *
+   * @param option The option
+   * @param value The value
+   * @return The translatable text
+   * @param <E> The enum setting type T
+   * @since 2.0.0
+   */
+  private static <E extends Enum<E>> Text enumValueTextOf(EnumOption<E> option, E value) {
+    return Text.translatable(option.translationKey + "." + value.name().toLowerCase());
+  }
+
+  /**
    * Converts all enum constants as array to a list of strings (their names)
    *
    * @param constants The constants
    * @return The names of the constants
+   * @since 2.0.0
    */
   private List<String> enumNamesOf(E[] constants) {
     // Map the constants to names
@@ -70,6 +86,7 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
    *
    * @param value The string value
    * @return The value as E
+   * @since 2.0.0
    */
   private E enumValueOf(String value) {
     E[] options = optionEnum.getEnumConstants();
@@ -114,6 +131,7 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
    * @param defaultValue The default value
    * @return The enum option
    * @param <T> The enum of selectables
+   * @since 2.0.0
    */
   public static <T extends Enum<T>> EnumOption<T> of(String key, T defaultValue) {
     return new EnumOption<>(key, defaultValue);

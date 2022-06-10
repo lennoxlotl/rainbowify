@@ -38,6 +38,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+/**
+ * Contains all options including loading and saving
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class OptionRepository {
   private static final String CONFIG_VERSION = "1";
 
@@ -53,7 +59,11 @@ public class OptionRepository {
           .setPrettyPrinting()
           .create();
 
-  /** Initializes all configuration options */
+  /**
+   * Initializes all configuration options
+   *
+   * @since 1.0.0
+   */
   public void init() throws IOException {
     add(CategoryOption.of("cgeneral", BooleanOption.of("enabled", true)));
     // Add blur options
@@ -79,7 +89,11 @@ public class OptionRepository {
     load();
   }
 
-  /** Loads all currently saved config options from the json file */
+  /**
+   * Loads all currently saved config options from the json file
+   *
+   * @since 1.0.0
+   */
   public void load() throws IOException {
     if (configLocation.exists()) {
       // Check if the config being loaded is an old configuration file
@@ -147,6 +161,7 @@ public class OptionRepository {
    * Adds a new option
    *
    * @param option The option which is going to be added
+   * @since 2.0.0
    */
   @SuppressWarnings("rawtypes")
   public void add(Option option) {
@@ -159,6 +174,7 @@ public class OptionRepository {
    *
    * @param name The option name
    * @return The option
+   * @since 1.0.0
    */
   @SuppressWarnings("rawtypes")
   public Option optionOf(String name) {

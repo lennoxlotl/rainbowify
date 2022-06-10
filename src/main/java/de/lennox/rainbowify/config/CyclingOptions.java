@@ -18,6 +18,12 @@
  */
 package de.lennox.rainbowify.config;
 
+/**
+ * Contains all CyclingOptions enums
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
 public class CyclingOptions {
   public enum RainbowOpacity {
     LOW(0.1f),

@@ -18,6 +18,12 @@
  */
 package de.lennox.rainbowify.animation;
 
+/**
+ * Handles one specific animation at a time
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class Animation {
   private final long duration;
   private boolean lastDirection, started;
@@ -40,6 +46,7 @@ public class Animation {
    * @param min The min value
    * @param max The max value
    * @param direction The direction the animation should go
+   * @since 1.0.0
    */
   public void animate(float min, float max, boolean direction) {
     // If the animation is currently starting, set the start time to now
@@ -60,6 +67,7 @@ public class Animation {
    * Returns if the calculation is done
    *
    * @return Current completion state
+   * @since 1.0.0
    */
   public boolean done() {
     return System.currentTimeMillis() >= this.startMillis + duration;
@@ -69,19 +77,20 @@ public class Animation {
    * Calculates and returns the base multiplication factor
    *
    * @return The calculated multiplication factor
+   * @since 1.0.0
    */
   private float baseMultiplication() {
     // Return a multiplication factor based on how long the animation should take and how long it's
     // already animating for
     return (float)
-        ((duration - (startMillis + duration - System.currentTimeMillis()))
-            / (double) duration);
+        ((duration - (startMillis + duration - System.currentTimeMillis())) / (double) duration);
   }
 
   /**
    * Returns the current animation progress between 0 and 1
    *
    * @return The progress
+   * @since 1.0.0
    */
   public float animation() {
     // If the animation is already finished, give back the last recorded animation factor

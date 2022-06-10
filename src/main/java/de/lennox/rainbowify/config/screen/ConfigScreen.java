@@ -37,6 +37,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The configuration screen used to change config options in a simple gui
+ *
+ * @since 1.0.0
+ * @author Lennox
+ */
 public class ConfigScreen extends GameOptionsScreen {
   private final Screen previous;
   private CategoryListWidget categoryListWidget;
@@ -49,7 +55,11 @@ public class ConfigScreen extends GameOptionsScreen {
     this.previous = previous;
   }
 
-  /** Initializes the configuration screen */
+  /**
+   * Initializes the configuration screen
+   *
+   * @since 1.0.0
+   */
   protected void init() {
     // Collect all option categories
     List<RenderedCategory> categories = new ArrayList<>();
@@ -92,6 +102,7 @@ public class ConfigScreen extends GameOptionsScreen {
    * @param mouseX The mouse x position
    * @param mouseY The mouse y position
    * @param delta The render-tick delta
+   * @since 1.0.0
    */
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     this.renderBackground(matrices);
@@ -146,7 +157,11 @@ public class ConfigScreen extends GameOptionsScreen {
     super.mouseMoved(mouseX, mouseY);
   }
 
-  /** Called when the gui is closed */
+  /**
+   * Called when the gui is closed
+   *
+   * @since 1.0.0
+   */
   public void removed() {
     try {
       RainbowifyMod.instance().optionRepository().save();

@@ -41,6 +41,14 @@ import java.util.HashMap;
  */
 public class RecordTypeAdapterFactory implements TypeAdapterFactory {
 
+  /**
+   * Creates the type adapter
+   *
+   * @param gson The gson instance
+   * @param type The type token
+   * @return The type adapter
+   * @param <T> The type of the adapter
+   */
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
     @SuppressWarnings("unchecked")

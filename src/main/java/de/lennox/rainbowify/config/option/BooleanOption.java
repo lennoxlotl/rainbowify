@@ -25,6 +25,12 @@ import de.lennox.rainbowify.config.file.ParsedOption;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
+/**
+ * Boolean option used to create enabled / disabled options
+ *
+ * @since 2.0.0
+ * @author Lennox
+ */
 public class BooleanOption extends Option<Boolean> {
   private final Text enabledText;
   private final Text disabledText;
@@ -83,6 +89,7 @@ public class BooleanOption extends Option<Boolean> {
    * @param key The key name
    * @param defaultValue The default value
    * @return The created boolean option
+   * @since 2.0.0
    */
   public static BooleanOption of(String key, boolean defaultValue) {
     return new BooleanOption(key, defaultValue);
@@ -95,6 +102,7 @@ public class BooleanOption extends Option<Boolean> {
    * @param tooltip The tool tip
    * @param defaultValue The default value
    * @return The created boolean option
+   * @since 2.0.0
    */
   public static BooleanOption of(String key, Text tooltip, boolean defaultValue) {
     return new BooleanOption(key, tooltip, defaultValue);
