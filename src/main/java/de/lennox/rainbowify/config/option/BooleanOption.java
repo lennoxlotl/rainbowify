@@ -60,7 +60,9 @@ public class BooleanOption extends Option<Boolean> {
     OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
     return new SimpleOption<>(
         translationKey,
+        // Display a tool-tip
         tooltip == null ? SimpleOption.emptyTooltip() : SimpleOption.constantTooltip(tooltip),
+        // Display the enabled or disabled text based on the value
         (optionText, value1) -> {
           if (value1) {
             return enabledText;
@@ -68,8 +70,10 @@ public class BooleanOption extends Option<Boolean> {
             return disabledText;
           }
         },
+        // Boolean option
         SimpleOption.BOOLEAN,
         value,
+        // Set the value in the option repository once changed
         aBoolean -> optionRepository.optionOf(name).value = aBoolean);
   }
 

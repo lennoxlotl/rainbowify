@@ -66,11 +66,16 @@ public class SliderOption extends Option<Integer> {
     OptionRepository optionRepository = RainbowifyMod.instance().optionRepository();
     return new SimpleOption<>(
         translationKey,
+        // Display a tool-tip
         tooltip == null ? SimpleOption.emptyTooltip() : SimpleOption.constantTooltip(tooltip),
+        // Format the value string to a proper format with name and value
         (optionText, val) -> Text.of(Text.translatable(translationKey).getString() + ": " + val),
+        // Define min and max
         new SimpleOption.ValidatingIntSliderCallbacks(min, max),
+        // Define int codec
         Codec.INT,
         value,
+        // Set the value in the option repository once changed
         aInteger -> optionRepository.optionOf(name).value = aInteger);
   }
 
