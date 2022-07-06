@@ -42,11 +42,11 @@ import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
  * @author Lennox
  */
 public class BlurEffect extends Effect {
+  private static final int[] POWERS_OF_TWO = new int[] {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
+  private final RefreshingWindowBuffer[] buffers = new RefreshingWindowBuffer[6];
   private Shader down, up;
   private GlUniform downOffset, downInSize;
   private GlUniform upOffset, upInSize;
-  private final RefreshingWindowBuffer[] buffers = new RefreshingWindowBuffer[6];
-  private static final int[] POWERS_OF_TWO = new int[] {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
 
   @Override
   public void init() {
@@ -89,13 +89,13 @@ public class BlurEffect extends Effect {
   public void draw(MatrixStack stack) {
     boolean enabled = (boolean) RainbowifyMod.instance().optionRepository().optionOf("blur").value;
     if (!enabled) return;
+    int iterations =
+      (int) RainbowifyMod.instance().optionRepository().optionOf("blur_iterations").value;
     // Refresh all buffers
     for (int i = 0; i < buffers.length; i++) {
       int scale = POWERS_OF_TWO[i];
       buffers[i].check(MC.getWindow().getWidth() / scale, MC.getWindow().getHeight() / scale);
     }
-
-    int iterations = 3;
     // Down-sample the main buffer
     for (int i = 0; i < iterations; i++) {
       RefreshingWindowBuffer framebuffer = buffers[i + 1];
