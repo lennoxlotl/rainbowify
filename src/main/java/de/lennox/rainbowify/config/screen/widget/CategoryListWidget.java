@@ -153,8 +153,6 @@ public class CategoryListWidget extends ElementListWidget<CategoryListEntry> {
     }
     // Return the results
     return x < (double) this.getScrollbarPositionX()
-            && x >= (double) minX
-            && x <= (double) maxX
             && index >= 0
             && actualMousePosY >= 0
         ? this.children().get(index)

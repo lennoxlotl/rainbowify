@@ -18,6 +18,7 @@
   "rainbowify.setting.insane_armor": "Insanity Glint",
   "rainbowify.setting.insane_armor.true": "§aEnabled",
   "rainbowify.setting.insane_armor.false": "§cDisabled",
+  "rainbowify.setting.blur_iterations": "Blur Iterations",
   "rainbowify.setting.blur_amount": "Blur Amount",
   "rainbowify.setting.rainbow_opacity": "Rainbow Opacity",
   "rainbowify.setting.rainbow_opacity.low": "§aLow",

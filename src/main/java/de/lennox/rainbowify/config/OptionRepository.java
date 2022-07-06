@@ -71,7 +71,8 @@ public class OptionRepository {
         CategoryOption.of(
             "cblur",
             BooleanOption.of("blur", Text.translatable("rainbowify.setting.blur.tooltip"), false),
-            SliderOption.of("blur_amount", 3, 1, 8)));
+            SliderOption.of("blur_iterations", 2, 1, 5),
+            SliderOption.of("blur_amount", 3, 1, 20)));
     // Add rainbow options
     add(
         CategoryOption.of(
