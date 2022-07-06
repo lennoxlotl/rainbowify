@@ -94,7 +94,7 @@ public class CategoryOption extends Option {
     listWidget.addAll(options.toArray(new SimpleOption[0]));
     // Increment the offset
     offset.getAndAdd(estimatedHeight + 20);
-    return new RenderedCategory(
+    return RenderedCategory.of(
         Text.translatable(translationKey), options, listWidget, estimatedHeight + 20);
   }
 
