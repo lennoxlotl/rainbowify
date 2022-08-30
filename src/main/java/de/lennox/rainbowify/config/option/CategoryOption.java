@@ -36,8 +36,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Adds the possibility to sort options in a category, this way the option gui will stay more
  * organized
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 @SuppressWarnings("rawtypes")
 public class CategoryOption extends Option {
@@ -116,7 +116,7 @@ public class CategoryOption extends Option {
   /**
    * Creates a new option category
    *
-   * @param key The key name
+   * @param key      The key name
    * @param children The option children
    * @return The option category
    * @since 2.0.0

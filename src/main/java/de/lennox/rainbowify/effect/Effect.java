@@ -24,8 +24,8 @@ import net.minecraft.client.util.math.MatrixStack;
 /**
  * The base effect class
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public abstract class Effect {
   protected static final MinecraftClient MC = MinecraftClient.getInstance();

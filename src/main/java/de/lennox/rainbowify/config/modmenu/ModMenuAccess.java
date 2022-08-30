@@ -27,8 +27,8 @@ import net.fabricmc.api.Environment;
 /**
  * Implementation of the mod menu api to include support for config changes
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 @Environment(EnvType.CLIENT)
 public class ModMenuAccess implements ModMenuApi {

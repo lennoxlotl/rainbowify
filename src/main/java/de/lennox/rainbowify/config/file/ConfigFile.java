@@ -23,7 +23,8 @@ import java.util.List;
 /**
  * The data-class which contains all fields in a config .json
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
-public record ConfigFile(String version, List<ParsedOption> options) {}
+public record ConfigFile(String version, List<ParsedOption> options) {
+}

@@ -24,8 +24,8 @@ import net.minecraft.client.gui.screen.Screen;
 /**
  * Called on screen initialization
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class ScreenInitEvent extends Event {
   private final Screen previous;

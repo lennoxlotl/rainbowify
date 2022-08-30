@@ -39,8 +39,8 @@ import java.io.IOException;
 /**
  * The rainbow effect applied on enchantment glint
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 public class RainbowGlintShader extends Effect {
   private Shader glint;

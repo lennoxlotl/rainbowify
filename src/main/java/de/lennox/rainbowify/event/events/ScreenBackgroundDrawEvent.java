@@ -24,8 +24,8 @@ import net.minecraft.client.util.math.MatrixStack;
 /**
  * Called on screen background drawing
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class ScreenBackgroundDrawEvent extends Event {
   private final MatrixStack matrixStack;

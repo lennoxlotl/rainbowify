@@ -31,8 +31,8 @@ import java.util.Optional;
 /**
  * The rainbowify resource factory used to get files out of the mod file
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class RainbowifyResourceFactory implements ResourceFactory {
   public Optional<Resource> getResource(Identifier id) {
@@ -44,7 +44,8 @@ public class RainbowifyResourceFactory implements ResourceFactory {
                 getClass()
                     .getResourceAsStream(
                         "/assets" + "/" + id.getNamespace() + "/" + id.getPath())) {
-          @Nullable private InputStream stream;
+          @Nullable
+          private InputStream stream;
 
           public void close() throws IOException {
             if (stream != null) {

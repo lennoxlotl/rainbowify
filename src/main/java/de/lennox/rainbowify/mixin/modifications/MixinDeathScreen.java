@@ -43,14 +43,17 @@ public abstract class MixinDeathScreen extends MixinScreen {
   @Nullable
   protected abstract Style getTextComponentUnderMouse(int mouseX);
 
-  @Shadow private Text scoreText;
+  @Shadow
+  private Text scoreText;
 
-  @Shadow @Final private Text message;
+  @Shadow
+  @Final
+  private Text message;
 
   /**
    * @author Lennox
    * @reason Remove the gradient in the background of the death screen (bad solution to fix this,
-   *     need to find something better)
+   * need to find something better)
    */
   @Overwrite
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

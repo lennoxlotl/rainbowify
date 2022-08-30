@@ -41,8 +41,8 @@ import java.util.*;
 /**
  * Contains all options including loading and saving
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class OptionRepository {
   private static final String CONFIG_VERSION = "1";
@@ -144,7 +144,9 @@ public class OptionRepository {
     configLocation.delete();
   }
 
-  /** Saves all selected configuration options to a json file */
+  /**
+   * Saves all selected configuration options to a json file
+   */
   public void save() throws IOException {
     // Parse all options
     List<ParsedOption> parsedOptions = new ArrayList<>();

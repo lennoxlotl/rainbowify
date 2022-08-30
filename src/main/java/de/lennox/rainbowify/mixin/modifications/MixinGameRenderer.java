@@ -33,11 +33,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("unused")
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-  @Shadow private static Shader renderTypeGlintDirectShader;
+  @Shadow
+  private static Shader renderTypeGlintDirectShader;
 
-  @Shadow private static Shader renderTypeArmorEntityGlintShader;
+  @Shadow
+  private static Shader renderTypeArmorEntityGlintShader;
 
-  @Shadow private static Shader renderTypeArmorGlintShader;
+  @Shadow
+  private static Shader renderTypeArmorGlintShader;
 
   @Inject(method = "preloadShaders", at = @At("RETURN"))
   public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {

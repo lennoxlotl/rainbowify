@@ -30,8 +30,8 @@ import java.util.Set;
  * The eventbus used to publish to events and subscribe to them
  *
  * @param <T> The event base class type
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class EventBus<T> {
   private final Map<Type, Set<Subscription<T>>> subscriptions = new HashMap<>();
@@ -85,7 +85,7 @@ public class EventBus<T> {
    * Returns the given field as a subscription if possible
    *
    * @param field The field
-   * @param obj The object / instance the field is in
+   * @param obj   The object / instance the field is in
    * @return The subscription
    * @since 1.0.0
    */
@@ -111,7 +111,7 @@ public class EventBus<T> {
   /**
    * Handles adding of a subscription by automatically handling HashSet creation
    *
-   * @param type The event type
+   * @param type         The event type
    * @param subscription The subscription
    * @since 1.0.0
    */

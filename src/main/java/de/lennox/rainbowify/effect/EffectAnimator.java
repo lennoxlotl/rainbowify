@@ -36,8 +36,8 @@ import java.util.List;
  * Handles the fading animation for all effects, this animation is used in every effect, this way
  * everything is kept simple
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class EffectAnimator {
   private static final MinecraftClient MC = MinecraftClient.getInstance();

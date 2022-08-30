@@ -36,8 +36,8 @@ import java.util.HashMap;
  *
  * <p>This code won't receive extra documentation as it is not made by rainbowify
  *
- * @since 2.0.0
  * @author https://github.com/sceutre (https://github.com/google/gson/issues/1794)
+ * @since 2.0.0
  */
 public class RecordTypeAdapterFactory implements TypeAdapterFactory {
 
@@ -46,8 +46,8 @@ public class RecordTypeAdapterFactory implements TypeAdapterFactory {
    *
    * @param gson The gson instance
    * @param type The type token
+   * @param <T>  The type of the adapter
    * @return The type adapter
-   * @param <T> The type of the adapter
    */
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
@@ -96,11 +96,11 @@ public class RecordTypeAdapterFactory implements TypeAdapterFactory {
             constructor.setAccessible(true);
             return constructor.newInstance(args);
           } catch (NoSuchMethodException
-              | InstantiationException
-              | SecurityException
-              | IllegalAccessException
-              | IllegalArgumentException
-              | InvocationTargetException e) {
+                   | InstantiationException
+                   | SecurityException
+                   | IllegalAccessException
+                   | IllegalArgumentException
+                   | InvocationTargetException e) {
             throw new RuntimeException(e);
           }
         }

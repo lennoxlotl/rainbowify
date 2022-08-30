@@ -58,9 +58,9 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
    * Retrieves a translatable text for a given enum value
    *
    * @param option The option
-   * @param value The value
+   * @param value  The value
+   * @param <E>    The enum setting type T
    * @return The translatable text
-   * @param <E> The enum setting type T
    * @since 2.0.0
    */
   private static <E extends Enum<E>> Text enumValueTextOf(EnumOption<E> option, E value) {
@@ -127,10 +127,10 @@ public class EnumOption<E extends Enum<E>> extends Option<Enum<E>> {
   /**
    * Creates an enum option
    *
-   * @param key The key name
+   * @param key          The key name
    * @param defaultValue The default value
+   * @param <T>          The enum of selectables
    * @return The enum option
-   * @param <T> The enum of selectables
    * @since 2.0.0
    */
   public static <T extends Enum<T>> EnumOption<T> of(String key, T defaultValue) {

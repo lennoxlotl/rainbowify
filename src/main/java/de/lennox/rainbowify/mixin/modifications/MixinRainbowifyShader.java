@@ -35,14 +35,16 @@ import java.util.Map;
 public class MixinRainbowifyShader implements RainbowifyShader {
   private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
 
-  @Shadow @Final private String name;
+  @Shadow
+  @Final
+  private String name;
 
   @ModifyArg(
       method = "loadProgram",
       at =
-          @At(
-              value = "INVOKE",
-              target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"),
+      @At(
+          value = "INVOKE",
+          target = "Lnet/minecraft/util/Identifier;<init>(Ljava/lang/String;)V"),
       index = 0)
   private static String renameLoadProgram(String toReplace) {
     // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft
@@ -56,9 +58,9 @@ public class MixinRainbowifyShader implements RainbowifyShader {
   @ModifyArg(
       method = "<init>",
       at =
-          @At(
-              value = "INVOKE",
-              target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"),
+      @At(
+          value = "INVOKE",
+          target = "net/minecraft/util/Identifier.<init>(Ljava/lang/String;)V"),
       index = 0)
   public String renameInit(String toReplace) {
     // Check if the program is a rainbowify program, if yes do some hacky stuff to fix a minecraft

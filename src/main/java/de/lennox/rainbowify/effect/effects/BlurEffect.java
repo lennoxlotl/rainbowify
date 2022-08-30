@@ -38,11 +38,11 @@ import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 /**
  * The blur effect which adds a blur backdrop to the gui
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class BlurEffect extends Effect {
-  private static final int[] POWERS_OF_TWO = new int[] {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
+  private static final int[] POWERS_OF_TWO = new int[]{2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
   private final RefreshingWindowBuffer[] buffers = new RefreshingWindowBuffer[6];
   private Shader down, up;
   private GlUniform downOffset, downInSize;
@@ -90,7 +90,7 @@ public class BlurEffect extends Effect {
     boolean enabled = (boolean) RainbowifyMod.instance().optionRepository().optionOf("blur").value;
     if (!enabled) return;
     int iterations =
-      (int) RainbowifyMod.instance().optionRepository().optionOf("blur_iterations").value;
+        (int) RainbowifyMod.instance().optionRepository().optionOf("blur_iterations").value;
     // Refresh all buffers
     for (int i = 0; i < buffers.length; i++) {
       int scale = POWERS_OF_TWO[i];

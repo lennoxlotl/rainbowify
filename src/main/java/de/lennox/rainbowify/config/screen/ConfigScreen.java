@@ -40,8 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The configuration screen used to change config options in a simple gui
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class ConfigScreen extends GameOptionsScreen {
   private final Screen previous;
@@ -99,9 +99,9 @@ public class ConfigScreen extends GameOptionsScreen {
    * Renders the configuration screen
    *
    * @param matrices The current draw matrix
-   * @param mouseX The mouse x position
-   * @param mouseY The mouse y position
-   * @param delta The render-tick delta
+   * @param mouseX   The mouse x position
+   * @param mouseY   The mouse y position
+   * @param delta    The render-tick delta
    * @since 1.0.0
    */
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

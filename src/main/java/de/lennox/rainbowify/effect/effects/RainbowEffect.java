@@ -35,8 +35,8 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
 /**
  * The rainbow effect which renders an animated rainbow backdrop to the gui
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class RainbowEffect extends Effect {
   private Shader rainbow;

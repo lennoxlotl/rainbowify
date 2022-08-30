@@ -32,7 +32,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @SuppressWarnings("unused")
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
-  @Shadow private static MinecraftClient instance;
+  @Shadow
+  private static MinecraftClient instance;
 
   @Inject(method = "<init>", at = @At("TAIL"))
   public void init(CallbackInfo ci) {
@@ -51,10 +52,10 @@ public class MixinMinecraftClient {
   @Inject(
       method = "onResolutionChanged",
       at =
-          @At(
-              value = "INVOKE",
-              target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V",
-              ordinal = 0))
+      @At(
+          value = "INVOKE",
+          target = "Lnet/minecraft/client/gl/Framebuffer;resize(IIZ)V",
+          ordinal = 0))
   public void onResolutionChanged(CallbackInfo i) {
     // Publish the screen resize event
     RainbowifyMod.instance().eventBus().publish(new ScreenResolutionChangeEvent());

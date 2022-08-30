@@ -23,7 +23,8 @@ import de.lennox.rainbowify.event.Event;
 /**
  * Called on in-game hud drawing
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
-public class InGameHudDrawEvent extends Event {}
+public class InGameHudDrawEvent extends Event {
+}

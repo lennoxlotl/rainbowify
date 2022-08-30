@@ -31,8 +31,8 @@ import java.util.List;
 /**
  * Renders a generated category
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 @SuppressWarnings("rawtypes")
 public class RenderedCategory {
@@ -42,7 +42,7 @@ public class RenderedCategory {
   private final int height;
 
   public RenderedCategory(
-          Text title, List<SimpleOption> options, CategoryButtonListWidget listWidget, int height) {
+      Text title, List<SimpleOption> options, CategoryButtonListWidget listWidget, int height) {
     this.title = title;
     this.options = options;
     this.listWidget = listWidget;
@@ -53,10 +53,10 @@ public class RenderedCategory {
    * Renders the category
    *
    * @param matrices The rendering matrix
-   * @param y The y-position of the category
-   * @param mouseX The mouse x
-   * @param mouseY The mouse y
-   * @param delta The render tick delta
+   * @param y        The y-position of the category
+   * @param mouseX   The mouse x
+   * @param mouseY   The mouse y
+   * @param delta    The render tick delta
    * @since 2.0.0
    */
   public void render(MatrixStack matrices, int y, int mouseX, int mouseY, float delta) {
@@ -89,10 +89,10 @@ public class RenderedCategory {
   /**
    * Creates a new rendered category used for creating a ConfigScreen
    *
-   * @param title The title
-   * @param options The options
+   * @param title      The title
+   * @param options    The options
    * @param listWidget The option list widget
-   * @param height The height
+   * @param height     The height
    * @return The created render category
    * @since 2.0.0
    */

@@ -36,13 +36,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public abstract class MixinScreen {
-  @Shadow public int width;
-  @Shadow public int height;
-  @Shadow @Nullable protected MinecraftClient client;
+  @Shadow
+  public int width;
+  @Shadow
+  public int height;
+  @Shadow
+  @Nullable
+  protected MinecraftClient client;
 
-  @Shadow @Final protected Text title;
+  @Shadow
+  @Final
+  protected Text title;
 
-  @Shadow protected TextRenderer textRenderer;
+  @Shadow
+  protected TextRenderer textRenderer;
 
   @Shadow
   protected abstract void renderTextHoverEffect(

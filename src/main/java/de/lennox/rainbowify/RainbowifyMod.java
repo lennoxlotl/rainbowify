@@ -27,8 +27,8 @@ import net.fabricmc.api.ModInitializer;
 /**
  * The main rainbowify mod class
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class RainbowifyMod implements ModInitializer {
   private static RainbowifyMod rainbowifyMod;

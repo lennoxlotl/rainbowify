@@ -33,10 +33,10 @@ public class MixinInGameHud {
   @Inject(
       method = "render",
       at = {
-        @At(
-            value = "INVOKE",
-            ordinal = 0,
-            target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")
+          @At(
+              value = "INVOKE",
+              ordinal = 0,
+              target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")
       })
   public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
     // Publishes the in-game drawing event, used for animations etc.

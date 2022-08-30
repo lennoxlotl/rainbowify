@@ -33,8 +33,8 @@ import java.util.function.Supplier;
 /**
  * Contains several utility methods for OpenGL or rendering with Minecrafts pipeline
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class GLUtil {
   private static final MinecraftClient MC = MinecraftClient.getInstance();
@@ -44,7 +44,7 @@ public class GLUtil {
    *
    * @param framebuffer The frame buffer
    * @param matrixStack The matrix stack
-   * @param shader The shader supplier which will be used to draw
+   * @param shader      The shader supplier which will be used to draw
    * @since 1.0.0
    */
   public static void drawCanvas(

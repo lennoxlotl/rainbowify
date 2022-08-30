@@ -28,8 +28,8 @@ import net.minecraft.text.Text;
 /**
  * Boolean option used to create enabled / disabled options
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 public class BooleanOption extends Option<Boolean> {
   private final Text enabledText;
@@ -86,7 +86,7 @@ public class BooleanOption extends Option<Boolean> {
   /**
    * Creates a new boolean option without a tooltip
    *
-   * @param key The key name
+   * @param key          The key name
    * @param defaultValue The default value
    * @return The created boolean option
    * @since 2.0.0
@@ -98,8 +98,8 @@ public class BooleanOption extends Option<Boolean> {
   /**
    * Creates a new boolean option with a tooltip
    *
-   * @param key The key name
-   * @param tooltip The tool tip
+   * @param key          The key name
+   * @param tooltip      The tool tip
    * @param defaultValue The default value
    * @return The created boolean option
    * @since 2.0.0

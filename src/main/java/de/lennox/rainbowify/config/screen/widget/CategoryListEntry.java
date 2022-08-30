@@ -32,8 +32,8 @@ import java.util.List;
 /**
  * Custom ElementListWidget Entry to render our custom option categories with ease
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry> {
   private final RenderedCategory renderedCategory;

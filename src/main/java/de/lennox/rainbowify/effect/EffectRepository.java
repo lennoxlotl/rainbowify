@@ -33,8 +33,8 @@ import java.util.List;
 /**
  * Repository for all effects, contains and initializes all effects
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class EffectRepository {
   private final List<Effect> effects = new ArrayList<>();

@@ -24,8 +24,8 @@ import net.minecraft.client.render.Shader;
 /**
  * Called on rendering of the glint effect
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 public class GlintShaderEvent extends Event {
   private Shader shader;

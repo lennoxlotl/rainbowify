@@ -21,7 +21,8 @@ package de.lennox.rainbowify.config.file;
 /**
  * The data-class which contains the parsed option
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
-public record ParsedOption(String name, Object value) {}
+public record ParsedOption(String name, Object value) {
+}

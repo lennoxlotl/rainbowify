@@ -26,8 +26,8 @@ import net.minecraft.client.option.SimpleOption;
  * The base option type
  *
  * @param <T>
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public abstract class Option<T> {
   public final String name, translationKey;
@@ -42,9 +42,9 @@ public abstract class Option<T> {
   /**
    * Parses the option as JsonObject
    *
+   * @return The parsed option
    * @see JsonObject
    * @see OptionRepository
-   * @return The parsed option
    * @since 2.0.0
    */
   public abstract ParsedOption parseConfig();
@@ -60,9 +60,9 @@ public abstract class Option<T> {
   /**
    * Parses the option as Minecraft Option
    *
+   * @return The parsed option
    * @see SimpleOption
    * @see OptionRepository
-   * @return The parsed option
    * @since 1.0.0
    */
   @SuppressWarnings("rawtypes")

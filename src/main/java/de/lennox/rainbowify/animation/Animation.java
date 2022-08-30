@@ -21,8 +21,8 @@ package de.lennox.rainbowify.animation;
 /**
  * Handles one specific animation at a time
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
 public class Animation {
   private final long duration;
@@ -43,8 +43,8 @@ public class Animation {
   /**
    * Processes the animation with the given parameters
    *
-   * @param min The min value
-   * @param max The max value
+   * @param min       The min value
+   * @param max       The max value
    * @param direction The direction the animation should go
    * @since 1.0.0
    */

@@ -21,7 +21,8 @@ package de.lennox.rainbowify.event;
 /**
  * The base event class
  *
- * @since 1.0.0
  * @author Lennox
+ * @since 1.0.0
  */
-public class Event {}
+public class Event {
+}

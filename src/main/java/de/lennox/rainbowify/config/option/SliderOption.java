@@ -29,8 +29,8 @@ import net.minecraft.text.Text;
 /**
  * Option for integer options in the form of sliders
  *
- * @since 2.0.0
  * @author Lennox
+ * @since 2.0.0
  */
 public class SliderOption extends Option<Integer> {
   private final Text tooltip;
@@ -82,10 +82,10 @@ public class SliderOption extends Option<Integer> {
   /**
    * Creates a new boolean option without a tooltip
    *
-   * @param key The key name
+   * @param key          The key name
    * @param defaultValue The default value#
-   * @param min The minimum value
-   * @param max The maximum value
+   * @param min          The minimum value
+   * @param max          The maximum value
    * @return The created boolean option
    * @since 2.0.0
    */
@@ -96,11 +96,11 @@ public class SliderOption extends Option<Integer> {
   /**
    * Creates a new boolean option with a tooltip
    *
-   * @param key The key name
-   * @param tooltip The tool tip
+   * @param key          The key name
+   * @param tooltip      The tool tip
    * @param defaultValue The default value
-   * @param min The minimum value
-   * @param max The maximum value
+   * @param min          The minimum value
+   * @param max          The maximum value
    * @return The created boolean option
    * @since 2.0.0
    */
