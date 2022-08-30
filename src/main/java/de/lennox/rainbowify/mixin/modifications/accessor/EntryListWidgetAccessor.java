@@ -35,4 +35,7 @@ public interface EntryListWidgetAccessor<E extends EntryListWidget.Entry<E>> {
 
   @Accessor
   boolean getScrolling();
+
+  @Accessor
+  void setHoveredEntry(E entry);
 }

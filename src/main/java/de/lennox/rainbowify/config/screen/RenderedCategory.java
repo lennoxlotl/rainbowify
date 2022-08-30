@@ -18,6 +18,7 @@
  */
 package de.lennox.rainbowify.config.screen;
 
+import de.lennox.rainbowify.config.screen.widget.CategoryButtonListWidget;
 import de.lennox.rainbowify.mixin.modifications.accessor.EntryListWidgetAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonListWidget;
@@ -41,7 +42,7 @@ public class RenderedCategory {
   private final int height;
 
   public RenderedCategory(
-      Text title, List<SimpleOption> options, ButtonListWidget listWidget, int height) {
+          Text title, List<SimpleOption> options, CategoryButtonListWidget listWidget, int height) {
     this.title = title;
     this.options = options;
     this.listWidget = listWidget;
@@ -96,7 +97,7 @@ public class RenderedCategory {
    * @since 2.0.0
    */
   public static RenderedCategory of(
-      Text title, List<SimpleOption> options, ButtonListWidget listWidget, int height) {
+      Text title, List<SimpleOption> options, CategoryButtonListWidget listWidget, int height) {
     return new RenderedCategory(title, options, listWidget, height);
   }
 }

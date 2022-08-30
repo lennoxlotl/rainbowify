@@ -24,8 +24,8 @@ import de.lennox.rainbowify.config.OptionRepository;
 import de.lennox.rainbowify.config.file.ParsedOption;
 import de.lennox.rainbowify.config.screen.ConfigScreen;
 import de.lennox.rainbowify.config.screen.RenderedCategory;
+import de.lennox.rainbowify.config.screen.widget.CategoryButtonListWidget;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
@@ -80,8 +80,8 @@ public class CategoryOption extends Option {
     int estimatedHeight = estimateWidgetHeightOf(options);
     int currentOffset = offset.get();
     // Create the button list widget
-    ButtonListWidget listWidget =
-        new ButtonListWidget(
+    CategoryButtonListWidget listWidget =
+        new CategoryButtonListWidget(
             MinecraftClient.getInstance(),
             screen.width,
             screen.height,
