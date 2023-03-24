@@ -1,0 +1,4 @@
+accessWidener v1 named
+
+# We need to access Entry fields
+accessible class net/minecraft/client/gui/widget/EntryListWidget$Entry

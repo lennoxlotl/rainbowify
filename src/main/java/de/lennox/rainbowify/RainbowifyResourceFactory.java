@@ -18,15 +18,15 @@
  */
 package de.lennox.rainbowify;
 
-import net.minecraft.resource.Resource;
+import net.minecraft.resource.DirectoryResourcePack;import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceFactory;
-import net.minecraft.resource.metadata.ResourceMetadataReader;
+import net.minecraft.resource.ResourcePack;import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
+import java.nio.file.Path;import java.util.Optional;
 
 /**
  * The rainbowify resource factory used to get files out of the mod file
@@ -39,7 +39,7 @@ public class RainbowifyResourceFactory implements ResourceFactory {
     //noinspection unused
     return Optional.of(
         new Resource(
-            "",
+            new DirectoryResourcePack("", Path.of(""), false),
             () ->
                 getClass()
                     .getResourceAsStream(

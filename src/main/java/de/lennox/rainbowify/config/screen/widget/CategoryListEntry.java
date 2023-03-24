@@ -54,7 +54,7 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
     List<ClickableWidget> selectables = new ArrayList<>();
     // Get all buttons / clickable widgets for the options
     for (SimpleOption option : options) {
-      selectables.add(renderedCategory.listWidget().getButtonFor(option));
+      selectables.add(renderedCategory.listWidget().getWidgetFor(option));
     }
     return selectables;
   }

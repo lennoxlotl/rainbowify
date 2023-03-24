@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
+import net.minecraft.client.gl.ShaderProgram;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-@Mixin(net.minecraft.client.render.Shader.class)
+@Mixin(ShaderProgram.class)
 public class MixinRainbowifyShader implements RainbowifyShader {
   private final Map<String, GlUniform> customUniforms = Maps.newHashMap();
 
@@ -40,7 +41,7 @@ public class MixinRainbowifyShader implements RainbowifyShader {
   private String name;
 
   @ModifyArg(
-      method = "loadProgram",
+      method = "loadShader",
       at =
       @At(
           value = "INVOKE",

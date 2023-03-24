@@ -20,13 +20,12 @@ package de.lennox.rainbowify.config.screen;
 
 import de.lennox.rainbowify.config.screen.widget.CategoryButtonListWidget;
 import de.lennox.rainbowify.mixin.modifications.accessor.EntryListWidgetAccessor;
+import java.util.List;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonListWidget;
+import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-
-import java.util.List;
 
 /**
  * Renders a generated category
@@ -38,7 +37,7 @@ import java.util.List;
 public class RenderedCategory {
   private final Text title;
   private final List<SimpleOption> options;
-  private final ButtonListWidget listWidget;
+  private final OptionListWidget listWidget;
   private final int height;
 
   public RenderedCategory(
@@ -74,7 +73,7 @@ public class RenderedCategory {
     listWidget.render(matrices, mouseX, mouseY, delta);
   }
 
-  public ButtonListWidget listWidget() {
+  public OptionListWidget listWidget() {
     return listWidget;
   }
 

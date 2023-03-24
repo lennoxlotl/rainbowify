@@ -20,8 +20,8 @@ package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.event.events.GlintShaderEvent;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Shader;
 import net.minecraft.resource.ResourceFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,39 +34,39 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
   @Shadow
-  private static Shader renderTypeGlintDirectShader;
+  private static ShaderProgram renderTypeGlintDirectProgram;
 
   @Shadow
-  private static Shader renderTypeArmorEntityGlintShader;
+  private static ShaderProgram renderTypeArmorEntityGlintProgram;
 
   @Shadow
-  private static Shader renderTypeArmorGlintShader;
+  private static ShaderProgram renderTypeArmorGlintProgram;
 
-  @Inject(method = "preloadShaders", at = @At("RETURN"))
+  @Inject(method = "preloadPrograms", at = @At("RETURN"))
   public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {
     // Preload the shaders once minecraft does it
     RainbowifyMod.instance().preShaderLoad();
   }
 
-  @Inject(method = "getRenderTypeGlintDirectShader", at = @At("HEAD"), cancellable = true)
-  private static void directGlintShader(CallbackInfoReturnable<Shader> cir) {
-    GlintShaderEvent event = new GlintShaderEvent(renderTypeGlintDirectShader);
+  @Inject(method = "getRenderTypeGlintDirectProgram", at = @At("HEAD"), cancellable = true)
+  private static void directGlintShader(CallbackInfoReturnable<ShaderProgram> cir) {
+    GlintShaderEvent event = new GlintShaderEvent(renderTypeGlintDirectProgram);
     RainbowifyMod.instance().eventBus().publish(event);
     // Override the shader
     cir.setReturnValue(event.shader());
   }
 
-  @Inject(method = "getRenderTypeArmorEntityGlintShader", at = @At("HEAD"), cancellable = true)
-  private static void armorEntityGlintShader(CallbackInfoReturnable<Shader> cir) {
-    GlintShaderEvent event = new GlintShaderEvent(renderTypeArmorEntityGlintShader);
+  @Inject(method = "getRenderTypeArmorEntityGlintProgram", at = @At("HEAD"), cancellable = true)
+  private static void armorEntityGlintShader(CallbackInfoReturnable<ShaderProgram> cir) {
+    GlintShaderEvent event = new GlintShaderEvent(renderTypeArmorEntityGlintProgram);
     // Override the shader
     RainbowifyMod.instance().eventBus().publish(event);
     cir.setReturnValue(event.shader());
   }
 
-  @Inject(method = "getRenderTypeArmorGlintShader", at = @At("HEAD"), cancellable = true)
-  private static void armorGlintShader(CallbackInfoReturnable<Shader> cir) {
-    GlintShaderEvent event = new GlintShaderEvent(renderTypeArmorGlintShader);
+  @Inject(method = "getRenderTypeArmorGlintProgram", at = @At("HEAD"), cancellable = true)
+  private static void armorGlintShader(CallbackInfoReturnable<ShaderProgram> cir) {
+    GlintShaderEvent event = new GlintShaderEvent(renderTypeArmorGlintProgram);
     // Override the shader
     RainbowifyMod.instance().eventBus().publish(event);
     cir.setReturnValue(event.shader());

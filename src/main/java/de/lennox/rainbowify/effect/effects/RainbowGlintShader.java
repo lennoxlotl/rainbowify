@@ -28,11 +28,11 @@ import de.lennox.rainbowify.event.events.GlintShaderEvent;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
-import net.minecraft.client.gl.Program;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gl.ShaderStage;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 import java.io.IOException;
 
@@ -43,8 +43,8 @@ import java.io.IOException;
  * @since 2.0.0
  */
 public class RainbowGlintShader extends Effect {
-  private Shader glint;
-  private Program cachedArmorGlint;
+  private ShaderProgram glint;
+  private ShaderStage cachedArmorGlint;
   private GlUniform time, res, screenTextureMat, insanity;
   private long startTime;
   private Matrix4f cachedTextureMatrix;
@@ -54,7 +54,7 @@ public class RainbowGlintShader extends Effect {
     // Create the shader instance
     try {
       glint =
-          new Shader(
+          new ShaderProgram(
               new RainbowifyResourceFactory(), "rainbowify:cglint", VertexFormats.POSITION_TEXTURE);
     } catch (IOException e) {
       System.err.println(
@@ -74,14 +74,14 @@ public class RainbowGlintShader extends Effect {
   @Override
   public void draw(MatrixStack stack) {
     cachedTextureMatrix = new Matrix4f(RenderSystem.getTextureMatrix());
-    cachedTextureMatrix.multiply(4f);
+    cachedTextureMatrix.mul(4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f);
   }
 
   @SuppressWarnings("unused")
   private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription =
       event -> {
         cachedTextureMatrix = new Matrix4f(RenderSystem.getTextureMatrix());
-        cachedTextureMatrix.multiply(4f);
+          cachedTextureMatrix.mul(4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f);
       };
 
   @SuppressWarnings("unused")
@@ -93,7 +93,7 @@ public class RainbowGlintShader extends Effect {
             (boolean) RainbowifyMod.instance().optionRepository().optionOf("insane_armor").value;
         if (!enabled) return;
         //noinspection resource
-        Shader shader = event.shader();
+        ShaderProgram shader = event.shader();
         CyclingOptions.RainbowSpeed rainbowSpeed =
             (CyclingOptions.RainbowSpeed)
                 RainbowifyMod.instance().optionRepository().optionOf("rainbow_speed").value;

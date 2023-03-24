@@ -24,7 +24,7 @@ import de.lennox.rainbowify.config.CyclingOptions;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -39,7 +39,7 @@ import static de.lennox.rainbowify.gl.GLUtil.drawCanvas;
  * @since 1.0.0
  */
 public class RainbowEffect extends Effect {
-  private Shader rainbow;
+  private ShaderProgram rainbow;
   private GlUniform alpha, time, res;
   private long startTime;
 
@@ -48,7 +48,7 @@ public class RainbowEffect extends Effect {
     // Create the shader instance
     try {
       rainbow =
-          new Shader(
+          new ShaderProgram(
               new RainbowifyResourceFactory(),
               "rainbowify:rainbow",
               VertexFormats.POSITION_TEXTURE);

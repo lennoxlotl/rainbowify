@@ -21,14 +21,11 @@ package de.lennox.rainbowify.gl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
-
-import java.util.function.Supplier;
+import net.minecraft.client.util.math.MatrixStack;import org.joml.Matrix4f;import java.util.function.Supplier;
 
 /**
  * Contains several utility methods for OpenGL or rendering with Minecrafts pipeline
@@ -48,11 +45,11 @@ public class GLUtil {
    * @since 1.0.0
    */
   public static void drawCanvas(
-      Framebuffer framebuffer, MatrixStack matrixStack, Supplier<Shader> shader) {
+      Framebuffer framebuffer, MatrixStack matrixStack, Supplier<ShaderProgram> shader) {
     var width = (float) (framebuffer.textureWidth / MC.getWindow().getScaleFactor());
     var height = (float) (framebuffer.textureHeight / MC.getWindow().getScaleFactor());
     // Set GL caps
-    RenderSystem.disableTexture();
+//    RenderSystem.disableTexture();
     RenderSystem.enableBlend();
     RenderSystem.defaultBlendFunc();
     // Set the shader
@@ -69,6 +66,6 @@ public class GLUtil {
     tessellator.draw();
     // Reset GL caps
     RenderSystem.disableBlend();
-    RenderSystem.enableTexture();
+//    RenderSystem.enableTexture();
   }
 }

@@ -19,7 +19,7 @@
 package de.lennox.rainbowify.event.events;
 
 import de.lennox.rainbowify.event.Event;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
 
 /**
  * Called on rendering of the glint effect
@@ -28,17 +28,17 @@ import net.minecraft.client.render.Shader;
  * @since 2.0.0
  */
 public class GlintShaderEvent extends Event {
-  private Shader shader;
+  private ShaderProgram shader;
 
-  public GlintShaderEvent(Shader shader) {
+  public GlintShaderEvent(ShaderProgram shader) {
     this.shader = shader;
   }
 
-  public Shader shader() {
+  public ShaderProgram shader() {
     return shader;
   }
 
-  public void shader(Shader shader) {
+  public void shader(ShaderProgram shader) {
     this.shader = shader;
   }
 }

@@ -25,6 +25,7 @@
   "mixins": [
     "rainbowify.mixins.json"
   ],
+  "accessWidener": "rainbowify.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",

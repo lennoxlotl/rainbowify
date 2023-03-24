@@ -25,8 +25,8 @@ import de.lennox.rainbowify.config.screen.widget.CategoryListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
@@ -75,55 +75,40 @@ public class ConfigScreen extends GameOptionsScreen {
     this.categoryListWidget.addAll(categories);
     // Add a "Done" button
     this.addDrawableChild(
-        new ButtonWidget(
-            this.width / 2 - 100,
-            this.height - 27,
-            200,
-            20,
-            ScreenTexts.DONE,
-            (button) -> {
-              try {
-                RainbowifyMod.instance().optionRepository().save();
-              } catch (IOException e) {
-                System.err.println(
-                    "There was an error while saving rainbowify's configuration file, please report the following error in the support discord");
-                e.printStackTrace();
-              }
-              if (this.client != null) {
-                this.client.setScreen(this.previous);
-              }
-            }));
+        ButtonWidget.builder(
+                ScreenTexts.DONE,
+                (button) -> {
+                  try {
+                    RainbowifyMod.instance().optionRepository().save();
+                  } catch (IOException e) {
+                    System.err.println(
+                        "There was an error while saving rainbowify's configuration file, please report the following error in the support discord");
+                    e.printStackTrace();
+                  }
+                  if (this.client != null) {
+                    this.client.setScreen(this.previous);
+                  }
+                })
+            .position(this.width / 2 - 100, this.height - 27)
+            .size(200, 20)
+            .build());
   }
 
   /**
    * Renders the configuration screen
    *
    * @param matrices The current draw matrix
-   * @param mouseX   The mouse x position
-   * @param mouseY   The mouse y position
-   * @param delta    The render-tick delta
+   * @param mouseX The mouse x position
+   * @param mouseY The mouse y position
+   * @param delta The render-tick delta
    * @since 1.0.0
    */
   public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
     this.renderBackground(matrices);
     this.categoryListWidget.render(matrices, mouseX, mouseY, delta);
-    drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
+    drawCenteredTextWithShadow(
+        matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
     super.render(matrices, mouseX, mouseY, delta);
-    // Iterate through all categories to find a tool-tip if there is one to be rendered
-    List<OrderedText> list = null;
-    for (CategoryListEntry child : categoryListWidget.children()) {
-      ButtonListWidget widget = child.renderedCategory().listWidget();
-      // Get the tool-tip for the individual category
-      list = getHoveredButtonTooltip(widget, mouseX, mouseY);
-      // If a tool-tip was found another one won't be rendered
-      if (list != null && !list.isEmpty()) {
-        break;
-      }
-    }
-    // Render the tool-tip
-    if (list != null) {
-      this.renderOrderedTooltip(matrices, list, mouseX, mouseY);
-    }
   }
 
   @Override

@@ -25,7 +25,7 @@ import de.lennox.rainbowify.gl.framebuffer.RefreshingWindowBuffer;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -44,7 +44,7 @@ import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 public class BlurEffect extends Effect {
   private static final int[] POWERS_OF_TWO = new int[]{2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
   private final RefreshingWindowBuffer[] buffers = new RefreshingWindowBuffer[6];
-  private Shader down, up;
+  private ShaderProgram down, up;
   private GlUniform downOffset, downInSize;
   private GlUniform upOffset, upInSize;
 
@@ -53,10 +53,10 @@ public class BlurEffect extends Effect {
     // Create the shader instance
     try {
       down =
-          new Shader(
+          new ShaderProgram(
               new RainbowifyResourceFactory(), "rainbowify:down", VertexFormats.POSITION_TEXTURE);
       up =
-          new Shader(
+          new ShaderProgram(
               new RainbowifyResourceFactory(), "rainbowify:up", VertexFormats.POSITION_TEXTURE);
     } catch (IOException e) {
       System.err.println("Failed to create blur shader. Report this in the discord with the log!");

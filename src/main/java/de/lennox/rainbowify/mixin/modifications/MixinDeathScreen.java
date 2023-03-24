@@ -33,8 +33,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import static net.minecraft.client.gui.DrawableHelper.drawCenteredText;
+import static net.minecraft.client.gui.DrawableHelper.drawCenteredTextWithShadow;
 
 @SuppressWarnings("unused")
 @Mixin(DeathScreen.class)
@@ -72,16 +71,16 @@ public abstract class MixinDeathScreen extends MixinScreen {
     // Draw the normal death-screen content
     matrices.push();
     matrices.scale(2.0F, 2.0F, 2.0F);
-    drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2 / 2, 30, 16777215);
+    drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2 / 2, 30, 16777215);
     matrices.pop();
     if (this.message != null) {
-      drawCenteredText(matrices, this.textRenderer, this.message, this.width / 2, 85, 16777215);
+      drawCenteredTextWithShadow(matrices, this.textRenderer, this.message, this.width / 2, 85, 16777215);
       if (mouseY > 85 && mouseY < 94) {
         var style = this.getTextComponentUnderMouse(mouseX);
         this.renderTextHoverEffect(matrices, style, mouseX, mouseY);
       }
     }
-    drawCenteredText(matrices, this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
+    drawCenteredTextWithShadow(matrices, this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
     for (Drawable drawable : ((ScreenAccessor) this).getDrawables()) {
       drawable.render(matrices, mouseX, mouseY, delta);
     }
