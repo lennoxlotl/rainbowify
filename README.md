@@ -16,9 +16,9 @@ Discord: https://discord.gg/Ka2yV5MkFw
 <br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
-<img src="https://host.snens.team/i/ZG3lOeUBTVLT" width=75% height=75%>
-<img src="https://host.snens.team/i/uXodcI3Ce84w" width=75% height=75%>
-<img src="https://host.snens.team/i/NBHvWgKY9dGG" width=75% height=75%>
+<img src="img/high_rainbow.png" width=50% height=50%>
+<img src="img/light_rainbow.png" width=50% height=50%>
+<img src="img/armor.png" width=50% height=50%>
 
 ## Installation
 
@@ -36,7 +36,7 @@ for improved performance.
 
 In the mod menu rainbowify settings, you can customize multiple values:
 
-![screenshot of settings](https://host.snens.team/i/H8fE7AXh6N1f)
+![screenshot of settings](img/settings.png)
 
 * **Rainbowify:** Enables/disables the mod.
 * **Blur**: Enables/disables the blur in GUI backgrounds. If you notice any stutters in the GUI, turn this off.
@@ -61,7 +61,7 @@ We use Google Code Conventions with 2 spacings, please keep that in mind while c
 
 ## License
 
-Copyright (c) 2021-2022 Lennox
+Copyright (c) 2021-2023 Lennox
 
 rainbowify is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
