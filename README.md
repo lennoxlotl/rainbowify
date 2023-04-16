@@ -16,9 +16,9 @@ Discord: https://discord.gg/Ka2yV5MkFw
 <br>
 Modrinth: https://modrinth.com/mod/rainbowify
 
-<img src="img/high_rainbow.png" width=50% height=50%>
-<img src="img/light_rainbow.png" width=50% height=50%>
-<img src="img/armor.png" width=50% height=50%>
+<img src="img/high_rainbow.png" width=60% height=60%>
+<img src="img/light_rainbow.png" width=60% height=60%>
+<img src="img/armor.png" width=60% height=60%>
 
 ## Installation
 
