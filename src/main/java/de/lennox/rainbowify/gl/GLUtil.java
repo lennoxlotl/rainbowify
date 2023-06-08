@@ -22,10 +22,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;import org.joml.Matrix4f;import java.util.function.Supplier;
+import net.minecraft.client.util.math.MatrixStack;
+import org.joml.Matrix4f;
+
+import java.util.function.Supplier;
 
 /**
  * Contains several utility methods for OpenGL or rendering with Minecrafts pipeline
@@ -40,12 +44,12 @@ public class GLUtil {
    * Draws a canvas / framebuffer into the current context
    *
    * @param framebuffer The frame buffer
-   * @param matrixStack The matrix stack
+   * @param context     The draw context
    * @param shader      The shader supplier which will be used to draw
    * @since 1.0.0
    */
   public static void drawCanvas(
-      Framebuffer framebuffer, MatrixStack matrixStack, Supplier<ShaderProgram> shader) {
+      Framebuffer framebuffer, DrawContext context, Supplier<ShaderProgram> shader) {
     var width = (float) (framebuffer.textureWidth / MC.getWindow().getScaleFactor());
     var height = (float) (framebuffer.textureHeight / MC.getWindow().getScaleFactor());
     // Set GL caps
@@ -58,7 +62,7 @@ public class GLUtil {
     var bufferBuilder = tessellator.getBuffer();
     // Draw the canvas
     bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-    Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+    Matrix4f matrix = context.getMatrices().peek().getPositionMatrix();
     bufferBuilder.vertex(matrix, 0, 0, 0).texture(0, 1).next();
     bufferBuilder.vertex(matrix, 0, height, 0).texture(0, 0).next();
     bufferBuilder.vertex(matrix, width, height, 0).texture(1, 0).next();

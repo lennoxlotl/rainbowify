@@ -20,12 +20,11 @@ package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.event.events.ScreenBackgroundDrawEvent;
-import de.lennox.rainbowify.mixin.modifications.accessor.ScreenAccessor;
-import de.lennox.rainbowify.mixin.modifications.invoker.DrawableHelperInvoker;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.DeathScreen;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +32,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import static net.minecraft.client.gui.DrawableHelper.drawCenteredTextWithShadow;
+
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 @Mixin(DeathScreen.class)
@@ -49,40 +49,46 @@ public abstract class MixinDeathScreen extends MixinScreen {
   @Final
   private Text message;
 
+  @Shadow private @Nullable ButtonWidget titleScreenButton;
+
   /**
    * @author Lennox
    * @reason Remove the gradient in the background of the death screen (bad solution to fix this,
    * need to find something better)
    */
   @Overwrite
-  public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+  public void render(DrawContext context, int mouseX, int mouseY, float delta) {
     boolean enabled =
         (boolean) RainbowifyMod.instance().optionRepository().optionOf("enabled").value;
     if (enabled) {
       if (MinecraftClient.getInstance().world != null) {
         // Publish the screen rendering background event if rainbowify is enabled
-        RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(matrices));
+        RainbowifyMod.instance().eventBus().publish(new ScreenBackgroundDrawEvent(context));
       }
     } else {
       // Draw the normal background if rainbowify is disabled
-      ((DrawableHelperInvoker) this)
-          .invokeFillGradient(matrices, 0, 0, this.width, this.height, 1615855616, -1602211792);
+      context.fillGradient(0, 0, this.width, this.height, 1615855616, -1602211792);
     }
-    // Draw the normal death-screen content
-    matrices.push();
-    matrices.scale(2.0F, 2.0F, 2.0F);
-    drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2 / 2, 30, 16777215);
-    matrices.pop();
+
+    context.getMatrices().push();
+    context.getMatrices().scale(2.0F, 2.0F, 2.0F);
+    context.drawCenteredTextWithShadow(this.textRenderer, (Text)this.title, this.width / 2 / 2, 30, 16777215);
+    context.getMatrices().pop();
     if (this.message != null) {
-      drawCenteredTextWithShadow(matrices, this.textRenderer, this.message, this.width / 2, 85, 16777215);
-      if (mouseY > 85 && mouseY < 94) {
-        var style = this.getTextComponentUnderMouse(mouseX);
-        this.renderTextHoverEffect(matrices, style, mouseX, mouseY);
+      context.drawCenteredTextWithShadow(this.textRenderer, (Text)this.message, this.width / 2, 85, 16777215);
+    }
+
+    context.drawCenteredTextWithShadow(this.textRenderer, (Text)this.scoreText, this.width / 2, 100, 16777215);
+    if (this.message != null && mouseY > 85) {
+      Objects.requireNonNull(this.textRenderer);
+      if (mouseY < 85 + 9) {
+        Style style = this.getTextComponentUnderMouse(mouseX);
+        context.drawHoverEvent(this.textRenderer, style, mouseX, mouseY);
       }
     }
-    drawCenteredTextWithShadow(matrices, this.textRenderer, this.scoreText, this.width / 2, 100, 16777215);
-    for (Drawable drawable : ((ScreenAccessor) this).getDrawables()) {
-      drawable.render(matrices, mouseX, mouseY, delta);
+
+    if (this.titleScreenButton != null && this.client.getAbuseReportContext().hasDraft()) {
+      context.drawTexture(ClickableWidget.WIDGETS_TEXTURE, this.titleScreenButton.getX() + this.titleScreenButton.getWidth() - 17, this.titleScreenButton.getY() + 3, 182, 24, 15, 15);
     }
   }
 }

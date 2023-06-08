@@ -23,6 +23,7 @@ import de.lennox.rainbowify.config.option.CategoryOption;
 import de.lennox.rainbowify.config.screen.widget.CategoryListEntry;
 import de.lennox.rainbowify.config.screen.widget.CategoryListWidget;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -69,10 +70,12 @@ public class ConfigScreen extends GameOptionsScreen {
         .map(option -> (CategoryOption) option)
         .forEach(
             categoryOption -> categories.add(categoryOption.createRenderCategory(this, offset)));
+
     // Create the category list renderer widget
     this.categoryListWidget =
         new CategoryListWidget(this.client, this.width, this.height, 32, height - 32, 25);
     this.categoryListWidget.addAll(categories);
+
     // Add a "Done" button
     this.addDrawableChild(
         ButtonWidget.builder(
@@ -97,18 +100,17 @@ public class ConfigScreen extends GameOptionsScreen {
   /**
    * Renders the configuration screen
    *
-   * @param matrices The current draw matrix
-   * @param mouseX The mouse x position
-   * @param mouseY The mouse y position
-   * @param delta The render-tick delta
+   * @param context The current draw context
+   * @param mouseX  The mouse x position
+   * @param mouseY  The mouse y position
+   * @param delta   The render-tick delta
    * @since 1.0.0
    */
-  public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-    this.renderBackground(matrices);
-    this.categoryListWidget.render(matrices, mouseX, mouseY, delta);
-    drawCenteredTextWithShadow(
-        matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
-    super.render(matrices, mouseX, mouseY, delta);
+  public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    this.renderBackground(context);
+    this.categoryListWidget.render(context, mouseX, mouseY, delta);
+    context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
+    super.render(context, mouseX, mouseY, delta);
   }
 
   @Override

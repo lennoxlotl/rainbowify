@@ -19,6 +19,7 @@
 package de.lennox.rainbowify.event.events;
 
 import de.lennox.rainbowify.event.Event;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 /**
@@ -28,13 +29,13 @@ import net.minecraft.client.util.math.MatrixStack;
  * @since 1.0.0
  */
 public class ScreenBackgroundDrawEvent extends Event {
-  private final MatrixStack matrixStack;
+  private final DrawContext drawContext;
 
-  public ScreenBackgroundDrawEvent(MatrixStack matrixStack) {
-    this.matrixStack = matrixStack;
+  public ScreenBackgroundDrawEvent(DrawContext matrixStack) {
+    this.drawContext = matrixStack;
   }
 
-  public MatrixStack matrixStack() {
-    return matrixStack;
+  public DrawContext drawContext() {
+    return drawContext;
   }
 }

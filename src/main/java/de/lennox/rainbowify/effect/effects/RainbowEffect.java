@@ -25,6 +25,7 @@ import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -58,19 +59,22 @@ public class RainbowEffect extends Effect {
       e.printStackTrace();
     }
     RainbowifyShader rainbowifyShaderInterface = (RainbowifyShader) rainbow;
+
     // Create uniforms
     alpha = rainbowifyShaderInterface.customUniform("alpha");
     time = rainbowifyShaderInterface.customUniform("time");
     res = rainbowifyShaderInterface.customUniform("res");
+
     // Update start time
     startTime = System.currentTimeMillis();
   }
 
   @Override
-  public void draw(MatrixStack stack) {
+  public void draw(DrawContext stack) {
     boolean enabled =
         (boolean) RainbowifyMod.instance().optionRepository().optionOf("rainbow").value;
     if (!enabled) return;
+
     // Draw the rainbow
     updateUniforms();
     drawCanvas(MC.getFramebuffer(), stack, () -> rainbow);
@@ -88,6 +92,7 @@ public class RainbowEffect extends Effect {
     CyclingOptions.RainbowOpacity rainbowOpacity =
         (CyclingOptions.RainbowOpacity)
             RainbowifyMod.instance().optionRepository().optionOf("rainbow_opacity").value;
+
     // Set the uniforms
     alpha.set(fade * rainbowOpacity.opacity());
     time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());

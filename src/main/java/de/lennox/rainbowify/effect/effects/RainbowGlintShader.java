@@ -24,14 +24,16 @@ import de.lennox.rainbowify.RainbowifyResourceFactory;
 import de.lennox.rainbowify.config.CyclingOptions;
 import de.lennox.rainbowify.effect.Effect;
 import de.lennox.rainbowify.event.Subscription;
+import de.lennox.rainbowify.event.events.DrawWorldEvent;
 import de.lennox.rainbowify.event.events.GlintShaderEvent;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
 import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.gl.ShaderStage;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
 
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class RainbowGlintShader extends Effect {
   private GlUniform time, res, screenTextureMat, insanity;
   private long startTime;
   private Matrix4f cachedTextureMatrix;
+  private boolean drawingHud;
 
   @Override
   public void init() {
@@ -72,17 +75,23 @@ public class RainbowGlintShader extends Effect {
   }
 
   @Override
-  public void draw(MatrixStack stack) {
+  public void draw(DrawContext stack) {
     cachedTextureMatrix = new Matrix4f(RenderSystem.getTextureMatrix());
-    cachedTextureMatrix.mul(4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f);
+    cachedTextureMatrix.mul(1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f);
+    drawingHud = true;
   }
 
   @SuppressWarnings("unused")
   private final Subscription<InGameHudDrawEvent> inGameHudDrawSubscription =
       event -> {
         cachedTextureMatrix = new Matrix4f(RenderSystem.getTextureMatrix());
-          cachedTextureMatrix.mul(4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f, 4f);
+        cachedTextureMatrix.mul(1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f);
+        drawingHud = true;
       };
+
+  private final Subscription<DrawWorldEvent> drawWorldSubscription = event -> {
+    drawingHud = false;
+  };
 
   @SuppressWarnings("unused")
   private final Subscription<GlintShaderEvent> glintShaderSubscription =
@@ -92,21 +101,26 @@ public class RainbowGlintShader extends Effect {
         boolean insaneArmor =
             (boolean) RainbowifyMod.instance().optionRepository().optionOf("insane_armor").value;
         if (!enabled) return;
+
         //noinspection resource
         ShaderProgram shader = event.shader();
         CyclingOptions.RainbowSpeed rainbowSpeed =
             (CyclingOptions.RainbowSpeed)
                 RainbowifyMod.instance().optionRepository().optionOf("rainbow_speed").value;
+
         // Set the uniforms now and override the shader
+        boolean requiresInsanity = insaneArmor && (cachedArmorGlint == shader.getFragmentShader() || !drawingHud);
         time.set((float) (System.currentTimeMillis() - startTime) / rainbowSpeed.time());
-        res.set(MC.getWindow().getScaledWidth(), MC.getWindow().getScaledHeight());
+        float factor = requiresInsanity ? cachedArmorGlint == shader.getFragmentShader() ? 1.5f : 100f : drawingHud ? 0.1f : 2f;
+        res.set(factor, factor);
         screenTextureMat.set(cachedTextureMatrix);
+
         // Cache the armor glint class
         if (cachedArmorGlint == null && shader.getName().contains("armor")) {
           cachedArmorGlint = shader.getFragmentShader();
         }
+
         // Enable insanity mode if wanted
-        boolean requiresInsanity = insaneArmor && cachedArmorGlint == shader.getFragmentShader();
         insanity.set(requiresInsanity ? 1 : 0);
         // Overwrite the shader
         event.shader(glint);

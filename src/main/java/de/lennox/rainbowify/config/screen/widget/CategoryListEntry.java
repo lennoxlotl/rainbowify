@@ -19,6 +19,7 @@
 package de.lennox.rainbowify.config.screen.widget;
 
 import de.lennox.rainbowify.config.screen.RenderedCategory;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -61,7 +62,7 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
 
   @Override
   public void render(
-      MatrixStack matrices,
+      DrawContext context,
       int index,
       int y,
       int x,
@@ -72,7 +73,7 @@ public class CategoryListEntry extends ElementListWidget.Entry<CategoryListEntry
       boolean hovered,
       float tickDelta) {
     // Render the category
-    renderedCategory.render(matrices, y, mouseX, mouseY, tickDelta);
+    renderedCategory.render(context, y, mouseX, mouseY, tickDelta);
   }
 
   @Override

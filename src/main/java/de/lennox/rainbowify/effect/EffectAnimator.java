@@ -49,9 +49,11 @@ public class EffectAnimator {
       event -> {
         var pausedScreen = false;
         var currentScreen = MC.currentScreen;
+
         // If the current screen is pausing the game we need to skip the animation
         if (currentScreen != null) pausedScreen = validatePause(currentScreen);
         fadeAnimation.animate(0, 1, currentScreen != null);
+
         // Set the animation status for all effects
         for (Effect effect : effects) {
           effect.fade(pausedScreen ? 1 : fadeAnimation.animation());
@@ -93,6 +95,7 @@ public class EffectAnimator {
   private boolean validatePause(Screen screen) {
     // If the previous screen was null we don't need to do this check
     if (screen == null) return true;
+
     // Checks if the screen is pausing the game and if the player is in singleplayer as pausing only
     // works in singleplayer
     return screen.shouldPause() && MC.isInSingleplayer();

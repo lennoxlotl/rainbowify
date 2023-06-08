@@ -10,11 +10,9 @@
     "MixinMinecraftClient",
     "MixinRainbowifyShader",
     "MixinScreen",
-    "accessor.ScreenAccessor",
     "accessor.EntryListWidgetAccessor",
-    "invoker.DrawableHelperInvoker"
+    "accessor.ScreenAccessor"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

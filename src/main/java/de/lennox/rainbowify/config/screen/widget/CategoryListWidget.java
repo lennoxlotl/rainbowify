@@ -21,6 +21,7 @@ package de.lennox.rainbowify.config.screen.widget;
 import de.lennox.rainbowify.config.screen.RenderedCategory;
 import de.lennox.rainbowify.mixin.modifications.accessor.EntryListWidgetAccessor;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
@@ -62,9 +63,10 @@ public class CategoryListWidget extends ElementListWidget<CategoryListEntry> {
   }
 
   @Override
-  protected void renderList(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+  protected void renderList(DrawContext context, int mouseX, int mouseY, float delta) {
     //noi nspection rawtypes
     EntryListWidgetAccessor accessor = (EntryListWidgetAccessor) this;
+
     // Draw the list
     int entryCount = this.getEntryCount();
     for (int i = 0; i < entryCount; ++i) {
@@ -72,6 +74,7 @@ public class CategoryListWidget extends ElementListWidget<CategoryListEntry> {
       int entryHeight = entry.renderedCategory().height();
       int rowTop = this.getRowTop(i);
       int rowBottom = this.getRowTop(i) + entryHeight;
+
       // Check if this entry needs to be rendered or if it's out of bounds
       if (rowBottom >= this.top && rowTop <= this.bottom) {
         int itemHeight = entryHeight - 4;
@@ -79,7 +82,7 @@ public class CategoryListWidget extends ElementListWidget<CategoryListEntry> {
         int rowLeft = this.getRowLeft();
         // Render the entry
         entry.render(
-            matrices,
+            context,
             i,
             rowTop,
             rowLeft,

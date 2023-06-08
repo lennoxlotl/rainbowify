@@ -129,7 +129,7 @@
     },
     {
       "name": "res",
-      "type": "int",
+      "type": "float",
       "count": 2,
       "values": [
         1.0,

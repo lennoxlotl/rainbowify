@@ -56,6 +56,7 @@ public class Animation {
     }
     if (done()) return;
     float goal = direction ? min : max;
+
     // Execute the actual animation
     this.animation = goal + ((animation + (max - min - animation)) * baseMultiplication());
     lastDirection = direction;

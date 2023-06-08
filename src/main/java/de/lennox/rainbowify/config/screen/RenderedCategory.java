@@ -20,8 +20,11 @@ package de.lennox.rainbowify.config.screen;
 
 import de.lennox.rainbowify.config.screen.widget.CategoryButtonListWidget;
 import de.lennox.rainbowify.mixin.modifications.accessor.EntryListWidgetAccessor;
+
 import java.util.List;
+
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.math.MatrixStack;
@@ -51,26 +54,27 @@ public class RenderedCategory {
   /**
    * Renders the category
    *
-   * @param matrices The rendering matrix
-   * @param y        The y-position of the category
-   * @param mouseX   The mouse x
-   * @param mouseY   The mouse y
-   * @param delta    The render tick delta
+   * @param context The rendering context
+   * @param y       The y-position of the category
+   * @param mouseX  The mouse x
+   * @param mouseY  The mouse y
+   * @param delta   The render tick delta
    * @since 2.0.0
    */
-  public void render(MatrixStack matrices, int y, int mouseX, int mouseY, float delta) {
+  public void render(DrawContext context, int y, int mouseX, int mouseY, float delta) {
     // Render the title of the category
     MinecraftClient client = MinecraftClient.getInstance();
     float width = client.getWindow().getScaledWidth();
-    client.textRenderer.drawWithShadow(
-        matrices, title, width / 2f - client.textRenderer.getWidth(title) / 2f, y - 13, -1);
+    context.drawTextWithShadow(client.textRenderer, title, (int) (width / 2 - client.textRenderer.getWidth(title) / 2), y - 13, -1);
+
     // Render the list widget
     //noinspection rawtypes
     EntryListWidgetAccessor accessor = (EntryListWidgetAccessor) listWidget;
+
     // Re-position the category
     accessor.setTop(y);
     accessor.setBottom(y + height - 20);
-    listWidget.render(matrices, mouseX, mouseY, delta);
+    listWidget.render(context, mouseX, mouseY, delta);
   }
 
   public OptionListWidget listWidget() {

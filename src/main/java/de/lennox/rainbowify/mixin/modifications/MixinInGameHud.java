@@ -20,6 +20,7 @@ package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
 import de.lennox.rainbowify.event.events.InGameHudDrawEvent;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,7 +39,7 @@ public class MixinInGameHud {
               ordinal = 0,
               target = "Lnet/minecraft/client/MinecraftClient;getLastFrameDuration()F")
       })
-  public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+  public void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
     // Publishes the in-game drawing event, used for animations etc.
     RainbowifyMod.instance().eventBus().publish(new InGameHudDrawEvent());
   }

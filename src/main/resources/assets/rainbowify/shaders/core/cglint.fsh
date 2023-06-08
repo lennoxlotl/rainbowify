@@ -39,7 +39,7 @@ void main() {
     if (color.a < 0.1) {
         discard;
     }
-    vec2 vec = (insanity == 1) ? texCoord1 : pos.xy;
+    vec2 vec = (insanity == 1) ? (texCoord1 * res.xy) : (pos.xy * res.xy);
     vec3 col = 1 - (0.5 + 1 * sin(time + vec.xyx + vec3(0, 2, 4)) * cos(time + vec.xyx + vec3(0, 2, 4)));
     fragColor = vec4(col, color.a);
 }

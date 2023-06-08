@@ -19,6 +19,7 @@
 package de.lennox.rainbowify.mixin.modifications;
 
 import de.lennox.rainbowify.RainbowifyMod;
+import de.lennox.rainbowify.event.events.DrawWorldEvent;
 import de.lennox.rainbowify.event.events.GlintShaderEvent;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.GameRenderer;
@@ -31,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @SuppressWarnings("unused")
-@Mixin(GameRenderer.class)
+@Mixin(value = GameRenderer.class, priority = 500)
 public class MixinGameRenderer {
   @Shadow
   private static ShaderProgram renderTypeGlintDirectProgram;
@@ -41,6 +42,11 @@ public class MixinGameRenderer {
 
   @Shadow
   private static ShaderProgram renderTypeArmorGlintProgram;
+
+  @Inject(method = "renderWorld", at = @At("HEAD"))
+  public void onRenderWorld(CallbackInfo ci) {
+    RainbowifyMod.instance().eventBus().publish(new DrawWorldEvent());
+  }
 
   @Inject(method = "preloadPrograms", at = @At("RETURN"))
   public void preLoadShaders(ResourceFactory factory, CallbackInfo ci) {

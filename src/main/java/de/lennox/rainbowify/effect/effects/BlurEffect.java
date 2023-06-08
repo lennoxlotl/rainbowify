@@ -26,6 +26,7 @@ import de.lennox.rainbowify.mixin.interfaces.RainbowifyShader;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -86,16 +87,18 @@ public class BlurEffect extends Effect {
   }
 
   @Override
-  public void draw(MatrixStack stack) {
+  public void draw(DrawContext stack) {
     boolean enabled = (boolean) RainbowifyMod.instance().optionRepository().optionOf("blur").value;
     if (!enabled) return;
     int iterations =
         (int) RainbowifyMod.instance().optionRepository().optionOf("blur_iterations").value;
+
     // Refresh all buffers
     for (int i = 0; i < buffers.length; i++) {
       int scale = POWERS_OF_TWO[i];
       buffers[i].check(MC.getWindow().getWidth() / scale, MC.getWindow().getHeight() / scale);
     }
+
     // Down-sample the main buffer
     for (int i = 0; i < iterations; i++) {
       RefreshingWindowBuffer framebuffer = buffers[i + 1];
@@ -111,6 +114,7 @@ public class BlurEffect extends Effect {
     // Up-sample the buffer
     for (int i = iterations; i > 0; i--) {
       RefreshingWindowBuffer framebuffer = buffers[i - 1];
+
       // Clear the buffer
       if (i == 1) {
         MC.getFramebuffer().beginWrite(true);
@@ -120,6 +124,7 @@ public class BlurEffect extends Effect {
       }
       updateUpUniforms(framebuffer);
       up.addSampler("DiffuseSampler", buffers[i]);
+
       // Draw the canvas
       drawCanvas(MC.getFramebuffer(), stack, () -> up);
     }
@@ -134,6 +139,7 @@ public class BlurEffect extends Effect {
   private void updateDownUniforms(Framebuffer framebuffer) {
     int blurAmount =
         (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
+
     // Set the uniforms
     downInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
     downOffset.set(blurAmount * fade);
@@ -148,6 +154,7 @@ public class BlurEffect extends Effect {
   private void updateUpUniforms(Framebuffer framebuffer) {
     int blurAmount =
         (int) RainbowifyMod.instance().optionRepository().optionOf("blur_amount").value;
+
     // Set the uniforms
     upInSize.set((float) framebuffer.textureWidth, (float) framebuffer.textureHeight);
     upOffset.set(blurAmount * fade);
